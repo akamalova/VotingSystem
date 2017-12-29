@@ -1,18 +1,30 @@
 package ru.testAssignment.voting.model;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Set;
+import org.springframework.util.CollectionUtils;
 
-public class User {
+import java.util.*;
 
-    protected String name;
-    protected Integer id;
+public class User extends AbstractNamedEntity{
+
     private String email;
-    private String password;
     private Set<Role> roles;
-    boolean Vote;
-    protected Map<LocalDateTime, Restaurant> votingHistory;
+    private boolean voted;
+
+    public User(){}
+
+    public User(User u) {
+        this(u.getId(), u.getName(), u.getEmail(), u.getRoles());
+    }
+
+    public User(Integer id, String name, String email, Role role, Role... roles) {
+        this(id,name, email, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String email, Collection<Role> roles) {
+        super(id, name);
+        this.email = email;
+        setRoles(roles);
+    }
 
     public String getEmail() {
         return email;
@@ -22,36 +34,20 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
-    public boolean isVote() {
-        return Vote;
+    public boolean isVoted() {
+        return voted;
     }
 
-    public void setVote(boolean vote) {
-        Vote = vote;
-    }
-
-    public Map<LocalDateTime, Restaurant> getVotingHistory() {
-        return votingHistory;
-    }
-
-    public void addVotingHistory(LocalDateTime localDateTime, Restaurant restaurant) {
-        this.votingHistory.put(localDateTime, restaurant);
+    public void setVoted(boolean voted) {
+        this.voted = voted;
     }
 
     public String getName() {
@@ -72,6 +68,12 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "name='" + name + '\'' + ", id=" + id + ", email='" + email + '\'' + ", password='" + password + '\'' + ", roles=" + roles + ", isVote=" + Vote + ", menuHistory=" + votingHistory + '}';
+        return "User{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                ", voted=" + voted +
+                '}';
     }
 }

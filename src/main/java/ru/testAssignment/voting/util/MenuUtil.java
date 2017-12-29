@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class MenuUtil {
     public static void main(String[] args) {
-        int id = 0;
+      /*  int id = 0;
         Map<String, Double> dishesMap = new HashMap<>();
         dishesMap.put("Soup", 15.3);
         dishesMap.put("Meat", 25.7);
@@ -38,6 +38,6 @@ public class MenuUtil {
         return restaurantList.stream()
                 .filter(restaurant -> restaurant.getDateTime().toLocalDate().equals(localDate))
                 .sorted((o1, o2) -> Integer.compare(o2.getVotesNum(), o1.getVotesNum()))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 }
