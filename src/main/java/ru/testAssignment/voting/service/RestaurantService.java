@@ -7,7 +7,7 @@ import ru.testAssignment.voting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
-@Service
+
 public interface RestaurantService {
 
     Restaurant update(Restaurant restaurant, int userId) throws NotFoundException;

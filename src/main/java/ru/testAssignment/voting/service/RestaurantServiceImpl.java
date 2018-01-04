@@ -1,5 +1,7 @@
 package ru.testAssignment.voting.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.repository.restaurant.RestaurantRepository;
 import ru.testAssignment.voting.util.exception.NotFoundException;
@@ -7,8 +9,10 @@ import ru.testAssignment.voting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class RestaurantServiceImpl implements RestaurantService {
 
+    @Autowired
     private RestaurantRepository repository;
 
     @Override

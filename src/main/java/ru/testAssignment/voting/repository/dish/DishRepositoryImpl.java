@@ -1,12 +1,14 @@
 package ru.testAssignment.voting.repository.dish;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.repository.restaurant.CrudRestaurantRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+@Repository
 public class DishRepositoryImpl implements DishRepository {
 
     @Autowired
