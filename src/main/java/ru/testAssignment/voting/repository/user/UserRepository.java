@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.repository;
+package ru.testAssignment.voting.repository.user;
 
 import ru.testAssignment.voting.model.User;
 

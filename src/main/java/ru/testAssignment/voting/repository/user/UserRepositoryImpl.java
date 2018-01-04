@@ -1,7 +1,8 @@
-package ru.testAssignment.voting.repository;
+package ru.testAssignment.voting.repository.user;
 
 import org.springframework.stereotype.Repository;
 import ru.testAssignment.voting.model.User;
+import ru.testAssignment.voting.repository.user.UserRepository;
 
 import java.util.List;
 

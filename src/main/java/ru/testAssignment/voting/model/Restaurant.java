@@ -1,27 +1,43 @@
 package ru.testAssignment.voting.model;
 
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
+
+@Entity
+@Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity{
-    private String description;
-    private LocalDateTime dateTime;
-    private List<Menu> menu;
-    private List<User> votedUsers;
 
-    public Restaurant(String name, Integer id, String description) {
+    @Column(name = "description")
+    @NotNull
+    private String description;
+
+    @Column(name = "date_time", nullable = false)
+    @NotNull
+    private LocalDateTime dateTime;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @NotNull
+    private List<Dish> menu;
+
+    public Restaurant(Integer id, String name, String description) {
         super(id, name);
         this.description = description;
         this.dateTime = LocalDateTime.now();
     }
 
-    public Restaurant(String name, Integer id, String description, LocalDateTime dateTime) {
+    public Restaurant(Integer id, String name, String description, LocalDateTime dateTime) {
         this.name = name;
         this.description = description;
         this.id = id;
         this.dateTime = dateTime;
+    }
+
+    public Restaurant() {
     }
 
     public LocalDateTime getDateTime() {
@@ -44,14 +60,10 @@ public class Restaurant extends AbstractNamedEntity{
         this.description = description;
     }
 
-    public List<Menu> getMenu() {
+
+    public List<Dish> getMenu() {
         return menu;
     }
-
-    public List<User> getVotedUsers() {
-        return votedUsers;
-    }
-
     @Override
     public String toString() {
         return "Restaurant{" +

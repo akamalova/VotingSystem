@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.repository;
+package ru.testAssignment.voting.repository.restaurant;
 
 import ru.testAssignment.voting.model.Restaurant;
 import java.time.LocalDate;
@@ -12,11 +12,10 @@ public interface RestaurantRepository {
     // false if Restaurant do not belong to userId
     boolean delete(int id, int userId);
 
-    // null if Restaurant do not belong to userId
-    Restaurant get(int id, int userId);
+    Restaurant get(int id);
 
-    List<Restaurant> getAllRestaurantsOfHistory(int userId);
+    List<Restaurant> getAll();
 
-    List<Restaurant> getbyDate(LocalDate date, int userId);
+    List<Restaurant> getbyDate(LocalDate date);
 
 }

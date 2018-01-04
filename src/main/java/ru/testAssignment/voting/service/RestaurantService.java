@@ -16,9 +16,9 @@ public interface RestaurantService {
 
     void delete(int id, int userId) throws NotFoundException;
 
-    Restaurant get(int id, int userId) throws NotFoundException;
+    Restaurant get(int id) throws NotFoundException;
 
-    List<Restaurant> getAll(int userId);
+    List<Restaurant> getAll();
 
-    List<Restaurant> getByDate(LocalDate date, int userId) ;
+    List<Restaurant> getByDate(LocalDate date) ;
 }

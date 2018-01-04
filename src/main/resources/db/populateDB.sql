@@ -1,17 +1,17 @@
-DELETE FROM user_roles;
+DELETE FROM USER_ROLES;
 DELETE FROM USERS_VOTE;
 DELETE FROM MENU;
-DELETE FROM users;
+DELETE FROM USERS;
 DELETE FROM RESTAURANTS;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO users (name, email) VALUES
+INSERT INTO USERS (NAME, EMAIL) VALUES
   ('User', 'user@yandex.ru'),
   ('AnUser', 'anuser@yandex.ru'),
   ('Admin', 'admin@gmail.com');
 
-INSERT INTO user_roles (role, user_id) VALUES
+INSERT INTO USER_ROLES (ROLE, USER_ID) VALUES
   ('ROLE_USER', 100000),
   ('ROLE_USER', 100001),
   ('ROLE_USER', 100002),

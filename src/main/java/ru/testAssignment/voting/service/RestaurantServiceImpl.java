@@ -1,7 +1,7 @@
 package ru.testAssignment.voting.service;
 
 import ru.testAssignment.voting.model.Restaurant;
-import ru.testAssignment.voting.repository.RestaurantRepository;
+import ru.testAssignment.voting.repository.restaurant.RestaurantRepository;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -27,17 +27,17 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant get(int id, int userId) throws NotFoundException {
-        return repository.get(id, userId);
+    public Restaurant get(int id) throws NotFoundException {
+        return repository.get(id);
     }
 
     @Override
-    public List<Restaurant> getAll(int userId) {
-        return repository.getAllRestaurantsOfHistory(userId);
+    public List<Restaurant> getAll() {
+        return repository.getAll();
     }
 
     @Override
-    public List<Restaurant> getByDate(LocalDate date, int userId) {
-        return repository.getbyDate(date, userId);
+    public List<Restaurant> getByDate(LocalDate date) {
+        return repository.getbyDate(date);
     }
 }

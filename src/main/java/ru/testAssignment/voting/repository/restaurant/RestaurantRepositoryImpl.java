@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.repository;
+package ru.testAssignment.voting.repository.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,12 +10,12 @@ import java.util.List;
 @Repository
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
-    @Autowired
+    @Autowired(required = true)
     private CrudRestaurantRepository crudRestaurantRepository;
 
     @Override
     public Restaurant save(Restaurant restaurant, int userId) {
-        if (!restaurant.isNew() && get(restaurant.getId(), userId) == null) return null;
+        if (!restaurant.isNew() && get(restaurant.getId()) == null) return null;
 
         return crudRestaurantRepository.save(restaurant);
     }
@@ -26,19 +26,19 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
-    public Restaurant get(int id, int userId) {
+    public Restaurant get(int id) {
         /*return crudRestaurantRepository.findById(id).filter(restourant -> restourant.getUser().getId() == userId).orElse(null);*/
 
         return null;
     }
 
     @Override
-    public List<Restaurant> getAllRestaurantsOfHistory(int userId) {
-        return crudRestaurantRepository.getAll(userId);
+    public List<Restaurant> getAll() {
+        return crudRestaurantRepository.getAll();
     }
 
     @Override
-    public List<Restaurant> getbyDate(LocalDate date, int userId) {
-        return crudRestaurantRepository.getByDate(date, userId);
+    public List<Restaurant> getbyDate(LocalDate date) {
+        return crudRestaurantRepository.getByDate(date);
     }
 }
