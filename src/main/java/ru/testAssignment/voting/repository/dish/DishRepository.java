@@ -14,7 +14,7 @@ public interface DishRepository {
 
     List<Dish> getAll(int restaurantId);
 
-    default Dish getWithRestaurant(int id, int restaurantId) {
+    default Dish getWithRestaurant(int id) {
         throw new UnsupportedOperationException();
     }
 }

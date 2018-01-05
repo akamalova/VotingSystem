@@ -53,7 +53,7 @@ public class DishServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        List<Dish> menu = service.getAll(10003);
+        List<Dish> menu = service.getAll(100003);
         menu.forEach(System.out::println);
     }
 

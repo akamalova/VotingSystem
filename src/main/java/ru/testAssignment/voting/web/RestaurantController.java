@@ -10,7 +10,7 @@ import ru.testAssignment.voting.service.RestaurantService;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
+@Controller
 public class RestaurantController {
 
     @Autowired

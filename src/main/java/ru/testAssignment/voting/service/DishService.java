@@ -1,11 +1,10 @@
 package ru.testAssignment.voting.service;
 
-import org.springframework.stereotype.Service;
+
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import java.util.List;
-
 
 public interface DishService {
 
@@ -19,5 +18,5 @@ public interface DishService {
 
     List<Dish> getAll(int restaurantId);
 
-    Dish getWithRestaurant(int id, int restaurantId);
+    Dish getWithRestaurant(int id);
 }

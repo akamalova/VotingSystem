@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.testAssignment.voting.model.Dish;
-import ru.testAssignment.voting.model.Restaurant;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)

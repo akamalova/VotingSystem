@@ -23,10 +23,6 @@ public class Dish extends AbstractNamedEntity{
     public Dish() {
     }
 
-    public Dish(Double price) {
-        this.price = price;
-    }
-
     public Dish(Integer id, String name, Double price) {
         super(id, name);
         this.price = price;
@@ -50,5 +46,25 @@ public class Dish extends AbstractNamedEntity{
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Dish dish = (Dish) o;
+
+        if (!price.equals(dish.price)) return false;
+        return restaurant.equals(dish.restaurant);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + restaurant.hashCode();
+        return result;
     }
 }

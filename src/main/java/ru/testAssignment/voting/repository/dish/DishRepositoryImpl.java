@@ -42,7 +42,7 @@ public class DishRepositoryImpl implements DishRepository {
     }
 
     @Override
-    public Dish getWithRestaurant(int id, int restaurantId) {
-        return crudDishRepository.getWithRestaurant(id, restaurantId);
+    public Dish getWithRestaurant(int id) {
+        return crudDishRepository.getWithRestaurant(id);
     }
 }

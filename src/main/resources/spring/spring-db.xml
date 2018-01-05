@@ -11,8 +11,8 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <jdbc:initialize-database data-source="dataSource" enabled="true">
-        <jdbc:script location="classpath:db/initDB_hsql.sql"/>
+    <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+        <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
 
@@ -28,7 +28,7 @@
               p:url="${database.url}"
               p:username="${database.username}"
               p:password="${database.password}"/>
-    </beans>
+
 
 
     <!--<beans profile="tomcat">
@@ -36,8 +36,6 @@
         <context:property-placeholder location="classpath:db/tomcat.properties" system-properties-mode="OVERRIDE"/>
     </beans>-->
 
-
-    <beans profile="datajpa">
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:dataSource-ref="dataSource"
               p:packagesToScan="ru.javawebinar.**.model">
@@ -81,4 +79,4 @@
         <jpa:repositories base-package="ru.testAssignment.voting.repository"/>
     </beans>
 
-</beans>
+        </beans>
