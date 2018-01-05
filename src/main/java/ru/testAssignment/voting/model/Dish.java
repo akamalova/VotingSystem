@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "menu")
 public class Dish extends AbstractNamedEntity{
 
+    @Column(name = "price", nullable = false)
+    @NotNull
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
