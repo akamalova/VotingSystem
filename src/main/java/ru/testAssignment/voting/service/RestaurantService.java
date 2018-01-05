@@ -1,10 +1,9 @@
 package ru.testAssignment.voting.service;
 
-import org.springframework.stereotype.Service;
+
 import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,6 +18,4 @@ public interface RestaurantService {
     Restaurant get(int id) throws NotFoundException;
 
     List<Restaurant> getAll();
-
-    List<Restaurant> getByDate(LocalDate date) ;
 }

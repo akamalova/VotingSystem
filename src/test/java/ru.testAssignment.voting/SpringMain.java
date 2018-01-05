@@ -6,6 +6,7 @@ import ru.testAssignment.voting.web.RestaurantController;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 public class SpringMain {
     public static void main(String[] args) {
@@ -17,9 +18,11 @@ public class SpringMain {
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             RestaurantController controller = appCtx.getBean(RestaurantController.class);
-            controller.getAll();
-            /*controller.create(new Restaurant(null, "Name", "disc",  LocalDateTime.now()));*/
-            System.out.println();
+
+            controller.create(new Restaurant(null, "Name", "disc"));
+            controller.delete(100032);
+            List<Restaurant> restaurantList = controller.getAll();
+            restaurantList.forEach(System.out::println);
 
 
         }

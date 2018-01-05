@@ -35,10 +35,10 @@
         <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/topjava"/>
         <context:property-placeholder location="classpath:db/tomcat.properties" system-properties-mode="OVERRIDE"/>
     </beans>-->
-    <beans>
+    <beans profile="jpa">
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
               p:dataSource-ref="dataSource"
-              p:packagesToScan="ru.javawebinar.**.model">
+              p:packagesToScan="ru.testAssignment.voting**.model">
             <!--p:persistenceUnitName="persistenceUnit">-->
 
             <property name="jpaPropertyMap">
@@ -78,7 +78,7 @@
       <!--  <bean class="ru.javawebinar.topjava.repository.JpaUtil"/>-->
 
         <context:component-scan base-package="ru.testAssignment.**.repository"/>
-        <jpa:repositories base-package="ru.testAssignment.**.repository"/>
+        <!--<jpa:repositories base-package="ru.testAssignment.**.repository"/>-->
 
     </beans>
 </beans>

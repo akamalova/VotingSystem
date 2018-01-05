@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface DishRepository {
 
-    Dish save(Dish dish, int restaurantId);
+    Dish save(Dish dish, int menuId);
 
-    boolean delete(int id, int restaurantId);
+    boolean delete(int id, int menuId);
 
-    Dish get(int id, int restaurantId);
+    Dish get(int id, int menuId);
 
-    List<Dish> getAll(int restaurantId);
+    List<Dish> getAll(int menuId);
 
-    default Dish getWithRestaurant(int id) {
+    default Dish getWithMenu(int id) {
         throw new UnsupportedOperationException();
     }
 }

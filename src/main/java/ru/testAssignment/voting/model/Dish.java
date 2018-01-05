@@ -7,26 +7,25 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @NamedQueries({
-        @NamedQuery(name = Dish.ALL, query = "SELECT m FROM Dish m WHERE m.restaurant.id=:restaurantId"),
-        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+        @NamedQuery(name = Dish.ALL, query = "SELECT m FROM Dish m WHERE m.menu.id=:menuId"),
+        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish m WHERE m.id=:id AND m.menu.id=:menuId")
 })
 @Entity
-@Table(name = "menu")
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "name"}, name = "menu_dishes_idx")})
 public class Dish extends AbstractNamedEntity{
 
     public static final String ALL = "Dish.getAll";
     public static final String DELETE = "Dish.delete";
-
 
     @Column(name = "price", nullable = false)
     @NotNull
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Restaurant restaurant;
+    private Menu menu;
 
     public Dish() {
     }
@@ -48,12 +47,21 @@ public class Dish extends AbstractNamedEntity{
         this.price = price;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 
     @Override
@@ -65,14 +73,14 @@ public class Dish extends AbstractNamedEntity{
         Dish dish = (Dish) o;
 
         if (!price.equals(dish.price)) return false;
-        return restaurant.equals(dish.restaurant);
+        return menu.equals(dish.menu);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + price.hashCode();
-        result = 31 * result + restaurant.hashCode();
+        result = 31 * result + menu.hashCode();
         return result;
     }
 }

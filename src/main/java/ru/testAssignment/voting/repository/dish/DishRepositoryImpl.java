@@ -1,49 +1,54 @@
 package ru.testAssignment.voting.repository.dish;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import ru.testAssignment.voting.model.Dish;
-import ru.testAssignment.voting.repository.restaurant.CrudRestaurantRepository;
-
 import org.springframework.transaction.annotation.Transactional;
+import ru.testAssignment.voting.model.Menu;
+import ru.testAssignment.voting.model.Restaurant;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class DishRepositoryImpl implements DishRepository {
 
-    @Autowired
-    private CrudDishRepository crudDishRepository;
-
-    @Autowired
-    private CrudRestaurantRepository crudRestaurantRepository;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     @Transactional
-    public Dish save(Dish dish, int restaurantId) {
-        if (!dish.isNew() && get(dish.getId(), restaurantId) == null) return null;
+    public Dish save(Dish dish, int menuId) {
+        if (!dish.isNew() && get(dish.getId(), menuId) == null) return null;
 
-        dish.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
-        return crudDishRepository.save(dish);
+        dish.setMenu(em.getReference(Menu.class, menuId));
+        return em.merge(dish);
     }
 
     @Override
-    public boolean delete(int id, int restaurantId) {
-        return crudDishRepository.delete(id, restaurantId) != 0;
+    @Transactional
+    public boolean delete(int id, int menuId) {
+        return em.createNamedQuery(Dish.DELETE)
+                .setParameter("id", id)
+                .setParameter("menuId", menuId)
+                .executeUpdate() != 0;
     }
 
     @Override
-    public Dish get(int id, int restaurantId) {
-        return crudDishRepository.findById(id).filter(dish -> dish.getRestaurant().getId() == restaurantId).orElse(null);
+    public Dish get(int id, int menuId) {
+        Dish dish = em.find(Dish.class, id);
+        return  dish!= null && dish.getMenu().getId() == menuId? dish : null;
     }
 
     @Override
-    public List<Dish> getAll(int restaurantId) {
-        return crudDishRepository.getAll(restaurantId);
+    public List<Dish> getAll(int menuId) {
+        return em.createNamedQuery(Dish.ALL, Dish.class)
+                .setParameter("menuId", menuId)
+                .getResultList();
     }
 
     @Override
-    public Dish getWithRestaurant(int id) {
-        return crudDishRepository.getWithRestaurant(id);
+    public Dish getWithMenu(int id) {
+        return null;
     }
 }
