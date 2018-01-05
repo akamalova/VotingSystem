@@ -10,35 +10,33 @@ import java.util.List;
 @Repository
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
-    @Autowired(required = true)
-    private CrudRestaurantRepository crudRestaurantRepository;
+    @Autowired
+    private CrudRestaurantRepository restaurantRepository;
 
     @Override
     public Restaurant save(Restaurant restaurant, int userId) {
         if (!restaurant.isNew() && get(restaurant.getId()) == null) return null;
 
-        return crudRestaurantRepository.save(restaurant);
+        return restaurantRepository.save(restaurant);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return crudRestaurantRepository.delete(id, userId) != 0;
+        return restaurantRepository.delete(id, userId) != 0;
     }
 
     @Override
     public Restaurant get(int id) {
-        /*return crudRestaurantRepository.findById(id).filter(restourant -> restourant.getUser().getId() == userId).orElse(null);*/
-
-        return null;
+        return restaurantRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Restaurant> getAll() {
-        return crudRestaurantRepository.getAll();
+        return restaurantRepository.getAll();
     }
 
     @Override
     public List<Restaurant> getbyDate(LocalDate date) {
-        return crudRestaurantRepository.getByDate(date);
+        return restaurantRepository.getByDate(date);
     }
 }

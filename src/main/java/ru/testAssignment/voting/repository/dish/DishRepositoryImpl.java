@@ -1,6 +1,7 @@
 package ru.testAssignment.voting.repository.dish;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Repository;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.repository.restaurant.CrudRestaurantRepository;

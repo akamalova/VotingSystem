@@ -13,7 +13,6 @@ import ru.testAssignment.voting.model.Dish;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 
 @ContextConfiguration({

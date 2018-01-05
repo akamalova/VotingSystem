@@ -13,18 +13,18 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Transactional
     @Modifying
-    @Query("DELETE FROM Restaurant r WHERE r.id=:id")
-    int delete(@Param("id") int id, int userId);
+    @Transactional
+    @Query("DELETE FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+    int delete(@Param("id")int id,@Param("userId") int userId);
 
     @Override
     Restaurant save(Restaurant item);
 
-    @Query("SELECT m FROM Restaurant m ORDER BY m.dateTime DESC")
+    @Query("SELECT m FROM Restaurant m")
     List<Restaurant> getAll();
 
-    @Query("SELECT m FROM Restaurant m WHERE m.dateTime=:date")
+    @Query("SELECT m FROM Restaurant m WHERE m.dateTime = ?1")
     List<Restaurant> getByDate(LocalDate date);
 
 }

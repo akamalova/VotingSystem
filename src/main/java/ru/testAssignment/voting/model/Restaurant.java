@@ -7,10 +7,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@NamedQueries({
+        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT m FROM Restaurant m ORDER BY m.name desc"),
+        @NamedQuery(name = Restaurant.BY_DATE_SORTED, query = "SELECT m FROM Restaurant m WHERE m.dateTime=: dateTime ORDER BY m.name desc"),
+        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant m WHERE m.id=:id")
+})
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity{
+
+    public static final String ALL_SORTED = "Restaurant.getAll";
+    public static final String BY_DATE_SORTED = "Restaurant.getByDate";
+    public static final String DELETE = "Restaurant.delete";
 
     @Column(name = "description")
     @NotNull

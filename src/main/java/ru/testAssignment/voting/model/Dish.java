@@ -6,9 +6,17 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NamedQueries({
+        @NamedQuery(name = Dish.ALL, query = "SELECT m FROM Dish m WHERE m.restaurant.id=:restaurantId"),
+        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+})
 @Entity
 @Table(name = "menu")
 public class Dish extends AbstractNamedEntity{
+
+    public static final String ALL = "Dish.getAll";
+    public static final String DELETE = "Dish.delete";
+
 
     @Column(name = "price", nullable = false)
     @NotNull
