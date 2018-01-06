@@ -8,7 +8,8 @@ import ru.testAssignment.voting.service.UserService;
 @Controller
 public class RootController {
 
-
+    @Autowired
+    UserService userService;
 
 
 }

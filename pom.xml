@@ -54,7 +54,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.6.5</version>
@@ -92,7 +92,7 @@
                         </deployable>
                     </deployables>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
         </plugins>
     </build>
@@ -140,13 +140,6 @@
             <artifactId>assertj-core</artifactId>
             <version>3.8.0</version>
             <scope>test</scope>
-        </dependency>
-
-        <!--DataBase-->
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.3.4</version>
         </dependency>
 
         <!--- ORM -->

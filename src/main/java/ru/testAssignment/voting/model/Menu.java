@@ -29,7 +29,6 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private LocalDateTime dateTime;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -62,5 +61,9 @@ public class Menu extends AbstractBaseEntity {
 
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
     }
 }

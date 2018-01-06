@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import ru.testAssignment.voting.model.Dish;
 import org.springframework.transaction.annotation.Transactional;
 import ru.testAssignment.voting.model.Menu;
-import ru.testAssignment.voting.model.Restaurant;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;

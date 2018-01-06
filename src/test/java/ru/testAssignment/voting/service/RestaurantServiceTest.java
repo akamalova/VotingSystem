@@ -20,7 +20,7 @@ import static ru.testAssignment.voting.UserTestData.USER_ID;
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class RestaurantServiceImplTest {
+public class RestaurantServiceTest {
 
     @Autowired
     private RestaurantService service;

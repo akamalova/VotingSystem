@@ -40,9 +40,4 @@ public class RestaurantController {
         int userId = AuthorizedUser.id();
         service.update(restaurant, userId);
     }
-
-    public List<Restaurant> getByDate(LocalDate date) {
-        int userId = AuthorizedUser.id();
-        return service.getByDate(date);
-    }
 }
