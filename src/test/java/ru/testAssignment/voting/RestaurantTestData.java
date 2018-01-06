@@ -14,14 +14,14 @@ public class RestaurantTestData {
     public static final int RESTAURANT_ID = START_SEQ + 3;
 
 
-    public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT_ID, "FirstRestaurant", "Swedish",(LocalDateTime.of(2017, Month.MAY, 30, 10, 0)));
-    public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT_ID + 1, "SecondRestaurant", "Asian",(LocalDateTime.of(2015, Month.MAY, 30, 10, 0)));
-    public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT_ID + 2, "ThirdRestaurant", "Russian",(LocalDateTime.of(2015, Month.MAY, 30, 10, 0)));
-    public static final Restaurant RESTAURANT4 = new Restaurant(RESTAURANT_ID + 3, "FourthRestaurant", "Japanese",(LocalDateTime.of(2015, Month.MAY, 30, 10, 0)));
-    public static final Restaurant RESTAURANT5 = new Restaurant(RESTAURANT_ID + 4, "FifthRestaurant", "Uzbek",(LocalDateTime.of(2015, Month.MAY, 30, 10, 0)));
+    public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT_ID, "FirstRestaurant", "Swedish");
+    public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT_ID + 1, "SecondRestaurant", "Asian");
+    public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT_ID + 2, "ThirdRestaurant", "Russian");
+    public static final Restaurant RESTAURANT4 = new Restaurant(RESTAURANT_ID + 3, "FourthRestaurant", "Japanese");
+    public static final Restaurant RESTAURANT5 = new Restaurant(RESTAURANT_ID + 4, "FifthRestaurant", "Uzbek");
 
     public static Restaurant getCreated(){
-        return new Restaurant(null, "name", "descr",(LocalDateTime.of(2017, Month.MAY, 30, 10, 0)));
+        return new Restaurant(null, "name", "descr");
     }
 
 

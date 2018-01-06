@@ -2,6 +2,7 @@ package ru.testAssignment.voting.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.service.MenuService;
 
@@ -9,8 +10,8 @@ import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 
-@Controller
-public class MenuController {
+@RestController
+public class MenuRestController {
 
     @Autowired
     MenuService service;

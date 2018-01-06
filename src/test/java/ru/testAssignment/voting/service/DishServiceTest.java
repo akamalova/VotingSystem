@@ -17,13 +17,14 @@ import java.util.List;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml"
+        "classpath:spring/spring-db.xml",
+        "classpath:spring/spring-mvc.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class DishServiceTest {
 
-    @Autowired
+    /*@Autowired
     private DishService service;
 
     @After
@@ -55,5 +56,5 @@ public class DishServiceTest {
     @Test
     public void getWithRestaurant() throws Exception {
     }
-
+*/
 }

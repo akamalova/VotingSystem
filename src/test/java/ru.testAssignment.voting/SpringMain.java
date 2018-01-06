@@ -2,11 +2,8 @@ package ru.testAssignment.voting;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 import ru.testAssignment.voting.model.Dish;
-import ru.testAssignment.voting.model.Restaurant;
-import ru.testAssignment.voting.web.DishController;
-import ru.testAssignment.voting.web.RestaurantController;
+import ru.testAssignment.voting.web.DishRestController;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +16,7 @@ public class SpringMain {
             appCtx.refresh();
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            DishController controller = appCtx.getBean(DishController.class);
+            DishRestController controller = appCtx.getBean(DishRestController.class);
 
             controller.create(new Dish("Name", 15.00), 100008);
 
