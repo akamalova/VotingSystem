@@ -2,15 +2,19 @@ package ru.testAssignment.voting.repository.vote;
 
 import ru.testAssignment.voting.model.Vote;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface VoteRepository {
 
-    Vote save(Vote vote);
+    Vote save(Vote vote, int userId);
 
-    // null if meal do not belong to userId
     Vote get(int id, int userId);
 
-    // ORDERED dateTime desc
     List<Vote> getAll(int userId);
+
+    List<Vote> getByDate(LocalDate date, int userId);
+
+    List<Vote> getByDate(LocalDate date);
+
 }

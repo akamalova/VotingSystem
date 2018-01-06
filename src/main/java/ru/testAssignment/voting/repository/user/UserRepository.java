@@ -6,5 +6,15 @@ import java.util.List;
 
 public interface UserRepository {
 
-    List<User> getNotVoted();
+    User save(User restaurant, int userId);
+
+    boolean delete(int id, int userId);
+
+    User get(int id);
+
+    List<User> getAll();
+
+    User getByEmail(String email);
+
+    List<User> getNotVoted() ;
 }
