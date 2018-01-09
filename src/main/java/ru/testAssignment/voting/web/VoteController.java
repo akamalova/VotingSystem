@@ -45,7 +45,7 @@ public class VoteController {
         return repository.getAll(userId);
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getByDate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getbyDate(LocalDate date){
         int userId = AuthorizedUser.id();
         return repository.getByDate(date, userId);

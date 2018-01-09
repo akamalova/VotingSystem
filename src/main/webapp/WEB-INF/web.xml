@@ -6,6 +6,10 @@
 
     <display-name>votingSystem</display-name>
 
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>hsqldb,jpa</param-value>
+    </context-param>
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -33,7 +37,7 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <filter>
+   <!-- <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
         <init-param>
@@ -48,6 +52,6 @@
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
 </web-app>

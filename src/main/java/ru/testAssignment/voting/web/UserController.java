@@ -53,7 +53,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/notVoted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getNotVoted(){
         return repository.getNotVoted();
     }

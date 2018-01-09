@@ -1,8 +1,7 @@
 package ru.testAssignment.voting.model;
 
-import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
-
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.*;
 
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
         @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
@@ -36,9 +36,6 @@ public class User extends AbstractNamedEntity{
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    public List<Vote> getVotedUsers() {
-        return votedUsers;
-    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @NotNull
@@ -72,6 +69,9 @@ public class User extends AbstractNamedEntity{
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
+    public List<Vote> getVotedUsers() {
+        return votedUsers;
+    }
     @Override
     public String toString() {
         return "User{" +

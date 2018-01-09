@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.testAssignment.voting.Profiles;
 import ru.testAssignment.voting.model.Restaurant;
+import ru.testAssignment.voting.repository.restaurant.RestaurantRepository;
 
 import static ru.testAssignment.voting.RestaurantTestData.*;
 import static ru.testAssignment.voting.UserTestData.USER_ID;
@@ -25,7 +27,7 @@ import static ru.testAssignment.voting.UserTestData.USER_ID;
 public class RestaurantServiceTest {
 
     @Autowired
-    private RestaurantService service;
+    private RestaurantRepository repository;
 
     @Test
     public void update() throws Exception {
@@ -34,25 +36,25 @@ public class RestaurantServiceTest {
     @Test
     public void create() throws Exception {
         Restaurant created = getCreated();
-        service.create( created, RESTAURANT_ID);
-        assertMatch(service.getAll(), created, RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
+        repository.save( created, RESTAURANT_ID);
+        assertMatch(repository.getAll(), created, RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(RESTAURANT_ID, USER_ID);
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
+        repository.delete(RESTAURANT_ID, USER_ID);
+        assertMatch(repository.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
     }
 
     @Test
     public void get() throws Exception {
-        Restaurant actual = service.get(RESTAURANT_ID);
+        Restaurant actual = repository.get(RESTAURANT_ID);
         assertMatch(actual, RESTAURANT1);
     }
 
     @Test
     public void getAll() throws Exception {
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
+        assertMatch(repository.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
     }
 
 }
