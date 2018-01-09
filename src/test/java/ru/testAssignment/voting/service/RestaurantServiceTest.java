@@ -18,11 +18,10 @@ import static ru.testAssignment.voting.UserTestData.USER_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
-        "classpath:spring/spring-db.xml",
-        "classpath:spring/spring-mvc.xml"
+        "classpath:spring/spring-db.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
-
+@ActiveProfiles({Profiles.REPOSITORY_IMPLEMENTATION, Profiles.ACTIVE_DB})
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class RestaurantServiceTest {
 

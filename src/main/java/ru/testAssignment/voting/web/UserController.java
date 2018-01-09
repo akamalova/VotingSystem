@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.User;
-import ru.testAssignment.voting.repository.user.UserRepository;
+import ru.testAssignment.voting.service.UserService;
 
 import java.util.List;
 
@@ -15,22 +15,22 @@ public class UserController {
     public static final String REST_URL = "/rest/admin/users";
 
     @Autowired
-    private UserRepository repository;
+    private UserService service;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
-        return repository.getAll();
+        return service.getAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {
-        return repository.get(id);
+        return service.get(id);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User create(@RequestBody User user) {
         int userId = AuthorizedUser.id();
-        User created = repository.save(user, userId);
+        User created = service.save(user, userId);
 
         return created;
     }
@@ -39,22 +39,22 @@ public class UserController {
     public void delete(@PathVariable("id") int id) {
 
         int userId = AuthorizedUser.id();
-        repository.delete(id, userId);
+        service.delete(id, userId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody User user, @PathVariable("id") int id) {
-        repository.save(user, id);
+        service.save(user, id);
     }
 
     @RequestMapping(value = "/by", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User getByEmail(@RequestParam("email") String email) {
-        return repository.getByEmail(email);
+        return service.getByEmail(email);
     }
 
 
     @RequestMapping(value = "/notVoted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getNotVoted(){
-        return repository.getNotVoted();
+        return service.getNotVoted();
     }
 }
