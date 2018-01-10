@@ -2,6 +2,7 @@ package ru.testAssignment.voting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.repository.menu.MenuRepository;
@@ -10,6 +11,9 @@ import ru.testAssignment.voting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ValidationUtil.checkNotFound;
+import static ru.testAssignment.voting.util.ValidationUtil.checkNotFoundWithId;
+
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -17,23 +21,25 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository repository;
 
     @Override
-    public Menu update(Menu menu, int restaurantId) throws NotFoundException {
-        return repository.save(menu, restaurantId);
+    public Menu update(Menu menu, int restaurantId, int userId) throws NotFoundException {
+        Assert.notNull(menu, "menu must not be null");
+        return checkNotFoundWithId(repository.save(menu, restaurantId, userId), menu.getId());
     }
 
     @Override
-    public Menu create(Menu menu, int restaurantId) {
-        return repository.save(menu, restaurantId);
+    public Menu create(Menu menu, int restaurantId, int userId) {
+        Assert.notNull(menu, "menu must not be null");
+        return repository.save(menu, restaurantId, userId);
     }
 
     @Override
-    public void delete(int id, int restaurantId) throws NotFoundException {
-        repository.delete(id, restaurantId);
+    public void delete(int id, int restaurantId, int userId) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id, restaurantId, userId), id);
     }
 
     @Override
     public Menu get(int id) throws NotFoundException {
-        return repository.get(id);
+        return checkNotFoundWithId(repository.get(id), id);
     }
 
     @Override
@@ -43,16 +49,18 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> getByDate(LocalDate date) {
-        return repository.getByDate(date);
+        Assert.notNull(date, "date must not be null");
+        return checkNotFound(repository.getByDate(date), "date=" + date);
     }
 
     @Override
     public List<Menu> getRestaurantByDate(LocalDate date, int restaurantId) {
-        return repository.getRestaurantByDate(date, restaurantId);
+        Assert.notNull(date, "date must not be null");
+        return checkNotFound(repository.getRestaurantByDate(date, restaurantId), "date=" + date + ", id" + restaurantId);
     }
 
     @Override
     public Menu getWithRestaurant(int id) {
-        return repository.getWithRestaurant(id);
+        return checkNotFoundWithId(repository.getWithRestaurant(id), id);
     }
 }

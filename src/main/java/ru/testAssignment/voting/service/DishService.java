@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface DishService {
 
-    Dish update(Dish dish, int menuId) throws NotFoundException;
+    Dish update(Dish dish, int menuId, int userId) throws NotFoundException;
 
-    Dish create(Dish dish, int menuId);
+    Dish create(Dish dish, int menuId, int userId);
 
-    void delete(int id, int menuId) throws NotFoundException;
+    void delete(int id, int menuId, int userId) throws NotFoundException;
 
     Dish get(int id, int menuId) throws NotFoundException;
 

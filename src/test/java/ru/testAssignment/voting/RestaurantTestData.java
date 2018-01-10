@@ -24,6 +24,9 @@ public class RestaurantTestData {
         return new Restaurant(null, "name", "descr");
     }
 
+    public static Restaurant getUpdated() {
+        return new Restaurant(RESTAURANT_ID, "Обновленный ресторан", "descr");
+    }
 
 
     public static void assertMatch(Restaurant actual, Restaurant expected) {

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface MenuRepository {
 
-    Menu save(Menu menu, int restaurantId);
+    Menu save(Menu menu, int restaurantId, int userId);
 
-    boolean delete(int id, int restaurantId);
+    boolean delete(int id, int restaurantId, int userId);
 
     Menu get(int id);
 

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DishRepository {
 
-    Dish save(Dish dish, int menuId);
+    Dish save(Dish dish, int menuId, int userId);
 
-    boolean delete(int id, int menuId);
+    boolean delete(int id, int menuId, int userId);
 
     Dish get(int id, int menuId);
 

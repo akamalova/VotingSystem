@@ -9,7 +9,7 @@ public interface VoteService {
 
     Vote update(Vote vote, int userId);
 
-    Vote save(Vote vote, int userId);
+    Vote create(Vote vote, int userId);
 
     Vote get(int id, int userId);
 

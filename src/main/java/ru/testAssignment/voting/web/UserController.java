@@ -9,6 +9,9 @@ import ru.testAssignment.voting.service.UserService;
 
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
+import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(UserController.REST_URL)
 public class UserController {
@@ -29,22 +32,19 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User create(@RequestBody User user) {
-        int userId = AuthorizedUser.id();
-        User created = service.save(user, userId);
-
-        return created;
+        checkNew(user);
+        return service.create(user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id) {
-
-        int userId = AuthorizedUser.id();
-        service.delete(id, userId);
+        service.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody User user, @PathVariable("id") int id) {
-        service.save(user, id);
+        assureIdConsistent(user, id);
+        service.update(user);
     }
 
     @RequestMapping(value = "/by", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

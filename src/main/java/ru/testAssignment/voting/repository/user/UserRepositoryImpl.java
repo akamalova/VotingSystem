@@ -25,7 +25,7 @@ public class UserRepositoryImpl implements UserRepository {
     private VoteRepository voteRepository;
 
     @Override
-    public User save(User user, int userId) {
+    public User save(User user) {
         if (user.isNew()) {
             em.persist(user);
             return user;
@@ -35,7 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean delete(int id, int userId) {
+    public boolean delete(int id) {
         return em.createNamedQuery(User.DELETE)
                 .setParameter("id", id)
                 .executeUpdate() != 0;

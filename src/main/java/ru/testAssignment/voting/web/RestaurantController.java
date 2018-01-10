@@ -9,6 +9,9 @@ import ru.testAssignment.voting.service.RestaurantService;
 
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
+import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(RestaurantController.REST_URL)
 public class RestaurantController {
@@ -31,19 +34,22 @@ public class RestaurantController {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
-        int userId = AuthorizedUser.id();
+
         return service.getAll();
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant create(@RequestBody Restaurant restaurant) {
         int userId = AuthorizedUser.id();
+        checkNew(restaurant);
         return service.create(restaurant, userId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         int userId = AuthorizedUser.id();
+        assureIdConsistent(restaurant, id);
         service.update(restaurant, userId);
     }
+
 }

@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface UserService {
 
-    User save(User restaurant, int userId);
+    User create(User user);
 
-    boolean delete(int id, int userId);
+    void update(User user);
+
+    void delete(int id);
 
     User get(int id);
 

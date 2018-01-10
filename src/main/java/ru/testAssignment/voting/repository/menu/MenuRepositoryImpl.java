@@ -2,9 +2,7 @@ package ru.testAssignment.voting.repository.menu;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.testAssignment.voting.model.Dish;
-import ru.testAssignment.voting.model.Menu;
-import ru.testAssignment.voting.model.Restaurant;
+import ru.testAssignment.voting.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,20 +18,27 @@ public class MenuRepositoryImpl implements MenuRepository {
 
     @Override
     @Transactional
-    public Menu save(Menu menu, int restaurantId) {
-        if (!menu.isNew() && get(menu.getId()) == null) return null;
+    public Menu save(Menu menu, int restaurantId, int userId) {
+        User user = em.getReference( User.class, userId);
+        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
+            if (!menu.isNew() && get(menu.getId()) == null) return null;
 
-        menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
-        return em.merge(menu);
+            menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
+            return em.merge(menu);
+        }
+        return null;
     }
 
     @Override
     @Transactional
-    public boolean delete(int id, int restaurantId) {
-        return em.createNamedQuery(Menu.DELETE)
-                .setParameter("id", id)
-                .setParameter("restaurantId", restaurantId)
-                .executeUpdate() != 0;
+    public boolean delete(int id, int restaurantId, int userId) {
+        User user = em.getReference( User.class, userId);
+        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
+            return em.createNamedQuery(Menu.DELETE)
+                    .setParameter("id", id)
+                    .setParameter("restaurantId", restaurantId)
+                    .executeUpdate() != 0;
+        } return false;
     }
 
     @Override

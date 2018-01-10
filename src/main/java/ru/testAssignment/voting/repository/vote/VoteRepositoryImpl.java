@@ -2,6 +2,7 @@ package ru.testAssignment.voting.repository.vote;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.model.Vote;
 
@@ -20,17 +21,20 @@ public class VoteRepositoryImpl implements VoteRepository {
     @Override
     @Transactional
     public Vote save(Vote vote, int userId) {
+        if (userId == AuthorizedUser.id()) {
 
-        if (!vote.isNew() && get(vote.getId(), userId) == null) {
-            return null;
+            if (!vote.isNew() && get(vote.getId(), userId) == null) {
+                return null;
+            }
+            vote.setUser(em.getReference(User.class, userId));
+            if (vote.isNew()) {
+                em.persist(vote);
+                return vote;
+            } else {
+                return em.merge(vote);
+            }
         }
-        vote.setUser(em.getReference(User.class, userId));
-        if (vote.isNew()) {
-            em.persist(vote);
-            return vote;
-        } else {
-            return em.merge(vote);
-        }
+        return null;
     }
 
     @Override

@@ -10,6 +10,9 @@ import ru.testAssignment.voting.service.VoteService;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
+import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
+
 @RestController
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {
@@ -19,16 +22,17 @@ public class VoteController {
     VoteService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote update(@RequestBody Vote vote){
-
+    public Vote update(@RequestBody Vote vote, @PathVariable("id")int id){
         int userId = AuthorizedUser.id();
+        assureIdConsistent(vote, id);
         return service.update(vote, userId);
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote save(@RequestBody Vote vote){
+    public Vote create(@RequestBody Vote vote){
+        checkNew(vote);
         int userId = AuthorizedUser.id();
-        return service.save(vote, userId);
+        return service.create(vote, userId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
