@@ -13,7 +13,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,6 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
     private VoteRepository voteRepository;
 
     @Override
+    @Transactional
     public User save(User user) {
         if (user.isNew()) {
             em.persist(user);
@@ -35,6 +40,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public boolean delete(int id) {
         return em.createNamedQuery(User.DELETE)
                 .setParameter("id", id)
@@ -61,15 +67,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getNotVoted() {
-        List<User> votedUsers = getAll();
-        List<Vote> votes = voteRepository.getByDate(LocalDate.now());
-
-        votes.forEach(vote->{
-            User user = vote.getUser();
-            if (votedUsers.contains(user)) votedUsers.remove(user);
-        });
-
-        return votedUsers;
+    public List<User> getByDate(LocalDate date) {
+        return em.createNamedQuery(User.GET_BY_DATE, User.class)
+                .setParameter("registered", date)
+                .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
+                .getResultList();
     }
 }

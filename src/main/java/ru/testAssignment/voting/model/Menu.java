@@ -11,8 +11,8 @@ import java.util.List;
 
 @NamedQueries({
         @NamedQuery(name = Menu.ALL, query = "SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId"),
-        @NamedQuery(name = Menu.All_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime=:dateTime"),
-        @NamedQuery(name = Menu.RESTAURANT_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime=:dateTime AND m.restaurant.id=:restaurantId"),
+        @NamedQuery(name = Menu.All_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax"),
+        @NamedQuery(name = Menu.RESTAURANT_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax AND m.restaurant.id=:restaurantId"),
         @NamedQuery(name = Menu.DELETE, query = "DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
 })
 @Entity
@@ -24,6 +24,17 @@ public class Menu extends AbstractBaseEntity {
     public static final String All_BY_DATE = "Menu.getByDate";
     public static final String RESTAURANT_BY_DATE = "Menu.RestaurantByDate";
 
+    public Menu() {
+    }
+
+    public Menu(LocalDateTime dateTime) {
+        this(null, dateTime);
+    }
+
+    public Menu(Integer id, LocalDateTime dateTime) {
+        super(id);
+        this.dateTime = dateTime;
+    }
 
     @Column(name = "date_time", nullable = false)
     @NotNull

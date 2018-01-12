@@ -2,6 +2,7 @@ package ru.testAssignment.voting.repository.user;
 
 import ru.testAssignment.voting.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {
@@ -14,7 +15,8 @@ public interface UserRepository {
 
     List<User> getAll();
 
+    List<User> getByDate(LocalDate date);
+
     User getByEmail(String email);
 
-    List<User> getNotVoted() ;
 }

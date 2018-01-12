@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.repository.user.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.checkNotFound;
@@ -57,7 +58,8 @@ public class UserServiseImpl implements UserService{
     }
 
     @Override
-    public List<User> getNotVoted() {
-        return repository.getNotVoted();
+    public List<User> getByDate(LocalDate date) {
+        Assert.notNull(date, "date must not be null");
+        return checkNotFound(repository.getByDate(date), "date=" + date);
     }
 }

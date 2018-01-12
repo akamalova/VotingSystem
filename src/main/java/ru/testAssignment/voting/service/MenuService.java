@@ -21,7 +21,5 @@ public interface MenuService {
 
     List<Menu> getByDate(LocalDate date);
 
-    List<Menu> getRestaurantByDate(LocalDate date, int restaurantId);
-
     Menu getWithRestaurant(int id);
 }

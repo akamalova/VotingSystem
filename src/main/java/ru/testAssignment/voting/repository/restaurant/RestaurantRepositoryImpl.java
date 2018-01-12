@@ -10,6 +10,7 @@ import ru.testAssignment.voting.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -22,16 +23,14 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     @Override
     @Transactional
     public Restaurant save(Restaurant restaurant, int userId) {
-        User user = em.getReference( User.class, userId);
-        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
-            if (!restaurant.isNew() && get(restaurant.getId()) == null) return null;
-            if (restaurant.isNew()) {
-                em.persist(restaurant);
-                return restaurant;
-            }
-            return em.merge(restaurant);
+        User user = em.getReference(User.class, userId);
+        if (!user.getRoles().contains(Role.ROLE_ADMIN) || (!restaurant.isNew() && get(restaurant.getId()) == null))
+            return null;
+        if (restaurant.isNew()) {
+            em.persist(restaurant);
+            return restaurant;
         }
-        return null;
+        return em.merge(restaurant);
     }
 
     @Override
@@ -55,4 +54,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     public List<Restaurant> getAll() {
         return em.createNamedQuery(Restaurant.ALL_SORTED, Restaurant.class).getResultList();
     }
+
+
 }

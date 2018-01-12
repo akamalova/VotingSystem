@@ -18,8 +18,6 @@ public interface MenuRepository {
 
     List<Menu> getByDate(LocalDate date);
 
-    List<Menu> getRestaurantByDate(LocalDate date, int restaurantId);
-
     default Menu getWithRestaurant(int id) {
         throw new UnsupportedOperationException();
     }

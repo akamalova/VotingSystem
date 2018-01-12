@@ -20,11 +20,11 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT4 = new Restaurant(RESTAURANT_ID + 3, "FourthRestaurant", "Japanese");
     public static final Restaurant RESTAURANT5 = new Restaurant(RESTAURANT_ID + 4, "FifthRestaurant", "Uzbek");
 
-    public static Restaurant getCreated(){
+    public static Restaurant getCreatedRestaurant(){
         return new Restaurant(null, "name", "descr");
     }
 
-    public static Restaurant getUpdated() {
+    public static Restaurant getUpdatedRestaurant() {
         return new Restaurant(RESTAURANT_ID, "Обновленный ресторан", "descr");
     }
 

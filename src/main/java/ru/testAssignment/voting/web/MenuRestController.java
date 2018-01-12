@@ -2,11 +2,15 @@ package ru.testAssignment.voting.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.service.MenuService;
 
+import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
@@ -41,10 +45,27 @@ public class MenuRestController {
         return service.create(menu, restaurantId, AuthorizedUser.id());
     }
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
+        checkNew(menu);
+        Menu created = service.create(menu, restaurantId, AuthorizedUser.id());
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);
         return service.update(menu, restaurantId, AuthorizedUser.id());
+    }
+
+    @RequestMapping(value = "/getByDate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getbyDate(LocalDate date){
+        return service.getByDate(date);
     }
 }
 

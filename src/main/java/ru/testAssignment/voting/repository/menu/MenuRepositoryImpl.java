@@ -7,6 +7,8 @@ import ru.testAssignment.voting.model.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -19,14 +21,14 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     @Transactional
     public Menu save(Menu menu, int restaurantId, int userId) {
-        User user = em.getReference( User.class, userId);
-        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
-            if (!menu.isNew() && get(menu.getId()) == null) return null;
-
-            menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
-            return em.merge(menu);
+        User user = em.getReference(User.class, userId);
+        if (!user.getRoles().contains(Role.ROLE_ADMIN) || !menu.isNew() && get(menu.getId()) == null) return null;
+        menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
+        if (menu.isNew()) {
+            em.persist(menu);
+            return menu;
         }
-        return null;
+        return em.merge(menu);
     }
 
     @Override
@@ -56,20 +58,8 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     public List<Menu> getByDate(LocalDate dateTime) {
         return em.createNamedQuery(Menu.All_BY_DATE, Menu.class)
-                .setParameter("dateTime", dateTime)
+                .setParameter("dateTimeMin", LocalDateTime.of(dateTime, LocalTime.MIN))
+                .setParameter("dateTimeMax", LocalDateTime.of(dateTime, LocalTime.MAX))
                 .getResultList();
-    }
-
-    @Override
-    public List<Menu> getRestaurantByDate(LocalDate dateTime, int restaurantId) {
-        return em.createNamedQuery(Menu.All_BY_DATE, Menu.class)
-                .setParameter("dateTime", dateTime)
-                .setParameter("restaurantId", restaurantId)
-                .getResultList();
-    }
-
-    @Override
-    public Menu getWithRestaurant(int id) {
-        return null;
     }
 }

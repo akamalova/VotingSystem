@@ -3,8 +3,13 @@ package ru.testAssignment.voting.util;
 
 import ru.testAssignment.voting.model.AbstractBaseEntity;
 import ru.testAssignment.voting.util.exception.NotFoundException;
+import ru.testAssignment.voting.util.exception.TimesUpException;
+
+import java.time.LocalTime;
 
 public class ValidationUtil {
+
+    public static final LocalTime timeLimit = LocalTime.of(11,0,0);
 
     private ValidationUtil() {
     }
@@ -52,5 +57,9 @@ public class ValidationUtil {
             result = cause;
         }
         return result;
+    }
+
+    public static void checkTime(LocalTime time) {
+        if (!time.isBefore(timeLimit)) throw new TimesUpException();
     }
 }

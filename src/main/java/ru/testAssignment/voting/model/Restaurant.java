@@ -4,14 +4,17 @@ package ru.testAssignment.voting.model;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import java.util.List;
 
+@SuppressWarnings("JpaQlInspection")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT m FROM Restaurant m ORDER BY m.name desc"),
         @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant m WHERE m.id=:id")
+
 })
 @Entity
 @Table(name = "restaurants")
@@ -20,8 +23,10 @@ public class Restaurant extends AbstractNamedEntity{
     public static final String ALL_SORTED = "Restaurant.getAll";
     public static final String DELETE = "Restaurant.delete";
 
+
     @Column(name = "description")
-    @NotNull
+    @NotBlank
+    @Size(min = 5, max = 120)
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")

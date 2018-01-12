@@ -21,14 +21,16 @@ public class DishRepositoryImpl implements DishRepository {
     @Override
     @Transactional
     public Dish save(Dish dish, int menuId, int userId) {
-        User user = em.getReference( User.class, userId);
-        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
-            if (!dish.isNew() && get(dish.getId(), menuId) == null) return null;
+        User user = em.getReference(User.class, userId);
 
-            dish.setMenu(em.getReference(Menu.class, menuId));
-            return em.merge(dish);
+        if (!user.getRoles().contains(Role.ROLE_ADMIN) || !dish.isNew() && get(dish.getId(), menuId) == null)
+            return null;
+        dish.setMenu(em.getReference(Menu.class, menuId));
+        if (dish.isNew()) {
+            em.persist(dish);
+            return dish;
         }
-        return null;
+        return em.merge(dish);
     }
 
     @Override
@@ -55,10 +57,5 @@ public class DishRepositoryImpl implements DishRepository {
         return em.createNamedQuery(Dish.ALL, Dish.class)
                 .setParameter("menuId", menuId)
                 .getResultList();
-    }
-
-    @Override
-    public Dish getWithMenu(int id) {
-        return null;
     }
 }

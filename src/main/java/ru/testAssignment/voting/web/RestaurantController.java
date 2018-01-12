@@ -2,11 +2,14 @@ package ru.testAssignment.voting.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.service.RestaurantService;
 
+import java.net.URI;
 import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
@@ -38,11 +41,17 @@ public class RestaurantController {
         return service.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant create(@RequestBody Restaurant restaurant) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
         int userId = AuthorizedUser.id();
         checkNew(restaurant);
-        return service.create(restaurant, userId);
+        Restaurant created = service.create(restaurant, userId);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
