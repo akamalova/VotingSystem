@@ -58,7 +58,7 @@ public class MenuServiceTest extends AbstractServiceTest{
 
     @Test
     public void get() throws Exception {
-        Menu actual = service.get(MENU_ID);
+        Menu actual = service.get(MENU_ID, RESTAURANT_ID);
         assertMatch(actual, MENU1);
     }
 

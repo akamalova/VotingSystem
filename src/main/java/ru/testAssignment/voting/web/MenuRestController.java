@@ -11,6 +11,7 @@ import ru.testAssignment.voting.service.MenuService;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
@@ -21,12 +22,13 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 public class MenuRestController {
     public static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/menu";
 
+
     @Autowired
-    MenuService service;
+    private MenuService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Menu get(@PathVariable("id") int id){
-        return service.get(id);
+    public Menu get(@PathVariable("id") int id, @PathVariable int restaurantId){
+        return service.get(id, restaurantId);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -39,12 +41,6 @@ public class MenuRestController {
         return service.getAll(restaurantId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Menu create(@RequestBody Menu menu, @PathVariable int restaurantId){
-        checkNew(menu);
-        return service.create(menu, restaurantId, AuthorizedUser.id());
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
         checkNew(menu);
@@ -52,20 +48,20 @@ public class MenuRestController {
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
+                .buildAndExpand(restaurantId, created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);
         return service.update(menu, restaurantId, AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/getByDate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getbyDate(LocalDate date){
-        return service.getByDate(date);
+    @RequestMapping(value = "/date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getbyDate(@RequestParam(value = "dateTime", required = false)LocalDate dateTime, @PathVariable int restaurantId){
+        return new ArrayList<>(service.getByDate(dateTime));
     }
 }
 

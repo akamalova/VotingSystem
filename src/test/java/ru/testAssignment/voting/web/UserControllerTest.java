@@ -97,7 +97,7 @@ public class UserControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void getByDate() throws Exception {
+    public void testGetByDate() throws Exception {
         mockMvc.perform(get(REST_URL + "date")
                 .param("dateTime", "2014-05-30"))
                 .andExpect(status().isOk())

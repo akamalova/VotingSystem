@@ -1,28 +1,82 @@
 package ru.testAssignment.voting.web;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import ru.testAssignment.voting.TestUtil;
+import ru.testAssignment.voting.model.Dish;
+import ru.testAssignment.voting.service.DishService;
+import ru.testAssignment.voting.web.json.JsonUtil;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.testAssignment.voting.DishTestData.*;
+import static ru.testAssignment.voting.MenuTestData.MENU_ID;
+import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
+import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
 
-public class DishRestControllerTest {
+public class DishRestControllerTest extends AbstractControllerTest{
+
+    @Autowired
+    private DishService service;
+
+    private static final String REST_URL = DishRestController.REST_URL + '/';
+
     @Test
-    public void get() throws Exception {
+    public void testGet() throws Exception {
+        mockMvc.perform(get(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID))
+                .andExpect(status().isOk())
+                .andDo(print())
+                // https://jira.spring.io/browse/SPR-14472
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJsonDish(DISH1));
     }
 
     @Test
-    public void delete() throws Exception {
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID))
+                .andDo(print())
+                .andExpect(status().isOk());
+        assertMatch(service.getAll(MENU_ID), DISH2);
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void testGetAll() throws Exception {
+        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID, MENU_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJsonDish(DISH1, DISH2)));
     }
 
     @Test
-    public void update() throws Exception {
+    public void testUpdate() throws Exception {
+        Dish updated = getUpdatedDish();
+        mockMvc.perform(put(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isOk());
+
+        assertMatch(service.get(DISH_ID, MENU_ID), updated);
     }
 
     @Test
-    public void create() throws Exception {
+    public void testCreate() throws Exception {
+        Dish expected = getCreatedDish();
+        ResultActions action = mockMvc.perform(post(REST_URL, RESTAURANT_ID, MENU_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(expected)))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        Dish returned = TestUtil.readFromJson(action, Dish.class);
+        expected.setId(returned.getId());
+
+        assertMatch(returned, expected);
+        assertMatch(service.getAll(MENU_ID), DISH1, DISH2, expected);
     }
 
 }

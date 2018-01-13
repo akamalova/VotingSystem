@@ -31,8 +31,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id){
-        int userId = AuthorizedUser.id();
-        service.delete(id, userId);
+        service.delete(id, AuthorizedUser.id());
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,9 +42,8 @@ public class RestaurantController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
-        int userId = AuthorizedUser.id();
         checkNew(restaurant);
-        Restaurant created = service.create(restaurant, userId);
+        Restaurant created = service.create(restaurant, AuthorizedUser.id());
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -56,9 +54,8 @@ public class RestaurantController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
-        int userId = AuthorizedUser.id();
         assureIdConsistent(restaurant, id);
-        service.update(restaurant, userId);
+        service.update(restaurant, AuthorizedUser.id());
     }
 
 }

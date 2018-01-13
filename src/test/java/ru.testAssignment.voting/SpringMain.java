@@ -18,9 +18,9 @@ public class SpringMain {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             DishRestController controller = appCtx.getBean(DishRestController.class);
 
-            controller.create(new Dish("Name", 15.00), 100008);
+            /*controller.create(new Dish("Name", 15.00), 100008);*/
 
-            List<Dish> restaurantList = controller.getAll(100008);
+            List<Dish> restaurantList = controller.getAll(100008, 100003);
             restaurantList.forEach(System.out::println);
 
 

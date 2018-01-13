@@ -34,15 +34,16 @@ public class DishServiceTest extends AbstractServiceTest{
     @Test
     public void create() throws Exception {
         Dish created = getCreatedDish();
-        if (service.create(created, MENU_ID, ADMIN_ID) == null) throw new NotFoundException("Not found");
+        service.create(created, MENU_ID, ADMIN_ID);
         assertMatch(service.getAll(MENU_ID), DISH1, DISH2, created);
     }
 
     @Test
     public void notFoundCreate() throws Exception {
-        thrown.expect(NotFoundException.class);
+        thrown.expect(AssertionError.class);
         Dish created = getCreatedDish();
-        if (service.create(created, MENU_ID, USER_ID) == null) throw new NotFoundException("Not found");
+        service.create(created, MENU_ID, USER_ID);
+        assertMatch(service.getAll(MENU_ID), DISH1, DISH2, created);
     }
 
     @Test

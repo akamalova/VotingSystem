@@ -2,7 +2,6 @@ package ru.testAssignment.voting.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Vote;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 import ru.testAssignment.voting.util.exception.TimesUpException;
@@ -21,22 +20,22 @@ public class VoteServiceTest extends AbstractServiceTest{
     @Test
     public void update() throws Exception {
         Vote updated = getUpdatedVote();
-        service.update(updated, USER_ID, LocalTime.of(10,5,15));
-        assertMatch(service.get(VOTE_ID, USER_ID), updated);
+        service.update(updated, ADMIN_ID, LocalTime.of(10,5,15));
+        assertMatch(service.get(VOTE_ID, ADMIN_ID), updated);
     }
 
     @Test
     public void updateNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
         thrown.expectMessage("Not found entity with id=" + VOTE_ID);
-        service.update(VOTE1, ADMIN_ID, LocalTime.of(10,5,15));
+        service.update(VOTE6, USER_ID, LocalTime.of(10,5,15));
     }
 
     @Test
     public void updateTimesUp() throws Exception {
         thrown.expect(TimesUpException.class);
         thrown.expectMessage("You are already voted today!");
-        service.update(VOTE1, USER_ID, LocalTime.of(11,0,0));
+        service.update(VOTE1, ADMIN_ID, LocalTime.of(11,0,0));
     }
 
     @Test
@@ -57,13 +56,13 @@ public class VoteServiceTest extends AbstractServiceTest{
     @Test
     public void getNotFound() throws Exception {
         thrown.expect(NotFoundException.class);
-        service.get(VOTE_ID, ADMIN_ID);
+        service.get(VOTE_ID, USER_ID);
     }
 
     @Test
     public void get() throws Exception {
-        Vote actual = service.get(VOTE_ID, AuthorizedUser.id());
-        assertMatch(actual, VOTE1);
+        Vote actual = service.get(VOTE_ID, ADMIN_ID);
+        assertMatch(actual, VOTE6);
     }
 
     @Test
@@ -78,8 +77,8 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void delete() throws Exception {
-        service.delete(VOTE_ID, USER_ID);
-        assertMatch(service.getAll(USER_ID), VOTE2);
+        service.delete(VOTE_ID, ADMIN_ID);
+        assertMatch(service.getAll(ADMIN_ID), VOTE7, VOTE8);
     }
 
     @Test

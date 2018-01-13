@@ -1,5 +1,6 @@
 package ru.testAssignment.voting;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.testAssignment.voting.model.Restaurant;
 
 import java.time.LocalDateTime;
@@ -7,7 +8,9 @@ import java.time.Month;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static ru.testAssignment.voting.model.AbstractBaseEntity.START_SEQ;
+import static ru.testAssignment.voting.web.json.JsonUtil.writeIgnoreProps;
 
 public class RestaurantTestData {
 
@@ -39,5 +42,13 @@ public class RestaurantTestData {
 
     public static void assertMatch(Iterable<Restaurant> actual, Iterable<Restaurant> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("menu").isEqualTo(expected);
+    }
+
+    public static ResultMatcher contentJsonRestaurant(Restaurant... expected) {
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "menu"));
+    }
+
+    public static ResultMatcher contentJsonRestaurant(Restaurant expected) {
+        return content().json(writeIgnoreProps(expected, "menu"));
     }
 }

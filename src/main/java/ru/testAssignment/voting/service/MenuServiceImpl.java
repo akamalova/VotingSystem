@@ -38,8 +38,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Menu get(int id) throws NotFoundException {
-        return checkNotFoundWithId(repository.get(id), id);
+    public Menu get(int id, int restaurantId) throws NotFoundException {
+        return checkNotFoundWithId(repository.get(id, restaurantId), id);
     }
 
     @Override

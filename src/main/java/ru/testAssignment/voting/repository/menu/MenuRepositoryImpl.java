@@ -22,7 +22,7 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Transactional
     public Menu save(Menu menu, int restaurantId, int userId) {
         User user = em.getReference(User.class, userId);
-        if (!user.getRoles().contains(Role.ROLE_ADMIN) || !menu.isNew() && get(menu.getId()) == null) return null;
+        if (!user.getRoles().contains(Role.ROLE_ADMIN) || !menu.isNew() && get(menu.getId(), restaurantId) == null) return null;
         menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (menu.isNew()) {
             em.persist(menu);
@@ -44,8 +44,10 @@ public class MenuRepositoryImpl implements MenuRepository {
     }
 
     @Override
-    public Menu get(int id) {
-        return  em.find(Menu.class, id);
+    public Menu get(int id, int restaurantId) {
+
+        Menu menu = em.find(Menu.class, id);
+        return  menu != null && menu.getRestaurant().getId() == restaurantId? menu : null;
     }
 
     @Override

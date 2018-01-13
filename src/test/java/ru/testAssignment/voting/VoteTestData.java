@@ -14,14 +14,16 @@ import static ru.testAssignment.voting.model.AbstractBaseEntity.START_SEQ;
 import static ru.testAssignment.voting.web.json.JsonUtil.writeIgnoreProps;
 
 public class VoteTestData {
-    public static final int VOTE_ID = START_SEQ + 24;
+    public static final int VOTE_ID = START_SEQ + 29;
 
-    public static final Vote VOTE1 = new Vote(VOTE_ID, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
-    public static final Vote VOTE2 = new Vote(VOTE_ID + 1, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 2);
-    public static final Vote VOTE3 = new Vote(VOTE_ID + 2, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
-    public static final Vote VOTE4 = new Vote(VOTE_ID + 3, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 1);
-    public static final Vote VOTE5 = new Vote(VOTE_ID + 4, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 3);
-    public static final Vote VOTE6 = new Vote(VOTE_ID + 5, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID + 1);
+    public static final Vote VOTE1 = new Vote(VOTE_ID - 5, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
+    public static final Vote VOTE2 = new Vote(VOTE_ID - 4, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 2);
+    public static final Vote VOTE3 = new Vote(VOTE_ID - 3, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
+    public static final Vote VOTE4 = new Vote(VOTE_ID - 2, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 1);
+    public static final Vote VOTE5 = new Vote(VOTE_ID - 1, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 3);
+    public static final Vote VOTE6 = new Vote(VOTE_ID, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID + 1);
+    public static final Vote VOTE7 = new Vote(VOTE_ID + 1, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID);
+    public static final Vote VOTE8 = new Vote(VOTE_ID + 2, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 4);
 
     public static final List<Vote> VOTES = Arrays.asList(VOTE6, VOTE5, VOTE4, VOTE3, VOTE2, VOTE1);
 
@@ -46,11 +48,11 @@ public class VoteTestData {
         assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
     }
 
-    public static ResultMatcher contentJson(Vote... expected) {
+    public static ResultMatcher contentJsonVote(Vote... expected) {
         return content().json(writeIgnoreProps(Arrays.asList(expected), "user"));
     }
 
-    public static ResultMatcher contentJson(Vote expected) {
+    public static ResultMatcher contentJsonVote(Vote expected) {
         return content().json(writeIgnoreProps(expected, "user"));
     }
 }

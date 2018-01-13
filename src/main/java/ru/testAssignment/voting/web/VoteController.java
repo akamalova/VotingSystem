@@ -51,23 +51,24 @@ public class VoteController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Vote get(@PathVariable("id")int id){
-        int userId = AuthorizedUser.id();
-        return service.get(id, userId);
+
+        return service.get(id, AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll(){
-        int userId = AuthorizedUser.id();
-        return service.getAll(userId);
+        return service.getAll(AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/getByDate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Vote> getbyDate(LocalDate date){
-        return service.getByDate(date);
+    @RequestMapping(value = "/date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Vote> getbyDate(
+            @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+        return service.getByDate(dateTime);
     }
 
     @RequestMapping(value = "/notVoted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getNotVoted(@PathVariable LocalDate date){
-        return service.getVoted(date);
+    public List<User> getVotedUsers(
+            @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+        return service.getVoted(dateTime);
     }
 }

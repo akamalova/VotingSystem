@@ -32,11 +32,11 @@ public class UserTestData {
     }
 
     public static ResultMatcher contentJson(User... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "registered"));
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "registered", "votes"));
     }
 
     public static ResultMatcher contentJson(User expected) {
-        return content().json(writeIgnoreProps(expected, "registered"));
+        return content().json(writeIgnoreProps(expected, "registered", "votes"));
     }
 
 }

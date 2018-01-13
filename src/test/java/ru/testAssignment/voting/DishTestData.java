@@ -1,11 +1,14 @@
 package ru.testAssignment.voting;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.testAssignment.voting.model.Dish;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static ru.testAssignment.voting.model.AbstractBaseEntity.START_SEQ;
+import static ru.testAssignment.voting.web.json.JsonUtil.writeIgnoreProps;
 
 public class DishTestData {
 
@@ -33,5 +36,13 @@ public class DishTestData {
 
     public static void assertMatch(Iterable<Dish> actual, Iterable<Dish> expected) {
         assertThat(actual).usingElementComparatorIgnoringFields("menu").isEqualTo(expected);
+    }
+
+    public static ResultMatcher contentJsonDish(Dish... expected) {
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "menu"));
+    }
+
+    public static ResultMatcher contentJsonDish(Dish expected) {
+        return content().json(writeIgnoreProps(expected, "menu"));
     }
 }

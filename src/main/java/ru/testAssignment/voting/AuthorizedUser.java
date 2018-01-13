@@ -3,7 +3,7 @@ package ru.testAssignment.voting;
 import ru.testAssignment.voting.model.AbstractBaseEntity;
 
 public class AuthorizedUser {
-    private static int id = AbstractBaseEntity.START_SEQ;
+    private static int id = AbstractBaseEntity.START_SEQ + 2;
 
     public static int id() {
         return id;
