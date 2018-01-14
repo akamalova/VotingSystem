@@ -22,4 +22,6 @@ public interface VoteService {
     List<Vote> getByDate(LocalDate date);
 
     List<User> getVoted(LocalDate date) ;
+
+    Integer voteId(LocalDate date, int userId);
 }

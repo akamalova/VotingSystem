@@ -75,4 +75,14 @@ public class VoteRepositoryImpl implements VoteRepository {
                 .map(Vote::getUser)
                 .collect(toList());
     }
+
+    @Override
+    public Integer voteId(LocalDate date, int userId) {
+        List<Vote> votes = em.createNamedQuery(Vote.GET_VOTES_BY_DATE_TO_USER, Vote.class)
+                .setParameter("dateTimeMin", LocalDateTime.of(date, LocalTime.MIN))
+                .setParameter("dateTimeMax", LocalDateTime.of(date, LocalTime.MAX))
+                .setParameter("userId", userId)
+                .getResultList();
+        return votes.isEmpty()? null : votes.get(0).getId();
+    }
 }

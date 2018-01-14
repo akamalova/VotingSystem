@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 
 import java.util.List;
 
-@SuppressWarnings("JpaQlInspection")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT m FROM Restaurant m ORDER BY m.name desc"),
@@ -17,7 +16,7 @@ import java.util.List;
 
 })
 @Entity
-@Table(name = "restaurants")
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
 public class Restaurant extends AbstractNamedEntity{
 
     public static final String ALL_SORTED = "Restaurant.getAll";

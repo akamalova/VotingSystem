@@ -19,7 +19,7 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 @RequestMapping(RestaurantController.REST_URL)
 public class RestaurantController {
 
-    public static final String REST_URL = "/rest/admin/restaurants";
+    public static final String REST_URL = "/votingSystem/rest/admin/restaurants";
 
     @Autowired
     private RestaurantService service;

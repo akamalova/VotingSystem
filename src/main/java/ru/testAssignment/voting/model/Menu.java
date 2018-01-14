@@ -16,7 +16,7 @@ import java.util.List;
         @NamedQuery(name = Menu.DELETE, query = "DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
 })
 @Entity
-@Table(name = "Menu")
+@Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date_time"}, name = "menu_unique_restaurant_id_idx")})
 public class Menu extends AbstractBaseEntity {
 
     public static final String ALL = "Menu.getAll";
@@ -40,14 +40,13 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private LocalDateTime dateTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
-    @NotNull
     private List<Dish> dishes;
 
     public List<Dish> getMenu() {

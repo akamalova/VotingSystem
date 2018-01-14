@@ -60,4 +60,10 @@ public class VoteServiceImpl implements VoteService {
         Assert.notNull(date, "date must not be null");
         return checkNotFound(repository.getVotedUsers(date), "date=" + date);
     }
+
+    @Override
+    public Integer voteId(LocalDate date, int userId) {
+        Assert.notNull(date, "date must not be null");
+        return repository.voteId(date, userId);
+    }
 }

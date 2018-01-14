@@ -23,7 +23,7 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(UserController.REST_URL)
 public class UserController {
-    public static final String REST_URL = "/rest/admin/users";
+    public static final String REST_URL = "/votingSystem/rest/admin/users";
 
     @Autowired
     private UserService service;

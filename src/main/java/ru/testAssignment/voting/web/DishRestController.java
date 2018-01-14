@@ -18,7 +18,7 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(DishRestController.REST_URL)
 public class DishRestController {
-    public static final String REST_URL = "/rest/admin/restaurants/{restaurantId}/menu/{menuId}/dishes";
+    public static final String REST_URL = "/votingSystem/rest/admin/restaurants/{restaurantId}/menu/{menuId}/dishes";
 
     @Autowired
     private DishService service;

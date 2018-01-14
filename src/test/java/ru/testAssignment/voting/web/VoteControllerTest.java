@@ -107,7 +107,7 @@ public class VoteControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetVotedUsers() throws Exception {
-        mockMvc.perform(get(REST_URL + "notVoted")
+        mockMvc.perform(get(REST_URL + "voted")
                 .param("dateTime", "2015-05-28"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

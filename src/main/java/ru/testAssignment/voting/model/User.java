@@ -57,7 +57,6 @@ public class User extends AbstractNamedEntity{
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @NotNull
     private List<Vote> votes;
 
     public User(){}

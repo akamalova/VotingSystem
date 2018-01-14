@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish m WHERE m.id=:id AND m.menu.id=:menuId")
 })
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "name"}, name = "menu_dishes_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"menu_id", "name"}, name = "dishes_unique_menu_id_idx")})
 public class Dish extends AbstractNamedEntity{
 
     public static final String ALL = "Dish.getAll";

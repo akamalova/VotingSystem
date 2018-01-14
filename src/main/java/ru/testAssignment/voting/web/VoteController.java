@@ -21,7 +21,7 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(VoteController.REST_URL)
 public class VoteController {
-    public static final String REST_URL = "/rest/admin/votes";
+    public static final String REST_URL = "/votingSystem/rest/admin/votes";
 
     @Autowired
     VoteService service;
@@ -33,15 +33,16 @@ public class VoteController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createWithLocation(@RequestBody Vote vote) {
-        checkNew(vote);
-        Vote created = service.create(vote, AuthorizedUser.id(), LocalTime.now());
+    public ResponseEntity<Vote> createUpdateWithLocation(@RequestBody Vote vote) {
+        Integer voteId = service.voteId(LocalDate.now(), AuthorizedUser.id());
+
+        Vote enabled = voteId == null ? service.create(vote, AuthorizedUser.id(), LocalTime.now()) : update(vote, voteId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
+                .buildAndExpand(enabled.getId()).toUri();
 
-        return ResponseEntity.created(uriOfNewResource).body(created);
+        return ResponseEntity.created(uriOfNewResource).body(enabled);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -66,7 +67,7 @@ public class VoteController {
         return service.getByDate(dateTime);
     }
 
-    @RequestMapping(value = "/notVoted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/voted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getVotedUsers(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
         return service.getVoted(dateTime);

@@ -19,5 +19,7 @@ public interface VoteRepository {
 
     List<Vote> getByDate(LocalDate date);
 
-    List<User> getVotedUsers(LocalDate date) ;
+    Integer voteId(LocalDate date, int userId);
+
+    List<User> getVotedUsers(LocalDate date);
 }

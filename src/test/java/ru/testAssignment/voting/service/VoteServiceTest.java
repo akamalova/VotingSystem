@@ -34,7 +34,7 @@ public class VoteServiceTest extends AbstractServiceTest{
     @Test
     public void updateTimesUp() throws Exception {
         thrown.expect(TimesUpException.class);
-        thrown.expectMessage("You are already voted today!");
+        thrown.expectMessage("Late to voted today!");
         service.update(VOTE1, ADMIN_ID, LocalTime.of(11,0,0));
     }
 
@@ -48,7 +48,7 @@ public class VoteServiceTest extends AbstractServiceTest{
     @Test
     public void createTimesUp() throws Exception {
         thrown.expect(TimesUpException.class);
-        thrown.expectMessage("You are already voted today!");
+        thrown.expectMessage("Late to voted today!");
         Vote created = getCreatedVote();
         service.create(created, USER_ID, LocalTime.of(11,5,15));
     }
