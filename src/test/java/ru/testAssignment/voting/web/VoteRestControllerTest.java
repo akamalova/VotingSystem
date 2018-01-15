@@ -12,17 +12,19 @@ import ru.testAssignment.voting.util.ValidationUtil;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.VoteTestData.*;
 import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
 
-public class VoteControllerTest extends AbstractControllerTest{
+public class VoteRestControllerTest extends AbstractControllerTest{
 
     private static final String REST_URL = VoteController.REST_URL + '/';
     private static boolean timeBan = !LocalTime.now().isBefore(TIME_LIMIT);
@@ -69,6 +71,33 @@ public class VoteControllerTest extends AbstractControllerTest{
                     .andExpect(status().isCreated());
         } else throw new NestedServletException("");
 
+    }
+
+    @Test
+    public void testCreateChangeToUpdate() throws Exception{
+        if (timeBan) ValidationUtil.setTest(true);                       // if the vote to the current date already exist, it will be updated
+        Vote expected = getCreatedVote();
+        ResultActions action = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isCreated());
+
+
+        service.getAll(ADMIN_ID).forEach(System.out::println);
+
+        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_ID + 4);
+
+        ResultActions actionCreateToUpdate = mockMvc.perform(post(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newVote)))
+                .andExpect(status().isCreated());
+
+        Vote newReturned = TestUtil.readFromJson(actionCreateToUpdate, Vote.class);
+        newVote.setId(newReturned.getId());
+
+        service.getAll(ADMIN_ID).forEach(System.out::println);
+        assertMatch(newReturned, newVote);
+        assertMatch(service.getAll(ADMIN_ID), newVote, VOTE6, VOTE7, VOTE8);
     }
 
     @Test

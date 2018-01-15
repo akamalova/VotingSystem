@@ -17,7 +17,7 @@ public class MenuTestData {
     public static final Menu MENU2 = new Menu(MENU_ID + 1, LocalDateTime.of(2015,05,30,10,00,00));
 
     public static Menu getCreatedMenu(){
-        return new Menu(null, LocalDateTime.of(2017,05,30,10,00, 00));
+        return new Menu(null, LocalDateTime.of(2017,04,30,10,00, 00));
     }
 
     public static Menu getUpdatedMenu() {
@@ -41,7 +41,7 @@ public class MenuTestData {
         return content().json(writeIgnoreProps(Arrays.asList(expected), "dishes"));
     }
 
-    public static ResultMatcher contentJsonMenu(Menu expected) {
+    public static ResultMatcher contentJsonMenuOb(Menu expected) {
         return content().json(writeIgnoreProps(expected, "dishes"));
     }
 }

@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.testAssignment.voting.RestaurantTestData.*;
 import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
 
-public class RestaurantControllerTest extends AbstractControllerTest{
+public class RestaurantRestControllerTest extends AbstractControllerTest{
 
     @Autowired
     private RestaurantService service;

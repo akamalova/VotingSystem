@@ -3,6 +3,7 @@ package ru.testAssignment.voting.model;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -17,7 +18,7 @@ import java.util.List;
 })
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
-public class Restaurant extends AbstractNamedEntity{
+public class Restaurant extends AbstractNamedEntity {
 
     public static final String ALL_SORTED = "Restaurant.getAll";
     public static final String DELETE = "Restaurant.delete";
@@ -40,8 +41,8 @@ public class Restaurant extends AbstractNamedEntity{
         this.description = description;
     }
 
-    public Restaurant(String name, String description){
-        this(null, name,description);
+    public Restaurant(String name, String description) {
+        this(null, name, description);
     }
 
     public String getDescription() {
@@ -51,6 +52,7 @@ public class Restaurant extends AbstractNamedEntity{
     public void setDescription(String description) {
         this.description = description;
     }
+
     public List<Menu> getMenu() {
         return menu;
     }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
+import javax.validation.ConstraintViolationException;
+
 import static ru.testAssignment.voting.DishTestData.*;
 import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
@@ -68,9 +70,4 @@ public class DishServiceTest extends AbstractServiceTest{
     public void getAll() throws Exception {
         assertMatch(service.getAll(MENU_ID), DISH1, DISH2);
     }
-
-    /*@Test
-    public void getWithMenu() throws Exception {
-        System.out.println(service.getWithMenu(DISH_ID));
-    }*/
 }

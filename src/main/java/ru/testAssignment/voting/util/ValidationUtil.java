@@ -11,7 +11,7 @@ public class ValidationUtil {
 
     private static boolean isTest = false;
 
-    public static void setTest(boolean test) { isTest = test; }                   //only for tests, delete after testing
+    public static void setTest(boolean test) { isTest = test; }                                          //only for tests
 
     public static final LocalTime TIME_LIMIT = LocalTime.of(11,0,0);
 
@@ -52,17 +52,6 @@ public class ValidationUtil {
         } else if (entity.getId() != id) {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
-    }
-
-    //  http://stackoverflow.com/a/28565320/548473
-    public static Throwable getRootCause(Throwable t) {
-        Throwable result = t;
-        Throwable cause;
-
-        while (null != (cause = result.getCause()) && (result != cause)) {
-            result = cause;
-        }
-        return result;
     }
 
     public static void checkTime(LocalTime time) {

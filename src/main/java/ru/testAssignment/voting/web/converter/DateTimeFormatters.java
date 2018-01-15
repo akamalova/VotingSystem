@@ -11,10 +11,6 @@ import java.util.Locale;
 import static ru.testAssignment.voting.util.DateTimeUtil.parseLocalDate;
 import static ru.testAssignment.voting.util.DateTimeUtil.parseLocalTime;
 
-/**
- * gkislin
- * 25.10.2016
- */
 public class DateTimeFormatters {
     public static class LocalDateFormatter implements Formatter<LocalDate> {
 

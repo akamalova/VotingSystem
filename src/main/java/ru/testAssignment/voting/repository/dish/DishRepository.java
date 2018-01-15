@@ -13,8 +13,4 @@ public interface DishRepository {
     Dish get(int id, int menuId);
 
     List<Dish> getAll(int menuId);
-
-    default Dish getWithMenu(int id) {
-        throw new UnsupportedOperationException();
-    }
 }

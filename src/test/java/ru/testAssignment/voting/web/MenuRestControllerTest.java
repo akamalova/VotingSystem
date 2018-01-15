@@ -33,7 +33,7 @@ public class MenuRestControllerTest extends AbstractControllerTest{
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonMenu(MENU1));
+                .andExpect(contentJsonMenuOb(MENU1));
     }
 
     @Test
@@ -81,12 +81,12 @@ public class MenuRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetByDate() throws Exception {
-        Menu[] actual = new Menu[]{MENU1};
+
         mockMvc.perform(get(REST_URL + "date", RESTAURANT_ID)
                 .param("dateTime", "2017-05-30"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonMenu(actual));
+                .andExpect(contentJsonMenu(MENU1));
     }
 
 }

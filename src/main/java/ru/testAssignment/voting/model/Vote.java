@@ -30,7 +30,6 @@ public class Vote extends AbstractBaseEntity{
     @NotNull
     private int restaurantId;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.UserTestData.*;
 
-public class UserControllerTest extends AbstractControllerTest{
+public class UserRestControllerTest extends AbstractControllerTest{
 
     private static final String REST_URL = UserController.REST_URL + '/';
 

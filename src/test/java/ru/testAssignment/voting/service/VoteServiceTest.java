@@ -72,7 +72,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void getByDate() throws Exception {
-        assertMatch(service.getByDate(LocalDate.of(2015,5,30)), VOTE1, VOTE3, VOTE6);
+        assertMatch(service.getByDate(LocalDate.of(2015,5,30)), VOTE6, VOTE3, VOTE1);
     }
 
     @Test
@@ -89,7 +89,13 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void getVotedUsers() throws Exception {
-        assertMatch(service.getVoted(LocalDate.of(2015,5,28)), USER2, ADMIN);
+        assertMatch(service.getVoted(LocalDate.of(2015,5,28)), ADMIN, USER2);
+    }
+
+    @Test
+    public void voteId() throws Exception{
+       if(!service.voteId(LocalDate.of(2015,5,30), ADMIN_ID).equals(VOTE_ID)) throw new Exception();
+       if(service.voteId(LocalDate.of(2015,5,31), ADMIN_ID)!= null) throw new Exception();
     }
 
 }

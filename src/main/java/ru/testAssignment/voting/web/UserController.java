@@ -1,5 +1,7 @@
 package ru.testAssignment.voting.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -24,22 +26,26 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 @RequestMapping(UserController.REST_URL)
 public class UserController {
     public static final String REST_URL = "/votingSystem/rest/admin/users";
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserService service;
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
+        log.info("getAll");
         return service.getAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get(@PathVariable("id") int id) {
+        log.info("get {}", id);
         return service.get(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createWithLocation(@RequestBody User user) {
+        log.info("create {}", user);
         checkNew(user);
         User created = service.create(user);
 
@@ -52,23 +58,27 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("id") int id) {
+        log.info("delete {}", id);
         service.delete(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody User user, @PathVariable("id") int id) {
+        log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         service.update(user);
     }
 
     @RequestMapping(value = "/by", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User getByEmail(@RequestParam("email") String email) {
+        log.info("getByEmail {}", email);
         return service.getByEmail(email);
     }
 
     @RequestMapping(value = "/date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getByDate(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+        log.info("getByDate {}", dateTime);
         return service.getByDate(dateTime);
     }
 }
