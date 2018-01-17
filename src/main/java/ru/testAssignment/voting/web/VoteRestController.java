@@ -19,11 +19,10 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
-import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(VoteController.REST_URL)
-public class VoteController {
+@RequestMapping(VoteRestController.REST_URL)
+public class VoteRestController {
     public static final String REST_URL = "/votingSystem/rest/admin/votes";
     private final Logger log = LoggerFactory.getLogger(getClass());
 

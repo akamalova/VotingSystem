@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.repository.user.UserRepository;
+import ru.testAssignment.voting.to.UserTo;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.updateFromTo;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNotFound;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNotFoundWithId;
 
@@ -32,6 +34,14 @@ public class UserServiseImpl implements UserService{
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.getId());
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    @Override
+    public void update(UserTo userTo) {
+
+        User user = get(userTo.getId());
+        repository.save(updateFromTo(user, userTo));
     }
 
     @CacheEvict(value = "users", allEntries = true)

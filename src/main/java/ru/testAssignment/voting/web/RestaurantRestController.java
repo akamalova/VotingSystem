@@ -19,8 +19,8 @@ import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(RestaurantController.REST_URL)
-public class RestaurantController {
+@RequestMapping(RestaurantRestController.REST_URL)
+public class RestaurantRestController {
 
     public static final String REST_URL = "/votingSystem/rest/admin/restaurants";
     private final Logger log = LoggerFactory.getLogger(getClass());

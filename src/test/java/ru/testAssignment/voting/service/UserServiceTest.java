@@ -5,24 +5,25 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
+import ru.testAssignment.voting.to.UserTo;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static ru.testAssignment.voting.UserTestData.*;
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.asTo;
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.updateFromTo;
+
+
 
 public class UserServiceTest extends AbstractServiceTest{
 
     @Autowired
     protected UserService service;
-
-    @Autowired
-    private CacheManager cacheManager;
 
     @Before
     public void setUp() throws Exception {
@@ -50,6 +51,15 @@ public class UserServiceTest extends AbstractServiceTest{
         updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
         service.update(updated);
         assertMatch(service.get(USER_ID), updated);
+    }
+
+    @Test
+    public void updateWithTo() throws Exception {
+        UserTo updatedTo = asTo(USER2);
+        updatedTo.setName("UpdatedName");
+        service.update(updatedTo);
+        User user = new User(USER2);
+        assertMatch(service.get(USER_ID + 1), updateFromTo(user, updatedTo));
     }
 
     @Test

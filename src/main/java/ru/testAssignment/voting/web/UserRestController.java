@@ -3,29 +3,28 @@ package ru.testAssignment.voting.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
+import ru.testAssignment.voting.to.UserTo;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.createNewFromTo;
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
 
 @RestController
-@RequestMapping(UserController.REST_URL)
-public class UserController {
+@RequestMapping(UserRestController.REST_URL)
+public class UserRestController {
     public static final String REST_URL = "/votingSystem/rest/admin/users";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -44,17 +43,24 @@ public class UserController {
         return service.get(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createWithLocation(@RequestBody User user) {
-        log.info("create {}", user);
-        checkNew(user);
-        User created = service.create(user);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> createOrUpdate(@RequestBody UserTo userTo) {
+        log.info("create {}", userTo);
+        if (userTo.isNew()) {
+            log.info("create {}", userTo);
+            checkNew(createNewFromTo(userTo));
+            User created = service.create(createNewFromTo(userTo));
+            URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path(REST_URL + "/{id}")
+                    .buildAndExpand(created.getId()).toUri();
+            return ResponseEntity.created(uriOfNewResource).body(created);
+        } else {
+            log.info("update {} with id={}", userTo, userTo.getId());
+            assureIdConsistent(userTo, userTo.getId());
+            service.update(userTo);
+            return new ResponseEntity <>(HttpStatus.OK);
+        }
 
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
-
-        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -64,12 +70,12 @@ public class UserController {
         service.delete(id);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody User user, @PathVariable("id") int id) {
+    /*@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@Valid UserTo userTo, @PathVariable("id") int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         service.update(user);
-    }
+    }*/
 
     @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getByEmail(@RequestParam("email") String email) {
@@ -79,7 +85,7 @@ public class UserController {
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getByDate(
-            @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+            @RequestParam(value = "dateTime", required = false) LocalDate dateTime) {
         log.info("getByDate {}", dateTime);
         return service.getByDate(dateTime);
     }

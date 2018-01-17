@@ -3,6 +3,7 @@ package ru.testAssignment.voting;
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
+import ru.testAssignment.voting.to.UserTo;
 
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;

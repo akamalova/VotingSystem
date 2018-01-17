@@ -26,7 +26,7 @@ import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
 
 public class VoteRestControllerTest extends AbstractControllerTest{
 
-    private static final String REST_URL = VoteController.REST_URL + '/';
+    private static final String REST_URL = VoteRestController.REST_URL + '/';
     private static boolean timeBan = !LocalTime.now().isBefore(TIME_LIMIT);
 
     @Autowired

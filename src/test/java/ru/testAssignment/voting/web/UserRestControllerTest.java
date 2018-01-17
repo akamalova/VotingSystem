@@ -9,6 +9,7 @@ import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
+import ru.testAssignment.voting.to.UserTo;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 import java.util.Collections;
@@ -18,10 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.UserTestData.*;
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.asTo;
+import static ru.testAssignment.voting.util.ToUtil.UserUtil.updateFromTo;
 
 public class UserRestControllerTest extends AbstractControllerTest{
 
-    private static final String REST_URL = UserController.REST_URL + '/';
+    private static final String REST_URL = UserRestController.REST_URL + '/';
 
     @Autowired
     protected UserService userService;
@@ -54,17 +57,20 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testCreate() throws Exception {
-        User expected = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER, Role.ROLE_ADMIN);
+        User user = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
+        UserTo expected = asTo(user);
+
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
                 .andExpect(status().isCreated());
 
         User returned = TestUtil.readFromJson(action, User.class);
-        expected.setId(returned.getId());
+        user.setId(returned.getId());
+        User resultExpected = updateFromTo(user, expected);
 
-        assertMatch(returned, expected);
-        assertMatch(userService.getAll(), ADMIN, USER2, expected, USER1);
+        assertMatch(returned, resultExpected);
+        assertMatch(userService.getAll(), ADMIN, USER2, resultExpected, USER1);
     }
 
     @Test
@@ -77,15 +83,17 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testUpdate() throws Exception {
-        User updated = new User(USER1);
-        updated.setName("UpdatedName");
-        updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
-        mockMvc.perform(put(REST_URL + USER_ID)
+        User user = new User(USER1);
+        user.setName("UpdatedName");
+
+        UserTo updated = asTo(user);
+        mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isOk());
 
-        assertMatch(userService.get(USER_ID), updated);
+        User resultExpected = updateFromTo(user, updated);
+        assertMatch(userService.get(USER_ID), resultExpected);
     }
 
     @Test

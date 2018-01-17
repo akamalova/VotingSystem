@@ -10,22 +10,18 @@ import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.service.RestaurantService;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
-import java.util.Collections;
-
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.RestaurantTestData.*;
-import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
 
 public class RestaurantRestControllerTest extends AbstractControllerTest{
 
     @Autowired
     private RestaurantService service;
 
-    private static final String REST_URL = RestaurantController.REST_URL + '/';
+    private static final String REST_URL = RestaurantRestController.REST_URL + '/';
 
     @Before
     public void setUp() {
