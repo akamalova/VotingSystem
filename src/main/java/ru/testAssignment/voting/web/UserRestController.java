@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.testAssignment.voting.util.ToUtil.UserUtil.createNewFromTo;
+import static ru.testAssignment.voting.util.UserUtil.createNewFromTo;
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
@@ -45,7 +45,7 @@ public class UserRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> createOrUpdate(@RequestBody UserTo userTo) {
-        log.info("create {}", userTo);
+
         if (userTo.isNew()) {
             log.info("create {}", userTo);
             checkNew(createNewFromTo(userTo));
@@ -89,4 +89,12 @@ public class UserRestController {
         log.info("getByDate {}", dateTime);
         return service.getByDate(dateTime);
     }
+
+    @PostMapping(value = "/{id}")
+    public void enable(@PathVariable("id") int id, @RequestParam("enabled") boolean enabled) {
+
+        log.info((enabled ? "enable " : "disable ") + id);
+        service.enable(id, enabled);
+    }
+
 }

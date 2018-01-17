@@ -12,15 +12,15 @@ import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
-import java.util.Collections;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.*;
-import static ru.testAssignment.voting.util.ToUtil.UserUtil.asTo;
-import static ru.testAssignment.voting.util.ToUtil.UserUtil.updateFromTo;
+import static ru.testAssignment.voting.util.UserUtil.asTo;
+import static ru.testAssignment.voting.util.UserUtil.updateFromTo;
+
 
 public class UserRestControllerTest extends AbstractControllerTest{
 
@@ -39,7 +39,9 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL))
+        TestUtil.print(mockMvc.perform(get(REST_URL)
+                .with(TestUtil.userHttpBasic(ADMIN)))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(ADMIN, USER2, USER1)));
@@ -47,7 +49,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + ADMIN_ID))
+        mockMvc.perform(get(REST_URL + ADMIN_ID)
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -62,7 +65,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected)))
+                .content(JsonUtil.writeValue(expected))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
         User returned = TestUtil.readFromJson(action, User.class);
@@ -75,7 +79,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + USER_ID))
+        mockMvc.perform(delete(REST_URL + USER_ID)
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(userService.getAll(), ADMIN, USER2);
@@ -89,7 +94,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
         UserTo updated = asTo(user);
         mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         User resultExpected = updateFromTo(user, updated);
@@ -98,7 +104,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetByEmail() throws Exception {
-        mockMvc.perform(get(REST_URL + "by?email=" + USER1.getEmail()))
+        mockMvc.perform(get(REST_URL + "by?email=" + USER1.getEmail())
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER1));
@@ -107,7 +114,8 @@ public class UserRestControllerTest extends AbstractControllerTest{
     @Test
     public void testGetByDate() throws Exception {
         mockMvc.perform(get(REST_URL + "date")
-                .param("dateTime", "2014-05-30"))
+                .param("dateTime", "2014-05-30")
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER2, ADMIN));

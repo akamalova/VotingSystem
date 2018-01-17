@@ -38,7 +38,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
         Vote updated = getUpdatedVote();
         mockMvc.perform(put(REST_URL + VOTE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         assertMatch(service.get(VOTE_ID, ADMIN_ID), updated);
@@ -50,7 +51,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
         Vote expected = getCreatedVote();
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected)))
+                .content(JsonUtil.writeValue(expected))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
         Vote returned = TestUtil.readFromJson(action, Vote.class);
@@ -67,7 +69,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
             Vote expected = getCreatedVote();
             ResultActions action = mockMvc.perform(post(REST_URL)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(JsonUtil.writeValue(expected)))
+                    .content(JsonUtil.writeValue(expected))
+                    .with(TestUtil.userHttpBasic(ADMIN)))
                     .andExpect(status().isCreated());
         } else throw new NestedServletException("");
 
@@ -79,7 +82,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
         Vote expected = getCreatedVote();
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected)))
+                .content(JsonUtil.writeValue(expected))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
 
@@ -89,7 +93,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
 
         ResultActions actionCreateToUpdate = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newVote)))
+                .content(JsonUtil.writeValue(newVote))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
         Vote newReturned = TestUtil.readFromJson(actionCreateToUpdate, Vote.class);
@@ -102,14 +107,16 @@ public class VoteRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + VOTE_ID))
+        mockMvc.perform(delete(REST_URL + VOTE_ID)
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(service.getAll(ADMIN_ID), VOTE7, VOTE8);
     }
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + VOTE_ID))
+        mockMvc.perform(get(REST_URL + VOTE_ID)
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -119,7 +126,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL))
+        TestUtil.print(mockMvc.perform(get(REST_URL)
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonVote(VOTE6, VOTE7, VOTE8)));
@@ -128,7 +136,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
     @Test
     public void testGetByDate() throws Exception {
         mockMvc.perform(get(REST_URL + "date")
-                .param("dateTime", "2015-05-30"))
+                .param("dateTime", "2015-05-30")
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonVote(VOTE1, VOTE3, VOTE6));
@@ -137,7 +146,8 @@ public class VoteRestControllerTest extends AbstractControllerTest{
     @Test
     public void testGetVotedUsers() throws Exception {
         mockMvc.perform(get(REST_URL + "voted")
-                .param("dateTime", "2015-05-28"))
+                .param("dateTime", "2015-05-28")
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER2, ADMIN));

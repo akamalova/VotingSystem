@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.util.ToUtil;
+package ru.testAssignment.voting.util;
 
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;

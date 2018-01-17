@@ -1,12 +1,10 @@
 package ru.testAssignment.voting.service;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.to.UserTo;
@@ -15,8 +13,8 @@ import ru.testAssignment.voting.util.exception.NotFoundException;
 import java.time.LocalDate;
 import java.util.Collections;
 import static ru.testAssignment.voting.UserTestData.*;
-import static ru.testAssignment.voting.util.ToUtil.UserUtil.asTo;
-import static ru.testAssignment.voting.util.ToUtil.UserUtil.updateFromTo;
+import static ru.testAssignment.voting.util.UserUtil.asTo;
+import static ru.testAssignment.voting.util.UserUtil.updateFromTo;
 
 
 
@@ -99,4 +97,13 @@ public class UserServiceTest extends AbstractServiceTest{
     public void getByDate() throws Exception {
         assertMatch(service.getByDate(LocalDate.of(2014,5,30)), USER2, ADMIN);
     }
+
+    @Test
+    public void testEnable() {
+        service.enable(USER_ID, false);
+        Assert.assertFalse(service.get(USER_ID).isEnabled());
+        service.enable(USER_ID, true);
+        Assert.assertTrue(service.get(USER_ID).isEnabled());
+    }
+
 }

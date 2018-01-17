@@ -30,20 +30,20 @@ public class MenuRestController {
     @Autowired
     private MenuService service;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Menu get(@PathVariable("id") int id, @PathVariable int restaurantId){
         log.info("get menu {} for restaurant {}", id, restaurantId);
         return service.get(id, restaurantId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id, @PathVariable int restaurantId){
         log.info("delete menu {} for restaurant {}", id, restaurantId);
         service.delete(id, restaurantId, AuthorizedUser.id());
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Menu> getAll(@PathVariable int restaurantId){
         log.info("getAll for restaurant {}", restaurantId);
         return service.getAll(restaurantId);
@@ -62,14 +62,14 @@ public class MenuRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);
         log.info("update {} for restaurant {}", menu, restaurantId);
         return service.update(menu, restaurantId, AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Menu> getbyDate(@RequestParam(value = "dateTime", required = false)LocalDate dateTime, @PathVariable int restaurantId){
         log.info("get menu by date {} for restaurant {}", dateTime, restaurantId);
         return new ArrayList<>(service.getByDate(dateTime));

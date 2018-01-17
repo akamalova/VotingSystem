@@ -17,7 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.testAssignment.voting.DishTestData.*;
 import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
+import static ru.testAssignment.voting.TestUtil.userHttpBasic;
+import static ru.testAssignment.voting.UserTestData.ADMIN;
 import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
+import static ru.testAssignment.voting.UserTestData.USER1;
 
 public class DishRestControllerTest extends AbstractControllerTest{
 
@@ -28,7 +31,8 @@ public class DishRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID))
+        mockMvc.perform(get(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -38,7 +42,8 @@ public class DishRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID))
+        mockMvc.perform(delete(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(service.getAll(MENU_ID), DISH2);
@@ -46,7 +51,8 @@ public class DishRestControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID, MENU_ID))
+        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID, MENU_ID)
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonDish(DISH1, DISH2)));
@@ -57,7 +63,8 @@ public class DishRestControllerTest extends AbstractControllerTest{
         Dish updated = getUpdatedDish();
         mockMvc.perform(put(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         assertMatch(service.get(DISH_ID, MENU_ID), updated);
@@ -68,7 +75,8 @@ public class DishRestControllerTest extends AbstractControllerTest{
         Dish expected = getCreatedDish();
         ResultActions action = mockMvc.perform(post(REST_URL, RESTAURANT_ID, MENU_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected)))
+                .content(JsonUtil.writeValue(expected))
+                .with(TestUtil.userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 

@@ -7,6 +7,7 @@ import ru.testAssignment.voting.web.DishRestController;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class SpringMain {
     public static void main(String[] args) {
 
@@ -15,10 +16,9 @@ public class SpringMain {
             appCtx.load("spring/spring-app.xml", "spring/spring-db.xml", "spring/spring-mvc.xml");
             appCtx.refresh();
 
+
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             DishRestController controller = appCtx.getBean(DishRestController.class);
-
-            /*controller.create(new Dish("Name", 15.00), 100008);*/
 
             List<Dish> restaurantList = controller.getAll(100008, 100003);
             restaurantList.forEach(System.out::println);

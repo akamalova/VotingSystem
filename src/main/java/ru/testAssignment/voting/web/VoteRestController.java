@@ -29,7 +29,7 @@ public class VoteRestController {
     @Autowired
     VoteService service;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Vote update(@RequestBody Vote vote, @PathVariable("id")int id){
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, AuthorizedUser.id());
@@ -37,7 +37,7 @@ public class VoteRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createUpdateWithLocation(@RequestBody Vote vote) {
+    public ResponseEntity<Vote> createOrUpdate(@RequestBody Vote vote) {
         log.info("create {} for user {}", vote, AuthorizedUser.id());
         Integer voteId = service.voteId(LocalDate.now(), AuthorizedUser.id());
 
@@ -50,33 +50,33 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(enabled);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id){
         log.info("delete vote {} for user {}", id, AuthorizedUser.id());
         service.delete(id, AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Vote get(@PathVariable("id")int id){
         log.info("get vote {} for user {}", id, AuthorizedUser.id());
         return service.get(id, AuthorizedUser.id());
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll(){
         log.info("getAll for user {}", AuthorizedUser.id());
         return service.getAll(AuthorizedUser.id());
     }
 
-    @RequestMapping(value = "/date", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getbyDate(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
         log.info("get votes by date {} ", dateTime);
         return service.getByDate(dateTime);
     }
 
-    @RequestMapping(value = "/voted",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/voted", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getVotedUsers(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
         log.info("get voted users by date {} ", dateTime);

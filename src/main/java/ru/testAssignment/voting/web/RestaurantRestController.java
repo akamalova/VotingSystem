@@ -28,20 +28,20 @@ public class RestaurantRestController {
     @Autowired
     private RestaurantService service;
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant get(@PathVariable("id")int id){
         log.info("get restaurant {}", id);
         return service.get(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id){
         log.info("delete restaurant {} for user {}", id);
         service.delete(id, AuthorizedUser.id());
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Restaurant> getAll() {
         log.info("getAll");
         return service.getAll();
@@ -60,7 +60,7 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         assureIdConsistent(restaurant, id);
         log.info("update {} ", restaurant);
