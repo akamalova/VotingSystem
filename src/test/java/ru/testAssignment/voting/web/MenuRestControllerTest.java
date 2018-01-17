@@ -40,7 +40,7 @@ public class MenuRestControllerTest extends AbstractControllerTest{
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + MENU_ID, RESTAURANT_ID))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         assertMatch(service.getAll(RESTAURANT_ID), MENU2);
     }
 

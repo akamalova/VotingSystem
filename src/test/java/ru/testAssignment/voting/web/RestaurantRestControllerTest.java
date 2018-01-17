@@ -49,7 +49,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest{
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + RESTAURANT_ID))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
         assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
     }
 
