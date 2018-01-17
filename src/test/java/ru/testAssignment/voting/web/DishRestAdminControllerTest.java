@@ -7,9 +7,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.service.DishService;
+import ru.testAssignment.voting.web.Dish.DishRestAdminController;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -19,15 +19,13 @@ import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
-import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
-import static ru.testAssignment.voting.UserTestData.USER1;
 
-public class DishRestControllerTest extends AbstractControllerTest{
+public class DishRestAdminControllerTest extends AbstractControllerTest{
 
     @Autowired
     private DishService service;
 
-    private static final String REST_URL = DishRestController.REST_URL + '/';
+    private static final String REST_URL = DishRestAdminController.REST_URL + '/';
 
     @Test
     public void testGet() throws Exception {

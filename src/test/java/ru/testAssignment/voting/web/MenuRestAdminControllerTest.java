@@ -1,91 +1,97 @@
 package ru.testAssignment.voting.web;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.testAssignment.voting.TestUtil;
-import ru.testAssignment.voting.model.Restaurant;
-import ru.testAssignment.voting.service.RestaurantService;
+import ru.testAssignment.voting.model.Menu;
+import ru.testAssignment.voting.service.MenuService;
+import ru.testAssignment.voting.web.Menu.MenuRestAdminController;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.testAssignment.voting.RestaurantTestData.*;
+import static ru.testAssignment.voting.MenuTestData.*;
+import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
 
-public class RestaurantRestControllerTest extends AbstractControllerTest{
+public class MenuRestAdminControllerTest extends AbstractControllerTest{
+
+    private static final String REST_URL = MenuRestAdminController.REST_URL + '/';
 
     @Autowired
-    private RestaurantService service;
-
-    private static final String REST_URL = RestaurantRestController.REST_URL + '/';
-
-    @Before
-    public void setUp() {
-        cacheManager.getCache("restaurants").clear();
-        if (jpaUtil != null) {
-            jpaUtil.clear2ndLevelHibernateCache();
-        }
-    }
+    private MenuService service;
 
     @Test
     public void testGet() throws Exception {
-        mockMvc.perform(get(REST_URL + RESTAURANT_ID)
+        mockMvc.perform(get(REST_URL + MENU_ID, RESTAURANT_ID)
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonRestaurant(RESTAURANT1));
+                .andExpect(contentJsonMenuOb(MENU1));
     }
 
     @Test
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + RESTAURANT_ID)
+        mockMvc.perform(delete(REST_URL + MENU_ID, RESTAURANT_ID)
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
+        assertMatch(service.getAll(RESTAURANT_ID), MENU2);
     }
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL)
+
+        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID)
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonRestaurant(RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5)));
+                .andExpect(contentJsonMenu(MENU1, MENU2)));
     }
 
     @Test
     public void testCreate() throws Exception {
-        Restaurant expected = getCreatedRestaurant();
-        ResultActions action = mockMvc.perform(post(REST_URL)
+        Menu expected = getCreatedMenu();
+        ResultActions action = mockMvc.perform(post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected))
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
-        Restaurant returned = TestUtil.readFromJson(action, Restaurant.class);
+        Menu returned = TestUtil.readFromJson(action, Menu.class);
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(service.getAll(), expected, RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
+        assertMatch(service.getAll(RESTAURANT_ID), MENU1, MENU2, expected);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        Restaurant updated = getUpdatedRestaurant();
-        mockMvc.perform(put(REST_URL + RESTAURANT_ID)
+        Menu updated = getUpdatedMenu();
+        mockMvc.perform(put(REST_URL + MENU_ID, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated))
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
-        assertMatch(service.get(RESTAURANT_ID), updated);
+        assertMatch(service.get(MENU_ID, RESTAURANT_ID), updated);
     }
+
+    @Test
+    public void testGetByDate() throws Exception {
+
+        mockMvc.perform(get(REST_URL + "date", RESTAURANT_ID)
+                .param("dateTime", "2017-05-30")
+                .with(TestUtil.userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJsonMenu(MENU1));
+    }
+
 }

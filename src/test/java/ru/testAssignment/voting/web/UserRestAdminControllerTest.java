@@ -10,6 +10,7 @@ import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
+import ru.testAssignment.voting.web.User.UserRestAdminController;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,9 +23,9 @@ import static ru.testAssignment.voting.util.UserUtil.asTo;
 import static ru.testAssignment.voting.util.UserUtil.updateFromTo;
 
 
-public class UserRestControllerTest extends AbstractControllerTest{
+public class UserRestAdminControllerTest extends AbstractControllerTest{
 
-    private static final String REST_URL = UserRestController.REST_URL + '/';
+    private static final String REST_URL = UserRestAdminController.REST_URL + '/';
 
     @Autowired
     protected UserService userService;

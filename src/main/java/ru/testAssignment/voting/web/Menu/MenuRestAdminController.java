@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.web;
+package ru.testAssignment.voting.web.Menu;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.AuthorizedUser;
@@ -21,8 +22,8 @@ import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(MenuRestController.REST_URL)
-public class MenuRestController {
+@RequestMapping(MenuRestAdminController.REST_URL)
+public class MenuRestAdminController {
     public static final String REST_URL = "/votingSystem/rest/admin/restaurants/{restaurantId}/menu";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -36,6 +37,7 @@ public class MenuRestController {
         return service.get(id, restaurantId);
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id, @PathVariable int restaurantId){
@@ -49,6 +51,7 @@ public class MenuRestController {
         return service.getAll(restaurantId);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
         checkNew(menu);
@@ -62,6 +65,7 @@ public class MenuRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);

@@ -9,6 +9,7 @@ import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.Vote;
 import ru.testAssignment.voting.service.VoteService;
 import ru.testAssignment.voting.util.ValidationUtil;
+import ru.testAssignment.voting.web.Vote.VoteRestAdminController;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 
@@ -24,9 +25,9 @@ import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.VoteTestData.*;
 import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
 
-public class VoteRestControllerTest extends AbstractControllerTest{
+public class VoteRestAdminControllerTest extends AbstractControllerTest{
 
-    private static final String REST_URL = VoteRestController.REST_URL + '/';
+    private static final String REST_URL = VoteRestAdminController.REST_URL + '/';
     private static boolean timeBan = !LocalTime.now().isBefore(TIME_LIMIT);
 
     @Autowired

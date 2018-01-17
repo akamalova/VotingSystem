@@ -15,6 +15,7 @@ import static ru.testAssignment.voting.web.json.JsonUtil.writeIgnoreProps;
 
 public class VoteTestData {
     public static final int VOTE_ID = START_SEQ + 29;
+    public static final int VOTE_ID_CONTR = START_SEQ + 24;
 
     public static final Vote VOTE1 = new Vote(VOTE_ID - 5, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
     public static final Vote VOTE2 = new Vote(VOTE_ID - 4, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 2);

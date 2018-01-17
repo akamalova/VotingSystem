@@ -2,7 +2,7 @@ package ru.testAssignment.voting;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 import ru.testAssignment.voting.model.Dish;
-import ru.testAssignment.voting.web.DishRestController;
+import ru.testAssignment.voting.web.Dish.DishRestAdminController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ public class SpringMain {
 
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            DishRestController controller = appCtx.getBean(DishRestController.class);
+            DishRestAdminController controller = appCtx.getBean(DishRestAdminController.class);
 
             List<Dish> restaurantList = controller.getAll(100008, 100003);
             restaurantList.forEach(System.out::println);

@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.web;
+package ru.testAssignment.voting.web.Vote;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.AuthorizedUser;
@@ -21,8 +22,8 @@ import java.util.List;
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 
 @RestController
-@RequestMapping(VoteRestController.REST_URL)
-public class VoteRestController {
+@RequestMapping(VoteRestAdminController.REST_URL)
+public class VoteRestAdminController {
     public static final String REST_URL = "/votingSystem/rest/admin/votes";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -63,12 +64,14 @@ public class VoteRestController {
         return service.get(id, AuthorizedUser.id());
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll(){
         log.info("getAll for user {}", AuthorizedUser.id());
         return service.getAll(AuthorizedUser.id());
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getbyDate(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
@@ -76,6 +79,7 @@ public class VoteRestController {
         return service.getByDate(dateTime);
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(value = "/voted", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getVotedUsers(
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){

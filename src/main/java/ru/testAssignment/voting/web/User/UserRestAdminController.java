@@ -1,4 +1,4 @@
-package ru.testAssignment.voting.web;
+package ru.testAssignment.voting.web.User;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.testAssignment.voting.model.User;
@@ -23,8 +22,8 @@ import static ru.testAssignment.voting.util.ValidationUtil.checkNew;
 
 
 @RestController
-@RequestMapping(UserRestController.REST_URL)
-public class UserRestController {
+@RequestMapping(UserRestAdminController.REST_URL)
+public class UserRestAdminController {
     public static final String REST_URL = "/votingSystem/rest/admin/users";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
