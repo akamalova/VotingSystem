@@ -8,19 +8,20 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @NamedQueries({
-        @NamedQuery(name = Vote.ALL_SORTED, query = "SELECT m FROM Vote m LEFT JOIN FETCH m.user WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Vote.ALL_SORTED, query = "SELECT m FROM Vote m ORDER BY m.dateTime DESC, m.restaurantId"),
+        @NamedQuery(name = Vote.ALL_SORTED_BY_USER, query = "SELECT m FROM Vote m WHERE m.user.id=:userId ORDER BY m.dateTime DESC"),
         @NamedQuery(name = Vote.DELETE, query = "DELETE FROM Vote m WHERE m.id=:id AND m.user.id=:userId"),
-        @NamedQuery(name = Vote.GET_VOTES_BY_DATE, query = "SELECT m FROM Vote m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Vote.GET_VOTES_BY_DATE_TO_USER, query = "SELECT m FROM Vote m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax AND m.user.id=:userId"),
+        @NamedQuery(name = Vote.GET_VOTES_BY_DATE, query = "SELECT m FROM Vote m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax ORDER BY m.dateTime DESC")
+
 })
 @Entity
 @Table(name = "users_vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"date_time", "user_id"}, name = "users_vote_unique_date_time_idx")})
-public class Vote extends AbstractBaseEntity{
+public class Vote extends AbstractBaseEntity {
 
     public static final String ALL_SORTED = "Vote.getAll";
     public static final String DELETE = "Vote.delete";
     public static final String GET_VOTES_BY_DATE = "Vote.getVotesByDate";
-    public static final String GET_VOTES_BY_DATE_TO_USER = "Vote.getVotesByDateToUser";
+    public static final String ALL_SORTED_BY_USER = "Vote.getAllByUser";
 
     @Column(name = "date_time", nullable = false)
     @NotNull
@@ -63,10 +64,10 @@ public class Vote extends AbstractBaseEntity{
 
     public void setRestaurantId(int restaurantId) {
         this.restaurantId = restaurantId;
-
     }
+
     public User getUser() {
-         return user;
+        return user;
     }
 
     public void setUser(User user) {

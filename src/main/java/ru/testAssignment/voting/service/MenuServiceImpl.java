@@ -3,7 +3,6 @@ package ru.testAssignment.voting.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.repository.menu.MenuRepository;
 import ru.testAssignment.voting.util.exception.NotFoundException;
@@ -21,20 +20,20 @@ public class MenuServiceImpl implements MenuService {
     MenuRepository repository;
 
     @Override
-    public Menu update(Menu menu, int restaurantId, int userId) throws NotFoundException {
+    public Menu update(Menu menu, int restaurantId) throws NotFoundException {
         Assert.notNull(menu, "menu must not be null");
-        return checkNotFoundWithId(repository.save(menu, restaurantId, userId), menu.getId());
+        return checkNotFoundWithId(repository.save(menu, restaurantId), menu.getId());
     }
 
     @Override
-    public Menu create(Menu menu, int restaurantId, int userId) {
+    public Menu create(Menu menu, int restaurantId) {
         Assert.notNull(menu, "menu must not be null");
-        return repository.save(menu, restaurantId, userId);
+        return repository.save(menu, restaurantId);
     }
 
     @Override
-    public void delete(int id, int restaurantId, int userId) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id, restaurantId, userId), id);
+    public void delete(int id, int restaurantId) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id, restaurantId), id);
     }
 
     @Override
@@ -51,10 +50,5 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getByDate(LocalDate date) {
         Assert.notNull(date, "date must not be null");
         return checkNotFound(repository.getByDate(date), "date=" + date);
-    }
-
-    @Override
-    public Menu getWithRestaurant(int id) {
-        return checkNotFoundWithId(repository.getWithRestaurant(id), id);
     }
 }

@@ -15,13 +15,13 @@ import java.util.*;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=?1"),
+        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=:email"),
         @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name, u.email"),
         @NamedQuery(name = User.GET_BY_DATE, query = "SELECT u FROM User u  WHERE u.registered<=:registered AND u.enabled=true")
 })
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
-public class User extends AbstractNamedEntity{
+public class User extends AbstractNamedEntity {
 
     public static final String DELETE = "User.delete";
     public static final String BY_EMAIL = "User.getByEmail";
@@ -55,21 +55,21 @@ public class User extends AbstractNamedEntity{
     private Set<Role> roles;
 
 
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Vote> votes;
 
-    public User(){}
+    public User() {
+    }
 
     public User(User u) {
         this(u.getId(), u.getName(), u.getEmail(), u.getPassword(), u.isEnabled(), u.getRegistered(), u.getRoles());
     }
 
     public User(Integer id, String name, String email, String password, Role role, Role... roles) {
-        this(id,name, email, password, true, LocalDate.now(), EnumSet.of(role, roles));
+        this(id, name, email, password, true, LocalDate.now(), EnumSet.of(role, roles));
     }
 
-    public User(Integer id, String name, String email,String password, boolean enabled, LocalDate registered, Collection<Role> roles) {
+    public User(Integer id, String name, String email, String password, boolean enabled, LocalDate registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;

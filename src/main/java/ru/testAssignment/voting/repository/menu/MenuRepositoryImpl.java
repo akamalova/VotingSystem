@@ -20,9 +20,8 @@ public class MenuRepositoryImpl implements MenuRepository {
 
     @Override
     @Transactional
-    public Menu save(Menu menu, int restaurantId, int userId) {
-        User user = em.getReference(User.class, userId);
-        if (!user.getRoles().contains(Role.ROLE_ADMIN) || !menu.isNew() && get(menu.getId(), restaurantId) == null) return null;
+    public Menu save(Menu menu, int restaurantId) {
+        if (!menu.isNew() && get(menu.getId(), restaurantId) == null) return null;
         menu.setRestaurant(em.getReference(Restaurant.class, restaurantId));
         if (menu.isNew()) {
             em.persist(menu);
@@ -33,26 +32,22 @@ public class MenuRepositoryImpl implements MenuRepository {
 
     @Override
     @Transactional
-    public boolean delete(int id, int restaurantId, int userId) {
-        User user = em.getReference( User.class, userId);
-        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
-            return em.createNamedQuery(Menu.DELETE)
-                    .setParameter("id", id)
-                    .setParameter("restaurantId", restaurantId)
-                    .executeUpdate() != 0;
-        } return false;
+    public boolean delete(int id, int restaurantId) {
+        return em.createNamedQuery(Menu.DELETE)
+                .setParameter("id", id)
+                .setParameter("restaurantId", restaurantId)
+                .executeUpdate() != 0;
     }
 
     @Override
     public Menu get(int id, int restaurantId) {
-
         Menu menu = em.find(Menu.class, id);
-        return  menu != null && menu.getRestaurant().getId() == restaurantId? menu : null;
+        return menu != null && menu.getRestaurant().getId() == restaurantId ? menu : null;
     }
 
     @Override
     public List<Menu> getAll(int restaurantId) {
-        return em.createNamedQuery(Menu.ALL, Menu.class)
+        return em.createNamedQuery(Menu.ALL_SORTED, Menu.class)
                 .setParameter("restaurantId", restaurantId)
                 .getResultList();
     }

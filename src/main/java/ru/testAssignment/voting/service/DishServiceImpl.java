@@ -19,20 +19,20 @@ public class DishServiceImpl implements DishService {
     DishRepository dishRepository;
 
     @Override
-    public Dish update(Dish dish, int menuId, int userId) throws NotFoundException {
+    public Dish update(Dish dish, int menuId) throws NotFoundException {
         Assert.notNull(dish, "dish must not be null");
-        return checkNotFoundWithId(dishRepository.save(dish, menuId, userId), dish.getId());
+        return checkNotFoundWithId(dishRepository.save(dish, menuId), dish.getId());
     }
 
     @Override
-    public Dish create(Dish dish, int menuId, int userId) {
+    public Dish create(Dish dish, int menuId) {
         Assert.notNull(dish, "dish must not be null");
-        return dishRepository.save(dish, menuId, userId);
+        return dishRepository.save(dish, menuId);
     }
 
     @Override
-    public void delete(int id, int menuId, int userId) throws NotFoundException {
-        checkNotFoundWithId(dishRepository.delete(id, menuId, userId), id);
+    public void delete(int id, int menuId) throws NotFoundException {
+        checkNotFoundWithId(dishRepository.delete(id, menuId), id);
     }
 
     @Override

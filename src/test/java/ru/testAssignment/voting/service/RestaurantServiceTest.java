@@ -25,40 +25,20 @@ public class RestaurantServiceTest extends AbstractServiceTest {
     @Test
     public void update() throws Exception {
         Restaurant updated = getUpdatedRestaurant();
-        service.update(updated, ADMIN_ID);
-    }
-
-    @Test
-    public void updateNotFound() throws Exception {
-        thrown.expect(NotFoundException.class);
-        thrown.expectMessage("Not found entity with id=" + RESTAURANT_ID);
-        service.update(RESTAURANT1, USER_ID);
+        service.update(updated);
     }
 
     @Test
     public void create() throws Exception {
         Restaurant created = getCreatedRestaurant();
-        if (service.create(created, ADMIN_ID) == null) throw new NotFoundException("Not found");
-        assertMatch(service.getAll(), created, RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
-    }
-
-    @Test
-    public void notFoundCreate() throws Exception {
-        thrown.expect(NotFoundException.class);
-        Restaurant created = getCreatedRestaurant();
-        if (service.create(created, USER_ID) == null) throw new NotFoundException("Not found");
+        service.create(created);
+        assertMatch(service.getAll(), created, RESTAURANT5, RESTAURANT1, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(RESTAURANT_ID, ADMIN_ID);
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
-    }
-
-    @Test
-    public void deleteNotFound() throws Exception {
-        thrown.expect(NotFoundException.class);
-        service.delete(RESTAURANT_ID, USER_ID);
+        service.delete(RESTAURANT_ID);
+        assertMatch(service.getAll(), RESTAURANT5, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
@@ -69,17 +49,6 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
+        assertMatch(service.getAll(), RESTAURANT5, RESTAURANT1, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
-
-    /*@Test
-    public void testValidation() throws Exception {
-        service.create(new Restaurant(null, "dgf", " "), ADMIN_ID);
-        service.getAll().forEach(System.out::println);
-        validateRootCause(() -> service.create(new Restaurant(null, "dgf", " "), ADMIN_ID), ConstraintViolationException.class);
-        *//*validateRootCause(() -> service.create(new Restaurant(null, "", "descriptionSecond"), ADMIN_ID), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new Restaurant(null, "third", "descriptionThird"), ADMIN_ID), ConstraintViolationException.class);
-        validateRootCause(() -> service.create(new Restaurant(null, "fourth", "descriptionFourth"), ADMIN_ID), ConstraintViolationException.class);*//*
-    }*/
-
 }

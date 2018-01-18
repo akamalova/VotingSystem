@@ -10,19 +10,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(name = Menu.ALL, query = "SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId"),
+        @NamedQuery(name = Menu.ALL_SORTED, query = "SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId ORDER BY m.dateTime desc"),
         @NamedQuery(name = Menu.All_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax"),
-        @NamedQuery(name = Menu.RESTAURANT_BY_DATE, query = "SELECT m FROM Menu m WHERE m.dateTime>=:dateTimeMin AND m.dateTime<=:dateTimeMax AND m.restaurant.id=:restaurantId"),
         @NamedQuery(name = Menu.DELETE, query = "DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
 })
 @Entity
 @Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date_time"}, name = "menu_unique_restaurant_id_idx")})
 public class Menu extends AbstractBaseEntity {
 
-    public static final String ALL = "Menu.getAll";
+    public static final String ALL_SORTED = "Menu.getAll";
     public static final String DELETE = "Menu.delete";
     public static final String All_BY_DATE = "Menu.getByDate";
-    public static final String RESTAURANT_BY_DATE = "Menu.RestaurantByDate";
 
     public Menu() {
     }
@@ -52,6 +50,7 @@ public class Menu extends AbstractBaseEntity {
     public List<Dish> getMenu() {
         return dishes;
     }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }

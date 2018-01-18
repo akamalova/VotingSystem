@@ -18,8 +18,8 @@ public class VoteRestProfileController extends VoteRestAdminController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createOrUpdate(@RequestBody Vote vote) {
-        return super.createOrUpdate(vote);
+    public ResponseEntity<Vote> create(@RequestBody Vote vote) {
+        return super.create(vote);
     }
 
     @DeleteMapping(value = "/{id}")

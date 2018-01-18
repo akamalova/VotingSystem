@@ -57,7 +57,7 @@ public class VoteRestProfileControllerTest extends AbstractControllerTest{
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(service.getAll(USER_ID), expected, VOTE1, VOTE2);
+        assertMatch(service.getByUser(USER_ID), expected, VOTE1, VOTE2);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class VoteRestProfileControllerTest extends AbstractControllerTest{
                 .with(TestUtil.userHttpBasic(USER1)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(USER_ID), VOTE2);
+        assertMatch(service.getByUser(USER_ID), VOTE2);
     }
 
     @Test

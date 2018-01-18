@@ -38,11 +38,9 @@ public class VoteRestAdminController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createOrUpdate(@RequestBody Vote vote) {
+    public ResponseEntity<Vote> create(@RequestBody Vote vote) {
         log.info("create {} for user {}", vote, AuthorizedUser.id());
-        Integer voteId = service.voteId(LocalDate.now(), AuthorizedUser.id());
-
-        Vote enabled = voteId == null ? service.create(vote, AuthorizedUser.id(), LocalTime.now()) : update(vote, voteId);
+        Vote enabled = service.create(vote, AuthorizedUser.id(), LocalTime.now());
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -68,7 +66,7 @@ public class VoteRestAdminController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll(){
         log.info("getAll for user {}", AuthorizedUser.id());
-        return service.getAll(AuthorizedUser.id());
+        return service.getAll();
     }
 
     @Secured("ROLE_ADMIN")
@@ -85,5 +83,12 @@ public class VoteRestAdminController {
             @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
         log.info("get voted users by date {} ", dateTime);
         return service.getVoted(dateTime);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "/byUser/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Vote> getUsers(@PathVariable("userId") int userId) {
+        log.info("get votes by userId {} ", userId);
+        return service.getByUser(userId);
     }
 }

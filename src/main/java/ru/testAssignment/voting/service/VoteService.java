@@ -15,13 +15,13 @@ public interface VoteService {
 
     Vote get(int id, int userId);
 
-    List<Vote> getAll(int userId);
+    List<Vote> getAll();
 
     void delete(int id, int userId);
 
     List<Vote> getByDate(LocalDate date);
 
-    List<User> getVoted(LocalDate date) ;
+    List<Vote> getByUser(int userId);
 
-    Integer voteId(LocalDate date, int userId);
+    List<User> getVoted(LocalDate date) ;
 }

@@ -69,12 +69,12 @@ public class UserRestAdminController {
         service.delete(id);
     }
 
-    /*@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@Valid UserTo userTo, @PathVariable("id") int id) {
-        log.info("update {} with id={}", user, id);
-        assureIdConsistent(user, id);
-        service.update(user);
-    }*/
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody UserTo userTo, @PathVariable("id") int id) {
+        log.info("update {} with id={}", userTo, id);
+        assureIdConsistent(userTo, id);
+        service.update(userTo);
+    }
 
     @GetMapping(value = "/by", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getByEmail(@RequestParam("email") String email) {

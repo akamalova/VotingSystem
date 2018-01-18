@@ -4,8 +4,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.model.Vote;
-import ru.testAssignment.voting.util.exception.TimesUpException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
@@ -25,7 +23,6 @@ public class VoteRepositoryImpl implements VoteRepository {
     @Override
     @Transactional
     public Vote save(Vote vote, int userId, LocalTime time) {
-
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
         }
@@ -45,15 +42,20 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getAll(int userId) {
-        return em.createNamedQuery(Vote.ALL_SORTED, Vote.class)
+    public List<Vote> getAll() {
+        return em.createNamedQuery(Vote.ALL_SORTED, Vote.class).getResultList();
+    }
+
+    @Override
+    public List<Vote> getByUser(int userId) {
+        return em.createNamedQuery(Vote.ALL_SORTED_BY_USER, Vote.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
     @Override
     @Transactional
-    public boolean delete (int id, int userId) {
+    public boolean delete(int id, int userId) {
         return em.createNamedQuery(Vote.DELETE)
                 .setParameter("id", id)
                 .setParameter("userId", userId)
@@ -70,19 +72,8 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     public List<User> getVotedUsers(LocalDate date) {
-
         return getByDate(date).stream()
                 .map(Vote::getUser)
                 .collect(toList());
-    }
-
-    @Override
-    public Integer voteId(LocalDate date, int userId) {
-        List<Vote> votes = em.createNamedQuery(Vote.GET_VOTES_BY_DATE_TO_USER, Vote.class)
-                .setParameter("dateTimeMin", LocalDateTime.of(date, LocalTime.MIN))
-                .setParameter("dateTimeMax", LocalDateTime.of(date, LocalTime.MAX))
-                .setParameter("userId", userId)
-                .getResultList();
-        return votes.isEmpty()? null : votes.get(0).getId();
     }
 }

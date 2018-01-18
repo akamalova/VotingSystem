@@ -1,16 +1,10 @@
 package ru.testAssignment.voting.repository.restaurant;
 
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Restaurant;
-import ru.testAssignment.voting.model.Role;
-import ru.testAssignment.voting.model.User;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -22,9 +16,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     @Transactional
-    public Restaurant save(Restaurant restaurant, int userId) {
-        User user = em.getReference(User.class, userId);
-        if (!user.getRoles().contains(Role.ROLE_ADMIN) || (!restaurant.isNew() && get(restaurant.getId()) == null))
+    public Restaurant save(Restaurant restaurant) {
+
+        if (!restaurant.isNew() && get(restaurant.getId()) == null)
             return null;
         if (restaurant.isNew()) {
             em.persist(restaurant);
@@ -35,14 +29,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     @Transactional
-    public boolean delete(int id, int userId) {
-        User user = em.getReference( User.class, userId);
-        if (user.getRoles().contains(Role.ROLE_ADMIN)){
-            return em.createNamedQuery(Restaurant.DELETE)
-                    .setParameter("id", id)
-                    .executeUpdate() != 0;
-        }
-        else return false;
+    public boolean delete(int id) {
+        return em.createNamedQuery(Restaurant.DELETE)
+                .setParameter("id", id)
+                .executeUpdate() != 0;
     }
 
     @Override

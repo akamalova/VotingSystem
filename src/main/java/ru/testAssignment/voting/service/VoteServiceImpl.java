@@ -40,8 +40,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public List<Vote> getAll(int userId) {
-        return repository.getAll(userId);
+    public List<Vote> getAll() {
+        return repository.getAll();
     }
 
     @Override
@@ -62,8 +62,7 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Integer voteId(LocalDate date, int userId) {
-        Assert.notNull(date, "date must not be null");
-        return repository.voteId(date, userId);
+    public List<Vote> getByUser(int userId) {
+        return checkNotFoundWithId(repository.getByUser(userId), userId);
     }
 }

@@ -5,19 +5,10 @@ import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.testAssignment.voting.model.User;
-import ru.testAssignment.voting.model.Vote;
-import ru.testAssignment.voting.repository.user.UserRepository;
-import ru.testAssignment.voting.repository.vote.VoteRepository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Repository
 @Transactional(readOnly = true)
@@ -25,8 +16,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @PersistenceContext
     private EntityManager em;
-
-    private VoteRepository voteRepository;
 
     @Override
     @Transactional
@@ -48,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User get(int id)  {
+    public User get(int id) {
         return em.find(User.class, id);
     }
 
@@ -60,7 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByEmail(String email) {
         List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
-                .setParameter(1, email)
+                .setParameter("email", email)
                 .setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false)
                 .getResultList();
         return DataAccessUtils.singleResult(users);

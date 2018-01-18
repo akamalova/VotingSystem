@@ -50,7 +50,7 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(), RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT5);
+        assertMatch(service.getAll(), RESTAURANT5, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(service.getAll(), expected, RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5);
+        assertMatch(service.getAll(), expected, RESTAURANT5, RESTAURANT1, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test

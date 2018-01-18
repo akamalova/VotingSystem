@@ -13,13 +13,13 @@ public interface VoteRepository {
 
     Vote get(int id, int userId);
 
-    List<Vote> getAll(int userId);
+    List<Vote> getAll();
 
     boolean delete(int id, int userId);
 
     List<Vote> getByDate(LocalDate date);
 
-    Integer voteId(LocalDate date, int userId);
+    List<Vote> getByUser(int userId);
 
     List<User> getVotedUsers(LocalDate date);
 }

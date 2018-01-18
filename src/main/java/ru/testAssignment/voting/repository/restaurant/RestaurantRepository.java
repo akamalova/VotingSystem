@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface RestaurantRepository {
 
-    Restaurant save(Restaurant restaurant, int userId);
+    Restaurant save(Restaurant restaurant);
 
-    boolean delete(int id, int userId);
+    boolean delete(int id);
 
     Restaurant get(int id);
 

@@ -60,7 +60,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(service.getAll(ADMIN_ID), expected, VOTE6, VOTE7, VOTE8);
+        assertMatch(service.getByUser(ADMIN_ID), expected, VOTE6, VOTE7, VOTE8);
     }
 
     @Test(expected = NestedServletException.class)
@@ -78,41 +78,12 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void testCreateChangeToUpdate() throws Exception{
-        if (timeBan) ValidationUtil.setTest(true);                       // if the vote to the current date already exist, it will be updated
-        Vote expected = getCreatedVote();
-        ResultActions action = mockMvc.perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected))
-                .with(TestUtil.userHttpBasic(ADMIN)))
-                .andExpect(status().isCreated());
-
-
-        service.getAll(ADMIN_ID).forEach(System.out::println);
-
-        Vote newVote = new Vote(LocalDateTime.now(), RESTAURANT_ID + 4);
-
-        ResultActions actionCreateToUpdate = mockMvc.perform(post(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newVote))
-                .with(TestUtil.userHttpBasic(ADMIN)))
-                .andExpect(status().isCreated());
-
-        Vote newReturned = TestUtil.readFromJson(actionCreateToUpdate, Vote.class);
-        newVote.setId(newReturned.getId());
-
-        service.getAll(ADMIN_ID).forEach(System.out::println);
-        assertMatch(newReturned, newVote);
-        assertMatch(service.getAll(ADMIN_ID), newVote, VOTE6, VOTE7, VOTE8);
-    }
-
-    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + VOTE_ID)
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertMatch(service.getAll(ADMIN_ID), VOTE7, VOTE8);
+        assertMatch(service.getByUser(ADMIN_ID), VOTE7, VOTE8);
     }
     @Test
     public void testGet() throws Exception {
@@ -131,7 +102,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
                 .with(TestUtil.userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonVote(VOTE6, VOTE7, VOTE8)));
+                .andExpect(contentJsonVote(VOTE1, VOTE3, VOTE6, VOTE7, VOTE4, VOTE2, VOTE5, VOTE8)));
     }
 
     @Test
@@ -153,5 +124,15 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER2, ADMIN));
 
+    }
+
+    @Test
+    public void testGetByUser() throws Exception {
+        mockMvc.perform(get(REST_URL + "byUser/" + USER_ID)
+                .with(TestUtil.userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJsonVote(VOTE1, VOTE2));
     }
 }

@@ -21,7 +21,7 @@ public class VoteTestData {
     public static final Vote VOTE2 = new Vote(VOTE_ID - 4, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 2);
     public static final Vote VOTE3 = new Vote(VOTE_ID - 3, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID);
     public static final Vote VOTE4 = new Vote(VOTE_ID - 2, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID + 1);
-    public static final Vote VOTE5 = new Vote(VOTE_ID - 1, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 3);
+    public static final Vote VOTE5 = new Vote(VOTE_ID - 1, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 4);
     public static final Vote VOTE6 = new Vote(VOTE_ID, LocalDateTime.of(2015,5,30,10,0), RESTAURANT_ID + 1);
     public static final Vote VOTE7 = new Vote(VOTE_ID + 1, LocalDateTime.of(2015,5,29,10,0), RESTAURANT_ID);
     public static final Vote VOTE8 = new Vote(VOTE_ID + 2, LocalDateTime.of(2015,5,28,10,0), RESTAURANT_ID + 4);

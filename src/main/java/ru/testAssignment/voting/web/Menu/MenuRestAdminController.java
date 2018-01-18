@@ -42,7 +42,7 @@ public class MenuRestAdminController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int id, @PathVariable int restaurantId){
         log.info("delete menu {} for restaurant {}", id, restaurantId);
-        service.delete(id, restaurantId, AuthorizedUser.id());
+        service.delete(id, restaurantId);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +56,7 @@ public class MenuRestAdminController {
     public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
         checkNew(menu);
         log.info("create {} for restaurant {}", menu, restaurantId);
-        Menu created = service.create(menu, restaurantId, AuthorizedUser.id());
+        Menu created = service.create(menu, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -70,7 +70,7 @@ public class MenuRestAdminController {
     public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);
         log.info("update {} for restaurant {}", menu, restaurantId);
-        return service.update(menu, restaurantId, AuthorizedUser.id());
+        return service.update(menu, restaurantId);
     }
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)

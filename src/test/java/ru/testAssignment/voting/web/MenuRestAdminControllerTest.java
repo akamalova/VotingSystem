@@ -68,7 +68,7 @@ public class MenuRestAdminControllerTest extends AbstractControllerTest{
         expected.setId(returned.getId());
 
         assertMatch(returned, expected);
-        assertMatch(service.getAll(RESTAURANT_ID), MENU1, MENU2, expected);
+        assertMatch(service.getAll(RESTAURANT_ID), MENU1, expected, MENU2);
     }
 
     @Test

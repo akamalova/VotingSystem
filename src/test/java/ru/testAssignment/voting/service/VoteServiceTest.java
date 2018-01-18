@@ -42,7 +42,7 @@ public class VoteServiceTest extends AbstractServiceTest{
     public void create() throws Exception {
         Vote created = getCreatedVote();
         service.create(created, USER_ID, LocalTime.of(10,5,15));
-        assertMatch(service.getAll(USER_ID), created, VOTE1, VOTE2);
+        assertMatch(service.getByUser(USER_ID), created, VOTE1, VOTE2);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class VoteServiceTest extends AbstractServiceTest{
 
     @Test
     public void getAll() throws Exception {
-        assertMatch(service.getAll(USER_ID), VOTE1, VOTE2);
+        assertMatch(service.getAll(), VOTE1, VOTE3, VOTE6, VOTE7, VOTE4, VOTE2, VOTE5, VOTE8);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class VoteServiceTest extends AbstractServiceTest{
     @Test
     public void delete() throws Exception {
         service.delete(VOTE_ID, ADMIN_ID);
-        assertMatch(service.getAll(ADMIN_ID), VOTE7, VOTE8);
+        assertMatch(service.getByUser(ADMIN_ID), VOTE7, VOTE8);
     }
 
     @Test
@@ -93,9 +93,8 @@ public class VoteServiceTest extends AbstractServiceTest{
     }
 
     @Test
-    public void voteId() throws Exception{
-       if(!service.voteId(LocalDate.of(2015,5,30), ADMIN_ID).equals(VOTE_ID)) throw new Exception();
-       if(service.voteId(LocalDate.of(2015,5,31), ADMIN_ID)!= null) throw new Exception();
+    public void getByUsers() throws Exception {
+        assertMatch(service.getByUser(ADMIN_ID), VOTE6, VOTE7, VOTE8);
     }
 
 }
