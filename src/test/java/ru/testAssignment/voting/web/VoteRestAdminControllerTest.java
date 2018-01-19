@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
+import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.VoteTestData.*;
 import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
@@ -40,7 +41,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
         mockMvc.perform(put(REST_URL + VOTE_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated))
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         assertMatch(service.get(VOTE_ID, ADMIN_ID), updated);
@@ -53,7 +54,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected))
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
         Vote returned = TestUtil.readFromJson(action, Vote.class);
@@ -63,32 +64,39 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
         assertMatch(service.getByUser(ADMIN_ID), expected, VOTE6, VOTE7, VOTE8);
     }
 
-    @Test(expected = NestedServletException.class)
-    public void testCreateTimesUp() throws Exception {                  // test throw NestedServletException after 11:00
-
+    @Test
+    public void testCreateTimesUp() throws Exception {
         if(timeBan) {
             Vote expected = getCreatedVote();
             ResultActions action = mockMvc.perform(post(REST_URL)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(JsonUtil.writeValue(expected))
-                    .with(TestUtil.userHttpBasic(ADMIN)))
-                    .andExpect(status().isCreated());
-        } else throw new NestedServletException("");
-
+                    .with(userHttpBasic(ADMIN)))
+                    .andExpect(status().isForbidden());
+        }
     }
 
     @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + VOTE_ID)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(service.getByUser(ADMIN_ID), VOTE7, VOTE8);
     }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + VOTE_ID)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -97,9 +105,17 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     public void testGetAll() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonVote(VOTE1, VOTE3, VOTE6, VOTE7, VOTE4, VOTE2, VOTE5, VOTE8)));
@@ -109,7 +125,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
     public void testGetByDate() throws Exception {
         mockMvc.perform(get(REST_URL + "date")
                 .param("dateTime", "2015-05-30")
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonVote(VOTE1, VOTE3, VOTE6));
@@ -119,7 +135,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
     public void testGetVotedUsers() throws Exception {
         mockMvc.perform(get(REST_URL + "voted")
                 .param("dateTime", "2015-05-28")
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER2, ADMIN));
@@ -129,7 +145,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
     @Test
     public void testGetByUser() throws Exception {
         mockMvc.perform(get(REST_URL + "byUser/" + USER_ID)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

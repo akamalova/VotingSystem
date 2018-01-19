@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.RestaurantTestData.*;
+import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
 
 public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
@@ -36,7 +37,7 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + RESTAURANT_ID)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 // https://jira.spring.io/browse/SPR-14472
@@ -45,18 +46,36 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+
+    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + RESTAURANT_ID)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(service.getAll(), RESTAURANT5, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+
+    @Test
     public void testGetAll() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonRestaurant(RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5)));
@@ -68,7 +87,7 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected))
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 
         Restaurant returned = TestUtil.readFromJson(action, Restaurant.class);
@@ -84,7 +103,7 @@ public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
         mockMvc.perform(put(REST_URL + RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated))
-                .with(TestUtil.userHttpBasic(ADMIN)))
+                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 
         assertMatch(service.get(RESTAURANT_ID), updated);

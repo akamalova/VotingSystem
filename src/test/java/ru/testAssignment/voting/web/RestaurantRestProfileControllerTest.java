@@ -6,11 +6,13 @@ import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.web.Restaurant.RestaurantRestProfileController;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.RestaurantTestData.*;
+import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
 import static ru.testAssignment.voting.UserTestData.USER1;
 
@@ -34,5 +36,13 @@ public class RestaurantRestProfileControllerTest extends AbstractControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonRestaurant(RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5)));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(REST_URL + RESTAURANT_ID)
+                .with(userHttpBasic(USER1)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 }

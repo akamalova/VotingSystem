@@ -1,11 +1,14 @@
 package ru.testAssignment.voting.web;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import ru.testAssignment.voting.TestUtil;
+import ru.testAssignment.voting.service.DishService;
 import ru.testAssignment.voting.web.Dish.DishRestProfileController;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,6 +41,14 @@ public class DishRestProfileControllerTest extends AbstractControllerTest{
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonDish(DISH1, DISH2)));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        mockMvc.perform(delete(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
+                .with(userHttpBasic(USER1)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 
 }

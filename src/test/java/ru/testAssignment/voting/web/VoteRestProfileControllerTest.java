@@ -44,6 +44,18 @@ public class VoteRestProfileControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testUpdateNotFound() throws Exception {
+        if (timeBan) ValidationUtil.setTest(true);                       // tests is affordable after 11:00
+        Vote updated = getUpdatedVote();
+        updated.setId(VOTE_ID_CONTR + 2);
+        mockMvc.perform(put(REST_URL + (VOTE_ID_CONTR + 2))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(TestUtil.userHttpBasic(USER1))
+                .content(JsonUtil.writeValue(updated)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     public void testCreate() throws Exception {
         if (timeBan) ValidationUtil.setTest(true);                       // tests is affordable after 11:00
         Vote expected = getCreatedVote();

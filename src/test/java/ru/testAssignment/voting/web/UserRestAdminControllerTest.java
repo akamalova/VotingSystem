@@ -60,6 +60,14 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
+
+    @Test
     public void testCreate() throws Exception {
         User user = new User(null, "New", "new@gmail.com", "newPass", Role.ROLE_USER);
         UserTo expected = asTo(user);
@@ -85,6 +93,14 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertMatch(userService.getAll(), ADMIN, USER2);
+    }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + 1)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
     }
 
     @Test

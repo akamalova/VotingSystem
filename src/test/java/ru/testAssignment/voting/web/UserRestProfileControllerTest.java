@@ -3,6 +3,7 @@ package ru.testAssignment.voting.web;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
@@ -67,4 +68,10 @@ public class UserRestProfileControllerTest extends AbstractControllerTest{
         assertMatch(userService.get(USER_ID), resultExpected);
     }
 
+    @Test
+    public void testGetByEmail() throws Exception {
+        mockMvc.perform(get(REST_URL + "by?email=" + USER2.getEmail())
+                .with(userHttpBasic(USER1)))
+                .andExpect(status().isNotFound());
+    }
 }

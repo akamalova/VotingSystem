@@ -19,6 +19,7 @@ import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
+import static ru.testAssignment.voting.UserTestData.USER1;
 
 public class DishRestAdminControllerTest extends AbstractControllerTest{
 
@@ -39,6 +40,14 @@ public class DishRestAdminControllerTest extends AbstractControllerTest{
     }
 
     @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1, RESTAURANT_ID, MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+
+    @Test
     public void testDelete() throws Exception {
         mockMvc.perform(delete(REST_URL + DISH_ID, RESTAURANT_ID, MENU_ID)
                 .with(userHttpBasic(ADMIN)))
@@ -46,6 +55,15 @@ public class DishRestAdminControllerTest extends AbstractControllerTest{
                 .andExpect(status().isNoContent());
         assertMatch(service.getAll(MENU_ID), DISH2);
     }
+
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        mockMvc.perform(delete(REST_URL + DISH_ID + 5, RESTAURANT_ID, MENU_ID)
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
 
     @Test
     public void testGetAll() throws Exception {
