@@ -74,7 +74,7 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
 
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected))
+                .content(jsonWithPassword(expected, "newPass"))
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
 

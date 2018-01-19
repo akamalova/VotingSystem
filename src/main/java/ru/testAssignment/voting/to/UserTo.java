@@ -17,7 +17,7 @@ public class UserTo extends BaseTo implements Serializable{
     @Size(max = 100, message = "max length must be 100 characters")
     private String email;
 
-    @Size(min = 5, max = 64, message = "length must between 5 and 32 characters")
+    @Size(min = 5, max = 32, message = "length must between 5 and 32 characters")
     private String password;
 
     public UserTo() {

@@ -4,6 +4,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import ru.testAssignment.voting.model.Role;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.to.UserTo;
+import ru.testAssignment.voting.web.json.JsonUtil;
 
 import java.util.Arrays;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ public class UserTestData {
     public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "password", Role.ROLE_ADMIN, Role.ROLE_USER);
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "votes");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "votes", "password");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -29,15 +30,22 @@ public class UserTestData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("registered", "votes").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("registered", "votes", "password").isEqualTo(expected);
     }
 
     public static ResultMatcher contentJson(User... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "registered", "votes"));
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "registered", "votes", "password"));
     }
 
     public static ResultMatcher contentJson(User expected) {
-        return content().json(writeIgnoreProps(expected, "registered", "votes"));
+        return content().json(writeIgnoreProps(expected, "registered", "password"));
     }
 
+    public static String jsonWithPassword(User user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
+    }
+
+    public static String jsonWithPassword(UserTo userTo, String passw) {
+        return JsonUtil.writeAdditionProps(userTo, "password", passw);
+    }
 }

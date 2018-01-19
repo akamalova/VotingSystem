@@ -8,9 +8,9 @@ DELETE FROM RESTAURANTS;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO USERS (NAME, EMAIL, PASSWORD, REGISTERED) VALUES
-  ('User', 'user@yandex.ru', 'password', '2015-05-30'),
-  ('AnUser', 'anuser@yandex.ru', 'password', '2014-05-30'),
-  ('Admin', 'admin@gmail.com', 'password', '2013-05-30');
+  ('User', 'user@yandex.ru', '{noop}password', '2015-05-30'),
+  ('AnUser', 'anuser@yandex.ru', '{noop}password', '2014-05-30'),
+  ('Admin', 'admin@gmail.com', '{noop}password', '2013-05-30');
 
 INSERT INTO USER_ROLES (ROLE, USER_ID) VALUES
   ('ROLE_USER', 100000),
