@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.web.util.NestedServletException;
 import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.Vote;
 import ru.testAssignment.voting.service.VoteService;
@@ -12,21 +11,18 @@ import ru.testAssignment.voting.util.ValidationUtil;
 import ru.testAssignment.voting.web.Vote.VoteRestAdminController;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.VoteTestData.*;
 import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
 
-public class VoteRestAdminControllerTest extends AbstractControllerTest{
+public class VoteRestAdminControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = VoteRestAdminController.REST_URL + '/';
     private static boolean timeBan = !LocalTime.now().isBefore(TIME_LIMIT);
@@ -66,7 +62,7 @@ public class VoteRestAdminControllerTest extends AbstractControllerTest{
 
     @Test
     public void testCreateTimesUp() throws Exception {
-        if(timeBan) {
+        if (timeBan) {
             Vote expected = getCreatedVote();
             ResultActions action = mockMvc.perform(post(REST_URL)
                     .contentType(MediaType.APPLICATION_JSON)

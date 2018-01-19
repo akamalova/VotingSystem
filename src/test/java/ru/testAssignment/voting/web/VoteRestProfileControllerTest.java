@@ -13,7 +13,6 @@ import ru.testAssignment.voting.web.json.JsonUtil;
 
 import java.time.LocalTime;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +21,7 @@ import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.VoteTestData.*;
 import static ru.testAssignment.voting.util.ValidationUtil.TIME_LIMIT;
 
-public class VoteRestProfileControllerTest extends AbstractControllerTest{
+public class VoteRestProfileControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteRestProfileController.REST_URL + '/';
     private static boolean timeBan = !LocalTime.now().isBefore(TIME_LIMIT);
 

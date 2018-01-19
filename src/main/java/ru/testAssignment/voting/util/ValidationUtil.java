@@ -1,24 +1,19 @@
 package ru.testAssignment.voting.util;
 
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import ru.testAssignment.voting.HasId;
-import ru.testAssignment.voting.model.AbstractBaseEntity;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 import ru.testAssignment.voting.util.exception.TimesUpException;
-
 import java.time.LocalTime;
-import java.util.StringJoiner;
 
 public class ValidationUtil {
 
     private static boolean isTest = false;
 
-    public static void setTest(boolean test) { isTest = test; }                                          //only for tests
+    public static void setTest(boolean test) {
+        isTest = test;
+    }                                          //only for tests
 
-    public static final LocalTime TIME_LIMIT = LocalTime.of(11,0,0);
+    public static final LocalTime TIME_LIMIT = LocalTime.of(11, 0, 0);
 
     public static final LocalTime TIME_LIMIT_MAX = LocalTime.MAX;
 
@@ -70,20 +65,7 @@ public class ValidationUtil {
         return result;
     }
 
-    /*public static ResponseEntity<String> getErrorResponse(BindingResult result) {
-        StringJoiner joiner = new StringJoiner("<br>");
-        result.getFieldErrors().forEach(
-                fe -> {
-                    String msg = fe.getDefaultMessage();
-                    if (!msg.startsWith(fe.getField())) {
-                        msg = fe.getField() + ' ' + msg;
-                    }
-                    joiner.add(msg);
-                });
-        return new ResponseEntity<>(joiner.toString(), HttpStatus.UNPROCESSABLE_ENTITY);
-    }*/
-
     public static void checkTime(LocalTime time) {
-        if (!time.isBefore(isTest? TIME_LIMIT_MAX : TIME_LIMIT)) throw new TimesUpException();
+        if (!time.isBefore(isTest ? TIME_LIMIT_MAX : TIME_LIMIT)) throw new TimesUpException();
     }
 }

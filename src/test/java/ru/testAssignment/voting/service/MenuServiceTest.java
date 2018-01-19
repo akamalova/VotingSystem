@@ -6,12 +6,11 @@ import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
+
 import static ru.testAssignment.voting.MenuTestData.*;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
-import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
-import static ru.testAssignment.voting.UserTestData.USER_ID;
 
-public class MenuServiceTest extends AbstractServiceTest{
+public class MenuServiceTest extends AbstractServiceTest {
 
     @Autowired
     private MenuService service;
@@ -62,7 +61,7 @@ public class MenuServiceTest extends AbstractServiceTest{
 
     @Test
     public void getByDate() throws Exception {
-        assertMatch(service.getByDate(LocalDate.of(2017,5,30)), MENU1);
+        assertMatch(service.getByDate(LocalDate.of(2017, 5, 30)), MENU1);
     }
 
 }

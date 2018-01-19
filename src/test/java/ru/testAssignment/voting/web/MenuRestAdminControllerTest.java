@@ -19,7 +19,7 @@ import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
 
-public class MenuRestAdminControllerTest extends AbstractControllerTest{
+public class MenuRestAdminControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = MenuRestAdminController.REST_URL + '/';
 

@@ -1,13 +1,10 @@
 package ru.testAssignment.voting.web;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import ru.testAssignment.voting.TestUtil;
-import ru.testAssignment.voting.service.DishService;
 import ru.testAssignment.voting.web.Dish.DishRestProfileController;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -17,10 +14,9 @@ import static ru.testAssignment.voting.DishTestData.*;
 import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
-import static ru.testAssignment.voting.UserTestData.ADMIN;
 import static ru.testAssignment.voting.UserTestData.USER1;
 
-public class DishRestProfileControllerTest extends AbstractControllerTest{
+public class DishRestProfileControllerTest extends AbstractControllerTest {
     private static final String REST_URL = DishRestProfileController.REST_URL + '/';
 
     @Test

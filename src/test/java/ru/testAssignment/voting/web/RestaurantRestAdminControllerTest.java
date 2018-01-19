@@ -19,7 +19,7 @@ import static ru.testAssignment.voting.RestaurantTestData.*;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
 
-public class RestaurantRestAdminControllerTest extends AbstractControllerTest{
+public class RestaurantRestAdminControllerTest extends AbstractControllerTest {
 
     @Autowired
     private RestaurantService service;

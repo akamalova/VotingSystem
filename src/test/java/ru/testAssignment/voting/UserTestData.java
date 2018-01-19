@@ -7,6 +7,7 @@ import ru.testAssignment.voting.to.UserTo;
 import ru.testAssignment.voting.web.json.JsonUtil;
 
 import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static ru.testAssignment.voting.model.AbstractBaseEntity.START_SEQ;

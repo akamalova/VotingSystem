@@ -1,20 +1,13 @@
 package ru.testAssignment.voting.service;
 
 
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.util.exception.NotFoundException;
-
-import javax.validation.ConstraintViolationException;
-
 import static ru.testAssignment.voting.DishTestData.*;
 import static ru.testAssignment.voting.MenuTestData.MENU_ID;
-import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
-import static ru.testAssignment.voting.UserTestData.USER_ID;
-
-public class DishServiceTest extends AbstractServiceTest{
+public class DishServiceTest extends AbstractServiceTest {
 
     @Autowired
     private DishService service;
@@ -45,6 +38,7 @@ public class DishServiceTest extends AbstractServiceTest{
         service.delete(DISH_ID, MENU_ID);
         assertMatch(service.getAll(MENU_ID), DISH2);
     }
+
     @Test
 
     public void deleteNotFound() throws Exception {

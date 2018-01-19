@@ -31,7 +31,7 @@ public class DishRestAdminController {
     private DishService service;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Dish get(@PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId){
+    public Dish get(@PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId) {
         log.info("get dish {} for menu {}", id, menuId);
         return service.get(id, menuId);
     }
@@ -52,10 +52,10 @@ public class DishRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public Dish update(@Valid @RequestBody Dish dish, @PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId) {
-            assureIdConsistent(dish, id);
-            log.info("update {} for menu {}", dish, menuId);
-            return service.update(dish, menuId);
+    public Dish update(@Valid @RequestBody Dish dish, @PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId) {
+        assureIdConsistent(dish, id);
+        log.info("update {} for menu {}", dish, menuId);
+        return service.update(dish, menuId);
     }
 
     @Secured("ROLE_ADMIN")

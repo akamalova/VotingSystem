@@ -58,7 +58,7 @@ public class UserRestAdminController {
             log.info("update {} with id={}", userTo, userTo.getId());
             assureIdConsistent(userTo, userTo.getId());
             service.update(userTo);
-            return new ResponseEntity <>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
 
     }

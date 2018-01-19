@@ -5,11 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.testAssignment.voting.model.Restaurant;
-import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import static ru.testAssignment.voting.RestaurantTestData.*;
-import static ru.testAssignment.voting.UserTestData.ADMIN_ID;
-import static ru.testAssignment.voting.UserTestData.USER_ID;
 
 public class RestaurantServiceTest extends AbstractServiceTest {
 

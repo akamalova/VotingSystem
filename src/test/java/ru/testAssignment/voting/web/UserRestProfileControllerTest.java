@@ -3,7 +3,6 @@ package ru.testAssignment.voting.web;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
@@ -19,7 +18,7 @@ import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.util.UserUtil.asTo;
 import static ru.testAssignment.voting.util.UserUtil.updateFromTo;
 
-public class UserRestProfileControllerTest extends AbstractControllerTest{
+public class UserRestProfileControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = UserRestProfileController.REST_URL + '/';
 

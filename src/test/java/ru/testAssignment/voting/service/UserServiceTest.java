@@ -12,13 +12,13 @@ import ru.testAssignment.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.Collections;
+
 import static ru.testAssignment.voting.UserTestData.*;
 import static ru.testAssignment.voting.util.UserUtil.asTo;
 import static ru.testAssignment.voting.util.UserUtil.updateFromTo;
 
 
-
-public class UserServiceTest extends AbstractServiceTest{
+public class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
     protected UserService service;
@@ -95,7 +95,7 @@ public class UserServiceTest extends AbstractServiceTest{
 
     @Test
     public void getByDate() throws Exception {
-        assertMatch(service.getByDate(LocalDate.of(2014,5,30)), USER2, ADMIN);
+        assertMatch(service.getByDate(LocalDate.of(2014, 5, 30)), USER2, ADMIN);
     }
 
     @Test

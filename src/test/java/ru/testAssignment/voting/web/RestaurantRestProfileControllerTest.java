@@ -13,11 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.testAssignment.voting.RestaurantTestData.*;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
-import static ru.testAssignment.voting.UserTestData.ADMIN;
 import static ru.testAssignment.voting.UserTestData.USER1;
 
-public class RestaurantRestProfileControllerTest extends AbstractControllerTest{
+public class RestaurantRestProfileControllerTest extends AbstractControllerTest {
     private static final String REST_URL = RestaurantRestProfileController.REST_URL + '/';
+
     @Test
     public void testGet() throws Exception {
         mockMvc.perform(get(REST_URL + RESTAURANT_ID)

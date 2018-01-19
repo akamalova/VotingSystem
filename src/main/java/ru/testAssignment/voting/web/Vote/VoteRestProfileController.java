@@ -15,7 +15,7 @@ public class VoteRestProfileController extends VoteRestAdminController {
     public static final String REST_URL = "/votingSystem/rest/profile/vote";
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote update(@RequestBody Vote vote, @PathVariable("id")int id) {
+    public Vote update(@RequestBody Vote vote, @PathVariable("id") int id) {
         return super.update(vote, id);
     }
 
@@ -26,12 +26,12 @@ public class VoteRestProfileController extends VoteRestAdminController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id){
+    public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Vote get(@PathVariable("id")int id){
+    public Vote get(@PathVariable("id") int id) {
         return super.get(id);
     }
 }

@@ -19,9 +19,8 @@ import static ru.testAssignment.voting.MenuTestData.MENU_ID;
 import static ru.testAssignment.voting.RestaurantTestData.RESTAURANT_ID;
 import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static ru.testAssignment.voting.UserTestData.ADMIN;
-import static ru.testAssignment.voting.UserTestData.USER1;
 
-public class DishRestAdminControllerTest extends AbstractControllerTest{
+public class DishRestAdminControllerTest extends AbstractControllerTest {
 
     @Autowired
     private DishService service;

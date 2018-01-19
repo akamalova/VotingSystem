@@ -16,7 +16,7 @@ import static ru.testAssignment.voting.TestUtil.userHttpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static ru.testAssignment.voting.UserTestData.USER1;
 
-public class MenuRestProfileControllerTest extends AbstractControllerTest{
+public class MenuRestProfileControllerTest extends AbstractControllerTest {
     private static final String REST_URL = MenuRestProfileController.REST_URL + '/';
 
     @Test
@@ -30,7 +30,7 @@ public class MenuRestProfileControllerTest extends AbstractControllerTest{
                 .andExpect(contentJsonMenuOb(MENU1));
     }
 
-   @Test
+    @Test
     public void testGetAll() throws Exception {
 
         TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID)

@@ -3,8 +3,6 @@ package ru.testAssignment.voting;
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.testAssignment.voting.model.Restaurant;
 
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +21,7 @@ public class RestaurantTestData {
     public static final Restaurant RESTAURANT4 = new Restaurant(RESTAURANT_ID + 3, "FourthRestaurant", "Japanese");
     public static final Restaurant RESTAURANT5 = new Restaurant(RESTAURANT_ID + 4, "FifthRestaurant", "Uzbek");
 
-    public static Restaurant getCreatedRestaurant(){
+    public static Restaurant getCreatedRestaurant() {
         return new Restaurant(null, "name", "descr");
     }
 

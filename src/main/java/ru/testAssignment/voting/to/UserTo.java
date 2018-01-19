@@ -1,12 +1,21 @@
 package ru.testAssignment.voting.to;
 
+import ru.testAssignment.voting.HasId;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-public class UserTo extends BaseTo implements Serializable{
+public class UserTo implements Serializable, HasId {
     private static final long serialVersionUID = 1L;
+
+    protected Integer id;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
 
     @NotBlank
     @Size(min = 2, max = 100, message = "length must between 2 and 100 characters")
@@ -24,10 +33,15 @@ public class UserTo extends BaseTo implements Serializable{
     }
 
     public UserTo(Integer id, String name, String email, String password) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -61,7 +75,6 @@ public class UserTo extends BaseTo implements Serializable{
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-
                 '}';
     }
 }

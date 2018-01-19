@@ -31,7 +31,7 @@ public class RestaurantRestAdminController {
     private RestaurantService service;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Restaurant get(@PathVariable("id")int id){
+    public Restaurant get(@PathVariable("id") int id) {
         log.info("get restaurant {}", id);
         return service.get(id);
     }
@@ -39,7 +39,7 @@ public class RestaurantRestAdminController {
     @Secured("ROLE_ADMIN")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id){
+    public void delete(@PathVariable("id") int id) {
         log.info("delete restaurant {} for user {}", id);
         service.delete(id);
     }

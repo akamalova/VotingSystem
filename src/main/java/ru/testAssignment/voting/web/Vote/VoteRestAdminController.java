@@ -32,7 +32,7 @@ public class VoteRestAdminController {
     VoteService service;
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote update(@Valid @RequestBody Vote vote, @PathVariable("id")int id){
+    public Vote update(@Valid @RequestBody Vote vote, @PathVariable("id") int id) {
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, AuthorizedUser.id());
         return service.update(vote, AuthorizedUser.id(), LocalTime.now());
@@ -52,20 +52,20 @@ public class VoteRestAdminController {
 
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id){
+    public void delete(@PathVariable("id") int id) {
         log.info("delete vote {} for user {}", id, AuthorizedUser.id());
         service.delete(id, AuthorizedUser.id());
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Vote get(@PathVariable("id")int id){
+    public Vote get(@PathVariable("id") int id) {
         log.info("get vote {} for user {}", id, AuthorizedUser.id());
         return service.get(id, AuthorizedUser.id());
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Vote> getAll(){
+    public List<Vote> getAll() {
         log.info("getAll for user {}", AuthorizedUser.id());
         return service.getAll();
     }
@@ -73,7 +73,7 @@ public class VoteRestAdminController {
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getbyDate(
-            @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+            @RequestParam(value = "dateTime", required = false) LocalDate dateTime) {
         log.info("get votes by date {} ", dateTime);
         return service.getByDate(dateTime);
     }
@@ -81,7 +81,7 @@ public class VoteRestAdminController {
     @Secured("ROLE_ADMIN")
     @GetMapping(value = "/voted", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getVotedUsers(
-            @RequestParam(value = "dateTime", required = false)LocalDate dateTime){
+            @RequestParam(value = "dateTime", required = false) LocalDate dateTime) {
         log.info("get voted users by date {} ", dateTime);
         return service.getVoted(dateTime);
     }

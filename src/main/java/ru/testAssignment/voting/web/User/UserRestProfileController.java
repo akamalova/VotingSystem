@@ -10,6 +10,7 @@ import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
+
 import static ru.testAssignment.voting.util.ValidationUtil.assureIdConsistent;
 
 

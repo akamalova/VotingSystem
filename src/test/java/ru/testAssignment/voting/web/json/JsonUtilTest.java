@@ -2,10 +2,12 @@ package ru.testAssignment.voting.web.json;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static ru.testAssignment.voting.VoteTestData.*;
+
 import ru.testAssignment.voting.UserTestData;
 import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.model.Vote;
