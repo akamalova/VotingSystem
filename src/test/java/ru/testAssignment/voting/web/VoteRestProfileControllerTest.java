@@ -93,9 +93,9 @@ public class VoteRestProfileControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    public void testGetAll() throws Exception {
+    public void testGetAllInternalServerError() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)
                 .with(TestUtil.userHttpBasic(USER1)))
-                .andExpect(status().isForbidden()));
+                .andExpect(status().isInternalServerError()));
     }
 }

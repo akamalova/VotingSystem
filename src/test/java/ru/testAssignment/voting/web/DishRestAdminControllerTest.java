@@ -41,7 +41,7 @@ public class DishRestAdminControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetNotFound() throws Exception {
-        mockMvc.perform(get(REST_URL + 1, RESTAURANT_ID, MENU_ID)
+        mockMvc.perform(get(REST_URL + 10, RESTAURANT_ID, MENU_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -102,5 +102,4 @@ public class DishRestAdminControllerTest extends AbstractControllerTest{
         assertMatch(returned, expected);
         assertMatch(service.getAll(MENU_ID), DISH1, DISH2, expected);
     }
-
 }

@@ -43,6 +43,6 @@ public class RestaurantRestProfileControllerTest extends AbstractControllerTest{
         mockMvc.perform(delete(REST_URL + RESTAURANT_ID)
                 .with(userHttpBasic(USER1)))
                 .andDo(print())
-                .andExpect(status().isForbidden());
+                .andExpect(status().isInternalServerError());
     }
 }

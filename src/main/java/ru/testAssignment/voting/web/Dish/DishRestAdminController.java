@@ -13,6 +13,7 @@ import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Dish;
 import ru.testAssignment.voting.service.DishService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class DishRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish, @PathVariable int menuId, @PathVariable int restaurantId) {
+    public ResponseEntity<Dish> createWithLocation(@Valid @RequestBody Dish dish, @PathVariable int menuId, @PathVariable int restaurantId) {
         checkNew(dish);
         log.info("create {} for menu {}", dish, menuId);
         Dish created = service.create(dish, menuId);
