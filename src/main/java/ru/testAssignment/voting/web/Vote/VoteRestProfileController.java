@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.testAssignment.voting.model.Vote;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(VoteRestProfileController.REST_URL)
 public class VoteRestProfileController extends VoteRestAdminController {
@@ -18,7 +20,7 @@ public class VoteRestProfileController extends VoteRestAdminController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody Vote vote) {
+    public ResponseEntity<Vote> create(@Valid @RequestBody Vote vote) {
         return super.create(vote);
     }
 

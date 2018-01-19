@@ -12,6 +12,7 @@ import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.service.UserService;
 import ru.testAssignment.voting.to.UserTo;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -43,7 +44,7 @@ public class UserRestAdminController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createOrUpdate(@RequestBody UserTo userTo) {
+    public ResponseEntity<User> createOrUpdate(@Valid @RequestBody UserTo userTo) {
 
         if (userTo.isNew()) {
             log.info("create {}", userTo);
@@ -70,7 +71,7 @@ public class UserRestAdminController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody UserTo userTo, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody UserTo userTo, @PathVariable("id") int id) {
         log.info("update {} with id={}", userTo, id);
         assureIdConsistent(userTo, id);
         service.update(userTo);

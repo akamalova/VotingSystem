@@ -52,7 +52,7 @@ public class DishRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-        public Dish update(@RequestBody Dish dish, @PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId) {
+        public Dish update(@Valid @RequestBody Dish dish, @PathVariable("id") int id, @PathVariable int menuId, @PathVariable int restaurantId) {
             assureIdConsistent(dish, id);
             log.info("update {} for menu {}", dish, menuId);
             return service.update(dish, menuId);

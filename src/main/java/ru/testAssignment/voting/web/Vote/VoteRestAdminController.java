@@ -14,6 +14,7 @@ import ru.testAssignment.voting.model.User;
 import ru.testAssignment.voting.model.Vote;
 import ru.testAssignment.voting.service.VoteService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,14 +32,14 @@ public class VoteRestAdminController {
     VoteService service;
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Vote update(@RequestBody Vote vote, @PathVariable("id")int id){
+    public Vote update(@Valid @RequestBody Vote vote, @PathVariable("id")int id){
         assureIdConsistent(vote, id);
         log.info("update {} for user {}", vote, AuthorizedUser.id());
         return service.update(vote, AuthorizedUser.id(), LocalTime.now());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody Vote vote) {
+    public ResponseEntity<Vote> create(@Valid @RequestBody Vote vote) {
         log.info("create {} for user {}", vote, AuthorizedUser.id());
         Vote enabled = service.create(vote, AuthorizedUser.id(), LocalTime.now());
 

@@ -13,6 +13,7 @@ import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.service.RestaurantService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class RestaurantRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         log.info("create {}", restaurant);
         Restaurant created = service.create(restaurant);
@@ -65,7 +66,7 @@ public class RestaurantRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Restaurant restaurant, @PathVariable("id") int id) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id) {
         assureIdConsistent(restaurant, id);
         log.info("update {} ", restaurant);
         service.update(restaurant);

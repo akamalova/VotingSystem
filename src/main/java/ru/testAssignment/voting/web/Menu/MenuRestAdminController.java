@@ -13,6 +13,7 @@ import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Menu;
 import ru.testAssignment.voting.service.MenuService;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MenuRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
+    public ResponseEntity<Menu> createWithLocation(@Valid @RequestBody Menu menu, @PathVariable int restaurantId) {
         checkNew(menu);
         log.info("create {} for restaurant {}", menu, restaurantId);
         Menu created = service.create(menu, restaurantId);
@@ -67,7 +68,7 @@ public class MenuRestAdminController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Menu update(@RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
+    public Menu update(@Valid @RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId){
         assureIdConsistent(menu, id);
         log.info("update {} for restaurant {}", menu, restaurantId);
         return service.update(menu, restaurantId);
