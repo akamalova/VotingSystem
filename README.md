@@ -1,4 +1,4 @@
-Design and implement a JSON API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
+Design and implement a JSON API using Hibernate/Spring/SpringMVC without frontend.
 
 Voting system for deciding where to have lunch. 
 API have 2 types of users: admin and regular users. 
