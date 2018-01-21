@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import ru.testAssignment.voting.TestUtil;
 import ru.testAssignment.voting.web.Restaurant.RestaurantRestProfileController;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

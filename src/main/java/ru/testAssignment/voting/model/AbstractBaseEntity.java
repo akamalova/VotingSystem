@@ -1,7 +1,6 @@
 package ru.testAssignment.voting.model;
 
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
 import ru.testAssignment.voting.HasId;
 
 import javax.persistence.*;

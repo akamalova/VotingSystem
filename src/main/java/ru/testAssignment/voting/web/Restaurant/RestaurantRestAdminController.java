@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.testAssignment.voting.AuthorizedUser;
 import ru.testAssignment.voting.model.Restaurant;
 import ru.testAssignment.voting.service.RestaurantService;
 
