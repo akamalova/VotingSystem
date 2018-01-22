@@ -19,6 +19,7 @@ public class MenuServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("menu").clear();
+        cacheManager.getCache("dish").clear();
         jpaUtil.clear2ndLevelHibernateCache();
     }
 

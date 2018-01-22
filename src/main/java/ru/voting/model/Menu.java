@@ -1,7 +1,5 @@
 package ru.voting.model;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -10,9 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
-@Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menu_unique_restaurant_id_idx")})
+@Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"date"}, name = "menu_unique_restaurant_id_idx")})
 public class Menu extends AbstractBaseEntity {
 
     public Menu() {
