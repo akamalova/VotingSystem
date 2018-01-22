@@ -15,6 +15,7 @@ import java.util.List;
 public interface CrudVoteRepository extends JpaRepository<Vote, Integer>{
 
     @Override
+    @Transactional
     Vote save(Vote item);
 
     @Query("SELECT m FROM Vote m ORDER BY m.date DESC, m.restaurantId")

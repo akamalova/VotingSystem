@@ -1,5 +1,6 @@
 package ru.voting.web;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,6 +27,14 @@ public class MenuRestControllerTest extends AbstractControllerTest {
 
     @Autowired
     private MenuService service;
+
+    @Before
+    public void setUp() {
+        cacheManager.getCache("menu").clear();
+        if (jpaUtil != null) {
+            jpaUtil.clear2ndLevelHibernateCache();
+        }
+    }
 
     @Test
     public void testGet() throws Exception {

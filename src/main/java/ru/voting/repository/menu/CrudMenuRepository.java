@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.voting.model.Menu;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -20,6 +19,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer>{
     int delete(@Param("id") int id, @Param("restaurantId") int restaurantId);
 
     @Override
+    @Transactional
     Menu save(Menu item);
 
     @Query("SELECT m FROM Menu m LEFT JOIN FETCH m.dishes WHERE m.restaurant.id=:restaurantId ORDER BY m.date desc")

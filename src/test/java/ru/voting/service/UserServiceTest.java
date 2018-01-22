@@ -23,11 +23,6 @@ public class UserServiceTest extends AbstractServiceTest {
     @Autowired
     protected UserService service;
 
-    @Before
-    public void setUp() throws Exception {
-        cacheManager.getCache("users").clear();
-    }
-
     @Test
     public void create() throws Exception {
         User newUser = new User(null, "New", "new@gmail.com", "newPass", true, LocalDate.now(), Collections.singleton(Role.ROLE_USER));

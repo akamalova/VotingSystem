@@ -6,7 +6,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.voting.model.Restaurant;
-import ru.voting.model.Vote;
 import ru.voting.repository.restaurant.RestaurantRepository;
 import ru.voting.util.exception.NotFoundException;
 

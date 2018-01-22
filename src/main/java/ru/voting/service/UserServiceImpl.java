@@ -1,8 +1,6 @@
 package ru.voting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +13,6 @@ import ru.voting.repository.user.UserRepository;
 import ru.voting.to.UserTo;
 import ru.voting.util.UserUtil;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static ru.voting.util.ValidationUtil.checkNotFound;
@@ -34,29 +31,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
         return repository.save(UserUtil.prepareToSave(user, passwordEncoder));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(UserUtil.prepareToSave(user, passwordEncoder)), user.getId());
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void update(UserTo userTo) {
         User user = UserUtil.updateFromTo(get(userTo.getId()), userTo);
         repository.save(UserUtil.prepareToSave(user, passwordEncoder));
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id), id);
@@ -67,7 +59,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return checkNotFoundWithId(repository.get(id), id);
     }
 
-    @Cacheable("users")
     @Override
     public List<User> getAll() {
         return repository.getAll();
@@ -88,7 +79,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new AuthorizedUser(user);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     @Transactional
     public void enable(int id, boolean enabled) {

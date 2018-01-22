@@ -33,14 +33,6 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
     @Autowired
     protected UserService userService;
 
-    @Before
-    public void setUp() {
-        cacheManager.getCache("users").clear();
-        if (jpaUtil != null) {
-            jpaUtil.clear2ndLevelHibernateCache();
-        }
-    }
-
     @Test
     public void testGetAll() throws Exception {
         TestUtil.print(mockMvc.perform(get(REST_URL)

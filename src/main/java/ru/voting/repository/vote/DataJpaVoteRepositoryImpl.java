@@ -8,7 +8,6 @@ import ru.voting.model.Vote;
 import ru.voting.repository.user.CrudUserRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;

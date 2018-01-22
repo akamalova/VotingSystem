@@ -1,5 +1,6 @@
 package ru.voting.web;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,10 +28,18 @@ import static ru.voting.UserTestData.USER1;
 
 public class DishRestControllerTest extends AbstractControllerTest {
 
+    private static final String REST_URL = DishRestController.REST_URL + '/';
+
     @Autowired
     private DishService service;
 
-    private static final String REST_URL = DishRestController.REST_URL + '/';
+    @Before
+    public void setUp() {
+        cacheManager.getCache("dish").clear();
+        if (jpaUtil != null) {
+            jpaUtil.clear2ndLevelHibernateCache();
+        }
+    }
 
     @Test
     public void testGet() throws Exception {

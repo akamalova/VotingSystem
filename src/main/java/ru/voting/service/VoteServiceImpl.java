@@ -9,7 +9,6 @@ import ru.voting.repository.vote.VoteRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import static ru.voting.util.ValidationUtil.checkNotFound;

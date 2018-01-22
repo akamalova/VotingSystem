@@ -1,5 +1,6 @@
 package ru.voting.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.voting.model.Menu;
@@ -14,6 +15,12 @@ public class MenuServiceTest extends AbstractServiceTest {
 
     @Autowired
     private MenuService service;
+
+    @Before
+    public void setUp() throws Exception {
+        cacheManager.getCache("menu").clear();
+        jpaUtil.clear2ndLevelHibernateCache();
+    }
 
     @Test
     public void update() throws Exception {

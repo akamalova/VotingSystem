@@ -1,6 +1,8 @@
 package ru.voting.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.voting.model.Dish;
@@ -18,18 +20,21 @@ public class DishServiceImpl implements DishService {
     @Autowired
     DishRepository dishRepository;
 
+    @CacheEvict(value = "dish", allEntries = true)
     @Override
     public Dish update(Dish dish, int menuId) throws NotFoundException {
         Assert.notNull(dish, "dish must not be null");
         return checkNotFoundWithId(dishRepository.save(dish, menuId), dish.getId());
     }
 
+    @CacheEvict(value = "dish", allEntries = true)
     @Override
     public Dish create(Dish dish, int menuId) {
         Assert.notNull(dish, "dish must not be null");
         return dishRepository.save(dish, menuId);
     }
 
+    @CacheEvict(value = "dish", allEntries = true)
     @Override
     public void delete(int id, int menuId) throws NotFoundException {
         checkNotFoundWithId(dishRepository.delete(id, menuId), id);
@@ -40,6 +45,7 @@ public class DishServiceImpl implements DishService {
         return checkNotFoundWithId(dishRepository.get(id, menuId), id);
     }
 
+    @Cacheable("dish")
     @Override
     public List<Dish> getAll(int menuId) {
         return checkNotFound(dishRepository.getAll(menuId), "menuId=" + menuId);
