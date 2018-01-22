@@ -61,7 +61,7 @@ public class MenuServiceTest extends AbstractServiceTest {
 
     @Test
     public void getByDate() throws Exception {
-        assertMatch(service.getByDate(LocalDate.of(2015, 5, 30)), MENU1);
+        assertMatch(service.getByDate(LocalDate.of(2017, 5, 30)), MENU1);
     }
 
 }

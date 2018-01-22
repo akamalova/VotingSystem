@@ -22,7 +22,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer>{
     @Override
     Menu save(Menu item);
 
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId ORDER BY m.date desc")
+    @Query("SELECT m FROM Menu m LEFT JOIN FETCH m.dishes WHERE m.restaurant.id=:restaurantId ORDER BY m.date desc")
     List<Menu> getAll(@Param("restaurantId") int restaurantId);
 
     @Query("SELECT m FROM Menu m WHERE m.date=:date")

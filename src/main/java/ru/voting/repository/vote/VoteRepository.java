@@ -15,8 +15,6 @@ public interface VoteRepository {
 
     List<Vote> getAll();
 
-    boolean delete(int id, int userId);
-
     List<Vote> getByDate(LocalDate date);
 
     List<Vote> getByUser(int userId);

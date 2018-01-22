@@ -51,11 +51,6 @@ public class DataJpaVoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public boolean delete(int id, int userId) {
-        return crudVoteRepository.delete(id, userId) != 0;
-    }
-
-    @Override
     public List<Vote> getByDate(LocalDate date) {
         return crudVoteRepository.getByDate(date);
     }

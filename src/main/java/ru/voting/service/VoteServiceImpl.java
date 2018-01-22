@@ -30,7 +30,6 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public Vote create(Vote vote, int userId, LocalTime time) {
-        checkTime(time);
         Assert.notNull(vote, "vote must not be null");
         return repository.save(vote, userId);
     }
@@ -43,11 +42,6 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public List<Vote> getAll() {
         return repository.getAll();
-    }
-
-    @Override
-    public void delete(int id, int userId) {
-        checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
     @Override

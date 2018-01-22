@@ -5,7 +5,6 @@ import ru.voting.model.Vote;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 public interface VoteService {
@@ -17,8 +16,6 @@ public interface VoteService {
     Vote get(int id, int userId);
 
     List<Vote> getAll();
-
-    void delete(int id, int userId);
 
     List<Vote> getByDate(LocalDate date);
 

@@ -8,16 +8,6 @@ import java.time.LocalTime;
 
 public class ValidationUtil {
 
-    private static boolean isTest = false;
-
-    public static void setTest(boolean test) {
-        isTest = test;
-    }                                          //only for tests
-
-    public static final LocalTime TIME_LIMIT = LocalTime.of(11, 0, 0);
-
-    public static final LocalTime TIME_LIMIT_MAX = LocalTime.MAX;
-
     private ValidationUtil() {
     }
 
@@ -66,7 +56,13 @@ public class ValidationUtil {
         return result;
     }
 
+    public static LocalTime timeLimit = LocalTime.of(11, 0, 0);
+
+    public static void setTimeLimit(LocalTime timeLimit) {
+        ValidationUtil.timeLimit = timeLimit;
+    }
+
     public static void checkTime(LocalTime time) {
-        if (!time.isBefore(isTest ? TIME_LIMIT_MAX : TIME_LIMIT)) throw new TimesUpException();
+        if (!time.isBefore(timeLimit)) throw new TimesUpException();
     }
 }

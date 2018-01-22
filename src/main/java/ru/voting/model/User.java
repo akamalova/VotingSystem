@@ -13,21 +13,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.*;
 
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQueries({
-        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=:email"),
-        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name, u.email"),
-        @NamedQuery(name = User.GET_BY_DATE, query = "SELECT u FROM User u  WHERE u.registered<=:registered AND u.enabled=true")
-})
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
-
-    public static final String DELETE = "User.delete";
-    public static final String BY_EMAIL = "User.getByEmail";
-    public static final String ALL_SORTED = "User.getAllSorted";
-    public static final String GET_BY_DATE = "User.getByDate";
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -51,7 +39,6 @@ public class User extends AbstractNamedEntity {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate registered;
 
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")

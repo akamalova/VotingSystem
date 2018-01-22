@@ -1,4 +1,4 @@
-package ru.voting.web.Menu;
+package ru.voting.web.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +16,16 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static ru.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.voting.util.ValidationUtil.checkNew;
 
 @RestController
-@RequestMapping(MenuRestAdminController.REST_URL)
-public class MenuRestAdminController {
-    public static final String REST_URL = "/votingSystem/rest/admin/restaurants/{restaurantId}/menu";
+@RequestMapping(MenuRestController.REST_URL)
+public class MenuRestController {
+    public static final String REST_URL = "/votingSystem/rest/restaurants/{restaurantId}/menu";
     private final Logger log = LoggerFactory.getLogger(getClass());
-
 
     @Autowired
     private MenuService service;
@@ -38,12 +36,10 @@ public class MenuRestAdminController {
         return service.get(id, restaurantId);
     }
 
-    @Secured("ROLE_ADMIN")
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id, @PathVariable int restaurantId) {
-        log.info("delete menu {} for restaurant {}", id, restaurantId);
-        service.delete(id, restaurantId);
+    @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Menu> getbyDate(@RequestParam(value = "newDate", required = false) LocalDate newDate, @PathVariable int restaurantId) {
+        log.info("get menu by date {} for restaurant {}", newDate, restaurantId);
+        return new ArrayList<>(service.getByDate(newDate));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,10 +70,12 @@ public class MenuRestAdminController {
         return service.update(menu, restaurantId);
     }
 
-    @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Menu> getbyDate(@RequestParam(value = "date", required = false) LocalDate date, @PathVariable int restaurantId) {
-        log.info("get menu by date {} for restaurant {}", date, restaurantId);
-        return new ArrayList<>(service.getByDate(date));
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") int id, @PathVariable int restaurantId) {
+        log.info("delete menu {} for restaurant {}", id, restaurantId);
+        service.delete(id, restaurantId);
     }
 }
 

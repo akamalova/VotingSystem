@@ -20,7 +20,8 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Override
     Restaurant save(Restaurant item);
 
-    @Query("SELECT m FROM Restaurant m ORDER BY m.description desc")
+    @Query("SELECT m FROM Restaurant m LEFT JOIN FETCH m.menu ORDER BY m.description desc")
     List<Restaurant> getAll();
+
 
 }

@@ -1,6 +1,5 @@
 package ru.voting.model;
 
-
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cache;
 
@@ -11,18 +10,9 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQueries({
-        @NamedQuery(name = Restaurant.ALL_SORTED, query = "SELECT m FROM Restaurant m ORDER BY m.description desc"),
-        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant m WHERE m.id=:id")
-
-})
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
 public class Restaurant extends AbstractNamedEntity {
-
-    public static final String ALL_SORTED = "Restaurant.getAll";
-    public static final String DELETE = "Restaurant.delete";
-
 
     @Column(name = "description")
     @NotBlank
@@ -30,7 +20,7 @@ public class Restaurant extends AbstractNamedEntity {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @OrderBy("dateTime DESC")
+    @OrderBy("date DESC")
     private List<Menu> menu;
 
     public Restaurant() {
