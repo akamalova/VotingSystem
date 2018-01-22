@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.testAssignment</groupId>
+    <groupId>ru.voting</groupId>
     <artifactId>votingSystem</artifactId>
     <packaging>war</packaging>
 
@@ -71,7 +71,7 @@
                         <containerId>tomcat8x</containerId>
                         <systemProperties>
                             <file.encoding>UTF-8</file.encoding>
-                            <spring.profiles.active>tomcat,jpa</spring.profiles.active>
+                            <!--<spring.profiles.active>tomcat,datajpa</spring.profiles.active>-->
                         </systemProperties>
                         <dependencies>
                             <dependency>
@@ -91,7 +91,7 @@
                     </configuration>
                     <deployables>
                         <deployable>
-                            <groupId>ru.testAssignment</groupId>
+                            <groupId>ru.voting</groupId>
                             <artifactId>votingSystem</artifactId>
                             <type>war</type>
                             <properties>
@@ -278,7 +278,7 @@
 
     </dependencies>
 
-    <profiles>
+   <!-- <profiles>
         <profile>
             <id>hsqldb</id>
             <dependencies>
@@ -296,7 +296,7 @@
             </dependencies>
         </profile>
 
-    </profiles>
+    </profiles>-->
 
     <dependencyManagement>
         <dependencies>

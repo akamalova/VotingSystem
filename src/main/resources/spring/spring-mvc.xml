@@ -13,7 +13,7 @@
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <bean class="ru.testAssignment.voting.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
+    <bean class="ru.voting.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
@@ -34,15 +34,9 @@
     </mvc:annotation-driven>
 
     <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
-        <property name="formatters">
-            <set>
-                <bean class="ru.testAssignment.voting.web.converter.DateTimeFormatters.LocalTimeFormatter"/>
-                <bean class="ru.testAssignment.voting.web.converter.DateTimeFormatters.LocalDateFormatter"/>
-            </set>
-        </property>
     </bean>
 
-    <context:component-scan base-package="ru.testAssignment.**.web"/>
+    <context:component-scan base-package="ru.voting.**.web"/>
 
 
 </beans>
