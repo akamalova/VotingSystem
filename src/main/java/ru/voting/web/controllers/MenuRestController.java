@@ -50,9 +50,9 @@ public class MenuRestController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Menu> createWithLocation(@Valid @RequestBody Menu menu, @PathVariable int restaurantId) {
-        checkNew(menu);
-        log.info("create {} for restaurant {}", menu, restaurantId);
+    public ResponseEntity<Menu> createWithLocation(@PathVariable int restaurantId) {
+        Menu menu = new Menu(null);
+        log.info("create new menu for restaurant {}", restaurantId);
         Menu created = service.create(menu, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -64,8 +64,9 @@ public class MenuRestController {
 
     @Secured("ROLE_ADMIN")
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Menu update(@Valid @RequestBody Menu menu, @PathVariable("id") int id, @PathVariable int restaurantId) {
-        assureIdConsistent(menu, id);
+    public Menu updateDate(@RequestParam(value = "newDate", required = false) LocalDate newDate, @PathVariable("id") int id, @PathVariable int restaurantId) {
+        Menu menu = new Menu(id, newDate);
+        menu.setRestaurantId(restaurantId);
         log.info("update {} for restaurant {}", menu, restaurantId);
         return service.update(menu, restaurantId);
     }

@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static ru.voting.MenuTestData.MENU_ID;
 import static ru.voting.model.AbstractBaseEntity.START_SEQ;
 import static ru.voting.web.json.JsonUtil.writeIgnoreProps;
 
@@ -22,11 +23,13 @@ public class DishTestData {
     }
 
     public static Dish getUpdatedDish() {
-        return new Dish(DISH_ID, "Обновленное блюдо", 15.35);
+        Dish dish = new Dish(DISH_ID, "Обновленное блюдо", 15.35);
+        dish.setMenuId(MENU_ID);
+        return dish;
     }
 
     public static void assertMatch(Dish actual, Dish expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "menu");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "menuId");
     }
 
     public static void assertMatch(Iterable<Dish> actual, Dish... expected) {
@@ -34,14 +37,14 @@ public class DishTestData {
     }
 
     public static void assertMatch(Iterable<Dish> actual, Iterable<Dish> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("menu").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("menuId").isEqualTo(expected);
     }
 
     public static ResultMatcher contentJsonDish(Dish... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "menu"));
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "menuId"));
     }
 
     public static ResultMatcher contentJsonDish(Dish expected) {
-        return content().json(writeIgnoreProps(expected, "menu"));
+        return content().json(writeIgnoreProps(expected, "menuId"));
     }
 }

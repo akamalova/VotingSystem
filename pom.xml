@@ -71,7 +71,7 @@
                         <containerId>tomcat8x</containerId>
                         <systemProperties>
                             <file.encoding>UTF-8</file.encoding>
-                            <!--<spring.profiles.active>tomcat,datajpa</spring.profiles.active>-->
+                            <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
                         </systemProperties>
                         <dependencies>
                             <dependency>
@@ -278,7 +278,7 @@
 
     </dependencies>
 
-   <!-- <profiles>
+    <profiles>
         <profile>
             <id>hsqldb</id>
             <dependencies>
@@ -296,7 +296,7 @@
             </dependencies>
         </profile>
 
-    </profiles>-->
+    </profiles>
 
     <dependencyManagement>
         <dependencies>

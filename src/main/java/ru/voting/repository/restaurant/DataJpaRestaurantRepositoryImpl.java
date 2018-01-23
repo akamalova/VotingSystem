@@ -17,8 +17,12 @@ public class DataJpaRestaurantRepositoryImpl implements RestaurantRepository {
     @Transactional
     public Restaurant save(Restaurant restaurant) {
 
-        if (!restaurant.isNew() && get(restaurant.getId()) == null)
+        if (!restaurant.isNew() && get(restaurant.getId()) == null) {
             return null;
+        }
+        if (!restaurant.isNew()) {
+            restaurant.setMenu(get(restaurant.getId()).getMenu());
+        }
         return crudRestaurantRepository.save(restaurant);
     }
 

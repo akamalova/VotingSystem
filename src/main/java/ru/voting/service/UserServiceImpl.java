@@ -23,6 +23,7 @@ import static ru.voting.util.ValidationUtil.checkNotFoundWithId;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository repository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Autowired

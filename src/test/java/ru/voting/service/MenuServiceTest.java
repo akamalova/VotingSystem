@@ -19,7 +19,6 @@ public class MenuServiceTest extends AbstractServiceTest {
     @Before
     public void setUp() throws Exception {
         cacheManager.getCache("menu").clear();
-        cacheManager.getCache("dish").clear();
         jpaUtil.clear2ndLevelHibernateCache();
     }
 
@@ -38,7 +37,7 @@ public class MenuServiceTest extends AbstractServiceTest {
 
     @Test
     public void create() throws Exception {
-        Menu created = getCreatedMenu();
+        Menu created = new Menu(null);
         service.create(created, RESTAURANT_ID);
         assertMatch(service.getAll(RESTAURANT_ID), created, MENU1, MENU2);
     }

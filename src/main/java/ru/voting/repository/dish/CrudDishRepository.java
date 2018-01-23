@@ -14,14 +14,14 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer>{
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Dish m WHERE m.id=:id AND m.menu.id=:menuId")
+    @Query("DELETE FROM Dish m WHERE m.id=:id AND m.menuId=:menuId")
     int delete(@Param("id") int id, @Param("menuId") int menuId);
 
     @Override
     @Transactional
     Dish save(Dish item);
 
-    @Query("SELECT m FROM Dish m WHERE m.menu.id=:menuId")
+    @Query("SELECT m FROM Dish m WHERE m.menuId=:menuId")
     List<Dish> getAll(@Param("menuId") int menuId);
 
 }

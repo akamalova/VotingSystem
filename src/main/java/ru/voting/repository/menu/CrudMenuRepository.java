@@ -15,14 +15,14 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer>{
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Menu m WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+    @Query("DELETE FROM Menu m WHERE m.id=:id AND m.restaurantId=:restaurantId")
     int delete(@Param("id") int id, @Param("restaurantId") int restaurantId);
 
     @Override
     @Transactional
     Menu save(Menu item);
 
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId ORDER BY m.date desc")
+    @Query("SELECT m FROM Menu m WHERE m.restaurantId=:restaurantId ORDER BY m.date desc")
     List<Menu> getAll(@Param("restaurantId") int restaurantId);
 
     @Query("SELECT m FROM Menu m WHERE m.date=:date")

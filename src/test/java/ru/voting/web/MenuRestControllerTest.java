@@ -84,13 +84,12 @@ public class MenuRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        Menu expected = getCreatedMenu();
+
         ResultActions action = mockMvc.perform(post(REST_URL, RESTAURANT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(expected))
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated());
-
+        Menu expected = new Menu(null);
         Menu returned = TestUtil.readFromJson(action, Menu.class);
         expected.setId(returned.getId());
 
@@ -99,11 +98,11 @@ public class MenuRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdateDate() throws Exception {
         Menu updated = getUpdatedMenu();
         mockMvc.perform(put(REST_URL + MENU_ID, RESTAURANT_ID)
+                .param("newDate", "2017-07-30")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated))
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk());
 

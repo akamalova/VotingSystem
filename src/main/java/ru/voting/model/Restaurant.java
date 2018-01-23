@@ -1,8 +1,5 @@
 package ru.voting.model;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Cache;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -10,7 +7,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
+@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = {"id", "name"}, name = "restaurants_unique_name_idx")})
 public class Restaurant extends AbstractNamedEntity {
 
     @Column(name = "description")
@@ -18,7 +15,8 @@ public class Restaurant extends AbstractNamedEntity {
     @Size(min = 5, max = 120)
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     @OrderBy("date DESC")
     private List<Menu> menu;
 
@@ -44,6 +42,10 @@ public class Restaurant extends AbstractNamedEntity {
 
     public List<Menu> getMenu() {
         return menu;
+    }
+
+    public void setMenu(List<Menu> menu) {
+        this.menu = menu;
     }
 
     @Override

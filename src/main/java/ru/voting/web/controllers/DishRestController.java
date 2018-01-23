@@ -52,6 +52,7 @@ public class DishRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dish update(@Valid @RequestBody Dish dish, @PathVariable("id") int id, @PathVariable int menuId) {
         assureIdConsistent(dish, id);
+        dish.setMenuId(menuId);
         log.info("update dish{} for menu {}", dish, menuId);
         return service.update(dish, menuId);
     }

@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.voting.model.Menu;
-import ru.voting.repository.restaurant.CrudRestaurantRepository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -16,15 +14,12 @@ public class DataJpaMenuRepositoryImpl implements MenuRepository {
     @Autowired
     private CrudMenuRepository crudMenuRepository;
 
-    @Autowired
-    private CrudRestaurantRepository crudRestaurantRepository;
-
     @Override
     @Transactional
     public Menu save(Menu menu, int restaurantId) {
         if (!menu.isNew() && get(menu.getId(), restaurantId) == null) return null;
-        menu.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
-
+        if (menu.isNew()) menu.setRestaurantId(restaurantId);
+        else  menu.setDishes(get(menu.getId(), restaurantId).getDishes());
         return crudMenuRepository.save(menu);
     }
 
@@ -35,7 +30,7 @@ public class DataJpaMenuRepositoryImpl implements MenuRepository {
 
     @Override
     public Menu get(int id, int restaurantId) {
-        return crudMenuRepository.findById(id).filter(menu -> menu.getRestaurant().getId() == restaurantId).orElse(null);
+        return crudMenuRepository.findById(id).filter(menu -> menu.getRestaurantId()==restaurantId).orElse(null);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ru.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"date"}, name = "menu_unique_restaurant_id_idx")})
+@Table(name = "Menu", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menu_unique_restaurant_id_idx")})
 public class Menu extends AbstractBaseEntity {
 
     public Menu() {
@@ -29,21 +30,22 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @Column(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
-    private Restaurant restaurant;
+    @JsonIgnore
+    private int restaurantId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "menu_id", referencedColumnName = "id")
     private List<Dish> dishes;
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
     }
 
     public List<Dish> getDishes() {
