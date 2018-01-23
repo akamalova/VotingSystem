@@ -1,6 +1,7 @@
 Design and implement a JSON API of Voting system using Hibernate/Spring/SpringMVC without frontend.
 
 Usage of the API is via the HTTP protocol. The GET, POST, PUT, and DELETE requests are all used. Resource representations are in JSON.
+API can started with Tomcat. Tomcats profile already exist. All functions tested with JUnit. For tests used HSQLDB and DataJpa profiles.
 
 Voting system for deciding where to have lunch. 
 API have 2 types of users: admin and regular users. 
