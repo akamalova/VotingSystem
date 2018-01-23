@@ -31,3 +31,5 @@ Curl commands to get data for voting and vote:
 
 #### get Votes by Date
 `curl -s http://localhost:8080/votingSystem/rest/admin/votes/date?newDate=2015-05-30 --user admin@gmail.com:password`
+
+All requests tested with SoapUi. All commands contains in votingSystem\config\REST-soapui-project.xml.
