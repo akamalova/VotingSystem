@@ -1,4 +1,4 @@
-package ru.voting.web.controllers;
+package ru.voting.web.controllers.UserRestController;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

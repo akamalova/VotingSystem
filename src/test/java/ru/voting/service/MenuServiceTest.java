@@ -26,6 +26,7 @@ public class MenuServiceTest extends AbstractServiceTest {
     public void update() throws Exception {
         Menu updated = getUpdatedMenu();
         service.update(updated, RESTAURANT_ID);
+        assertMatch(service.get(MENU_ID, RESTAURANT_ID), updated);
     }
 
     @Test

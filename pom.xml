@@ -273,9 +273,6 @@
             <artifactId>spring-security-test</artifactId>
             <version>${spring-security.version}</version>
         </dependency>
-
-
-
     </dependencies>
 
     <profiles>

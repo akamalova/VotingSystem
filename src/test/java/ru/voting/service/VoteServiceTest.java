@@ -2,7 +2,6 @@ package ru.voting.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.voting.UserTestData;
 import ru.voting.model.Vote;
 import ru.voting.util.exception.NotFoundException;
 import ru.voting.util.exception.TimesUpException;

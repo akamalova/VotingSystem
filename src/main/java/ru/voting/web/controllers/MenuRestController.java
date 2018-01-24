@@ -12,14 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.voting.model.Menu;
 import ru.voting.service.MenuService;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import static ru.voting.util.ValidationUtil.assureIdConsistent;
-import static ru.voting.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(MenuRestController.REST_URL)

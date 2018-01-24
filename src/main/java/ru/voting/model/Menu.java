@@ -30,6 +30,7 @@ public class Menu extends AbstractBaseEntity {
     @NotNull
     private LocalDate date;
 
+   //https://en.wikibooks.org/wiki/Java_Persistence/OneToMany#Unidirectional_OneToMany.2C_No_Inverse_ManyToOne.2C_No_Join_Table_.28JPA_2.x_ONLY.29
     @Column(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull

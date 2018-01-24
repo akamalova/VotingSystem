@@ -2,7 +2,6 @@ package ru.voting.service;
 
 
 import ru.voting.model.Restaurant;
-import ru.voting.model.Vote;
 import ru.voting.util.exception.NotFoundException;
 
 import java.util.List;

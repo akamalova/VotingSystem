@@ -1,18 +1,16 @@
 package ru.voting.web;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.voting.TestUtil;
-import ru.voting.UserTestData;
 import ru.voting.model.Role;
 import ru.voting.model.User;
 import ru.voting.service.UserService;
 import ru.voting.to.UserTo;
-import ru.voting.web.controllers.UserRestAdminController;
+import ru.voting.web.controllers.UserRestController.UserRestAdminController;
 import ru.voting.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -35,12 +33,12 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL)
+        mockMvc.perform(get(REST_URL)
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJson(ADMIN, USER2, USER1)));
+                .andExpect(contentJson(ADMIN, USER2, USER1));
     }
 
     @Test
@@ -122,6 +120,5 @@ public class UserRestAdminControllerTest extends AbstractControllerTest{
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(USER1));
     }
-
 }
 

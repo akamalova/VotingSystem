@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.voting.model.User;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -21,7 +20,8 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean delete(int id) {return crudUserRepository.delete(id) != 0;
+    public boolean delete(int id) {
+        return crudUserRepository.delete(id) != 0;
     }
 
     @Override

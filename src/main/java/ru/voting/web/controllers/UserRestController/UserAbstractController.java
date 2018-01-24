@@ -1,4 +1,4 @@
-package ru.voting.web.controllers;
+package ru.voting.web.controllers.UserRestController;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

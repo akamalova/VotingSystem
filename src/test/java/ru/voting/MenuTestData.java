@@ -20,7 +20,7 @@ public class MenuTestData {
 
 
     public static Menu getUpdatedMenu() {
-        Menu menu = new Menu(MENU_ID);
+        Menu menu = new Menu(MENU_ID, LocalDate.of(2017, 7,30));
         menu.setRestaurantId(RESTAURANT_ID);
         return menu;
     }

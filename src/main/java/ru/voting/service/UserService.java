@@ -3,8 +3,6 @@ package ru.voting.service;
 
 import ru.voting.model.User;
 import ru.voting.to.UserTo;
-
-import java.time.LocalDate;
 import java.util.List;
 
 

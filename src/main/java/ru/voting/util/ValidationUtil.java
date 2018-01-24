@@ -56,7 +56,8 @@ public class ValidationUtil {
         return result;
     }
 
-    public static LocalTime timeLimit = LocalTime.of(11, 0, 0);
+
+    private static LocalTime timeLimit = LocalTime.of(11, 0, 0);
 
     public static void setTimeLimit(LocalTime timeLimit) {
         ValidationUtil.timeLimit = timeLimit;

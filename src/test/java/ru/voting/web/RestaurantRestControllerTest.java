@@ -8,8 +8,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.voting.TestUtil;
 import ru.voting.model.Restaurant;
-import ru.voting.RestaurantTestData;
-import ru.voting.UserTestData;
 import ru.voting.model.Vote;
 import ru.voting.service.RestaurantService;
 import ru.voting.service.VoteService;
@@ -86,16 +84,17 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL)
+        mockMvc.perform(get(REST_URL)
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.contentJsonRestaurant(RestaurantTestData.RESTAURANT3, RestaurantTestData.RESTAURANT2, RestaurantTestData.RESTAURANT4, RESTAURANT1, RESTAURANT5)));
+                .andExpect(contentJsonRestaurant(RESTAURANT3, RESTAURANT2, RESTAURANT4, RESTAURANT1, RESTAURANT5));
     }
 
     @Test
     public void testCreate() throws Exception {
-        Restaurant expected = RestaurantTestData.getCreatedRestaurant();
+        Restaurant expected = getCreatedRestaurant();
         ResultActions action = mockMvc.perform(post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected))

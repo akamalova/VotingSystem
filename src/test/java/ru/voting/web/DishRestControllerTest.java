@@ -3,12 +3,8 @@ package ru.voting.web;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.voting.TestUtil;
-import ru.voting.DishTestData;
-import ru.voting.RestaurantTestData;
-import ru.voting.UserTestData;
 import ru.voting.model.Dish;
 import ru.voting.service.DishService;
 import ru.voting.web.controllers.DishRestController;
@@ -89,11 +85,12 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     public void testGetAll() throws Exception {
-        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID, MENU_ID)
+        mockMvc.perform(get(REST_URL, RESTAURANT_ID, MENU_ID)
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
-                .andExpect(contentJsonDish(DISH1, DISH2)));
+                .andExpect(contentJsonDish(DISH1, DISH2));
     }
 
     @Test

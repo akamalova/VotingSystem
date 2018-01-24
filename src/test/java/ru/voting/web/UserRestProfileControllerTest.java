@@ -7,7 +7,7 @@ import ru.voting.UserTestData;
 import ru.voting.model.User;
 import ru.voting.service.UserService;
 import ru.voting.to.UserTo;
-import ru.voting.web.controllers.UserRestProfileController;
+import ru.voting.web.controllers.UserRestController.UserRestProfileController;
 import ru.voting.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

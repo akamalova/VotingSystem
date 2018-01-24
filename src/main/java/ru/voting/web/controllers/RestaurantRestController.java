@@ -67,6 +67,7 @@ public class RestaurantRestController {
 
             return ResponseEntity.created(uriOfNewResource).body(enabled);
         } else {
+
             assureIdConsistent(newVote, checkVote.getId());
             log.info("update {} for user {}", newVote, AuthorizedUser.id());
             voteService.update(newVote, AuthorizedUser.id(), LocalTime.now());

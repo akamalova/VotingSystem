@@ -75,11 +75,12 @@ public class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     public void testGetAll() throws Exception {
 
-        TestUtil.print(mockMvc.perform(get(REST_URL, RESTAURANT_ID)
+        mockMvc.perform(get(REST_URL, RESTAURANT_ID)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
+                .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(contentJsonMenu(MENU1, MENU2)));
+                .andExpect(contentJsonMenu(MENU1, MENU2));
     }
 
     @Test
@@ -104,7 +105,8 @@ public class MenuRestControllerTest extends AbstractControllerTest {
                 .param("newDate", "2017-07-30")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(ADMIN)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
 
         assertMatch(service.get(MENU_ID, RESTAURANT_ID), updated);
     }
@@ -130,5 +132,4 @@ public class MenuRestControllerTest extends AbstractControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJsonMenu(MENU1));
     }
-
 }

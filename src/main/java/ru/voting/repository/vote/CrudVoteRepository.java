@@ -1,14 +1,12 @@
 package ru.voting.repository.vote;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.voting.model.Vote;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Transactional(readOnly = true)

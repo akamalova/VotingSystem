@@ -6,8 +6,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.voting.model.Dish;
 import ru.voting.util.exception.NotFoundException;
+
 import static ru.voting.DishTestData.*;
 import static ru.voting.MenuTestData.MENU_ID;
+
 public class DishServiceTest extends AbstractServiceTest {
 
     @Autowired

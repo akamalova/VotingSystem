@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.voting.model.Restaurant;
 import ru.voting.RestaurantTestData;
 
+import static ru.voting.RestaurantTestData.*;
+
 public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Autowired
@@ -20,31 +22,31 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void update() throws Exception {
-        Restaurant updated = RestaurantTestData.getUpdatedRestaurant();
+        Restaurant updated = getUpdatedRestaurant();
         service.update(updated);
     }
 
     @Test
     public void create() throws Exception {
-        Restaurant created = RestaurantTestData.getCreatedRestaurant();
+        Restaurant created = getCreatedRestaurant();
         service.create(created);
-        RestaurantTestData.assertMatch(service.getAll(), created, RestaurantTestData.RESTAURANT5, RestaurantTestData.RESTAURANT1, RestaurantTestData.RESTAURANT3, RestaurantTestData.RESTAURANT4, RestaurantTestData.RESTAURANT2);
+        assertMatch(service.getAll(), created, RESTAURANT5, RESTAURANT1, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(RestaurantTestData.RESTAURANT_ID);
-        RestaurantTestData.assertMatch(service.getAll(), RestaurantTestData.RESTAURANT5, RestaurantTestData.RESTAURANT3, RestaurantTestData.RESTAURANT4, RestaurantTestData.RESTAURANT2);
+        service.delete(RESTAURANT_ID);
+        assertMatch(service.getAll(), RESTAURANT5, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 
     @Test
     public void get() throws Exception {
         Restaurant actual = service.get(RestaurantTestData.RESTAURANT_ID);
-        RestaurantTestData.assertMatch(actual, RestaurantTestData.RESTAURANT1);
+        assertMatch(actual, RESTAURANT1);
     }
 
     @Test
     public void getAll() throws Exception {
-        RestaurantTestData.assertMatch(service.getAll(), RestaurantTestData.RESTAURANT5, RestaurantTestData.RESTAURANT1, RestaurantTestData.RESTAURANT3, RestaurantTestData.RESTAURANT4, RestaurantTestData.RESTAURANT2);
+        assertMatch(service.getAll(), RESTAURANT5, RESTAURANT1, RESTAURANT3, RESTAURANT4, RESTAURANT2);
     }
 }

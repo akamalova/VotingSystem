@@ -56,6 +56,6 @@ public class VoteTestData {
     }
 
     public static ResultMatcher contentJsonVote(Vote expected) {
-        return content().json(writeIgnoreProps(expected, "user", "date"));
+        return content().json(writeIgnoreProps(expected, "user"));
     }
 }

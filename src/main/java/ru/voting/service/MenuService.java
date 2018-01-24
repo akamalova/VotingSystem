@@ -4,7 +4,6 @@ import ru.voting.model.Menu;
 import ru.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface MenuService {
